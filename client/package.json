@@ -1,0 +1,17 @@
+{
+  "name": "client",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "@material-ui/core": "^4.11.0",
+    "next": "9.4.4",
+    "next-graphql-react": "^8.0.0",
+    "react": "16.13.1",
+    "react-dom": "16.13.1"
+  }
+}
