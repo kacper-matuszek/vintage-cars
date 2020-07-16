@@ -7,6 +7,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VintageCars.Web", "VintageC
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VintageCars.Data", "VintageCars.Data\VintageCars.Data.csproj", "{59B89E6E-EBC2-4028-B228-48AE3B5F6648}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VintageCars.Domain", "VintageCars.Domain\VintageCars.Domain.csproj", "{00D91B23-61F6-4C1F-9CC9-0DE474D99679}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VintageCars.Service", "VintageCars.Service\VintageCars.Service.csproj", "{5D1AD562-5C5A-4983-BA2C-5CA3C90232E9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{59B89E6E-EBC2-4028-B228-48AE3B5F6648}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{59B89E6E-EBC2-4028-B228-48AE3B5F6648}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{59B89E6E-EBC2-4028-B228-48AE3B5F6648}.Release|Any CPU.Build.0 = Release|Any CPU
+		{00D91B23-61F6-4C1F-9CC9-0DE474D99679}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00D91B23-61F6-4C1F-9CC9-0DE474D99679}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00D91B23-61F6-4C1F-9CC9-0DE474D99679}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00D91B23-61F6-4C1F-9CC9-0DE474D99679}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D1AD562-5C5A-4983-BA2C-5CA3C90232E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D1AD562-5C5A-4983-BA2C-5CA3C90232E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D1AD562-5C5A-4983-BA2C-5CA3C90232E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D1AD562-5C5A-4983-BA2C-5CA3C90232E9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
