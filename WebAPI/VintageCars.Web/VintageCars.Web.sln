@@ -5,11 +5,19 @@ VisualStudioVersion = 16.0.29613.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VintageCars.Web", "VintageCars.Web\VintageCars.Web.csproj", "{9761A36F-8E75-4A3D-AB91-F2853112E1D9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VintageCars.Data", "VintageCars.Data\VintageCars.Data.csproj", "{59B89E6E-EBC2-4028-B228-48AE3B5F6648}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VintageCars.Data", "VintageCars.Data\VintageCars.Data.csproj", "{59B89E6E-EBC2-4028-B228-48AE3B5F6648}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VintageCars.Domain", "VintageCars.Domain\VintageCars.Domain.csproj", "{00D91B23-61F6-4C1F-9CC9-0DE474D99679}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VintageCars.Domain", "VintageCars.Domain\VintageCars.Domain.csproj", "{00D91B23-61F6-4C1F-9CC9-0DE474D99679}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VintageCars.Service", "VintageCars.Service\VintageCars.Service.csproj", "{5D1AD562-5C5A-4983-BA2C-5CA3C90232E9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VintageCars.Service", "VintageCars.Service\VintageCars.Service.csproj", "{5D1AD562-5C5A-4983-BA2C-5CA3C90232E9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Framework", "Framework", "{8426092A-BB08-4624-A4AF-14B9FB3BFB54}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nop.Data", "Framework\Nop.Data\Nop.Data.csproj", "{84C79C38-6CAF-4FBD-9A69-0FCB4DB7CB15}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nop.Core", "Framework\Nop.Core\Nop.Core.csproj", "{E6FCCA6A-B7AF-470E-8870-E938373ECCA9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nop.Service", "Nop.Service\Nop.Service.csproj", "{B5017980-ED68-4B5D-9049-C3639D1DBEBB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,9 +41,26 @@ Global
 		{5D1AD562-5C5A-4983-BA2C-5CA3C90232E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5D1AD562-5C5A-4983-BA2C-5CA3C90232E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5D1AD562-5C5A-4983-BA2C-5CA3C90232E9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{84C79C38-6CAF-4FBD-9A69-0FCB4DB7CB15}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{84C79C38-6CAF-4FBD-9A69-0FCB4DB7CB15}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{84C79C38-6CAF-4FBD-9A69-0FCB4DB7CB15}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{84C79C38-6CAF-4FBD-9A69-0FCB4DB7CB15}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E6FCCA6A-B7AF-470E-8870-E938373ECCA9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E6FCCA6A-B7AF-470E-8870-E938373ECCA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E6FCCA6A-B7AF-470E-8870-E938373ECCA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E6FCCA6A-B7AF-470E-8870-E938373ECCA9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B5017980-ED68-4B5D-9049-C3639D1DBEBB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B5017980-ED68-4B5D-9049-C3639D1DBEBB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B5017980-ED68-4B5D-9049-C3639D1DBEBB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B5017980-ED68-4B5D-9049-C3639D1DBEBB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{84C79C38-6CAF-4FBD-9A69-0FCB4DB7CB15} = {8426092A-BB08-4624-A4AF-14B9FB3BFB54}
+		{E6FCCA6A-B7AF-470E-8870-E938373ECCA9} = {8426092A-BB08-4624-A4AF-14B9FB3BFB54}
+		{B5017980-ED68-4B5D-9049-C3639D1DBEBB} = {8426092A-BB08-4624-A4AF-14B9FB3BFB54}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3F5D7D96-8C94-4A32-AB43-50C09C39B4A9}
