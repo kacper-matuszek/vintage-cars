@@ -22,10 +22,10 @@ namespace Nop.Data.Mapping.Builders.Customers
         {
             table
                 .WithColumn(nameof(Customer.Username)).AsString(1000).Nullable()
-                .WithColumn(nameof(Customer.Email)).AsString(1000).Nullable()
+                .WithColumn(nameof(Customer.Email)).AsString(1000).NotNullable()
                 .WithColumn(nameof(Customer.EmailToRevalidate)).AsString(1000).Nullable()
                 .WithColumn(nameof(Customer.SystemName)).AsString(400).Nullable()
-                .WithColumn(nameof(Customer.VendorId)).AsGuid().ForeignKey<Vendor>()
+                .WithColumn(nameof(Customer.VendorId)).AsGuid().ForeignKey<Vendor>().Nullable()
                 .WithColumn(NameCompatibilityManager.GetColumnName(typeof(Customer), nameof(Customer.BillingAddressId))).AsGuid().ForeignKey<Address>(onDelete: Rule.None).Nullable()
                 .WithColumn(NameCompatibilityManager.GetColumnName(typeof(Customer), nameof(Customer.ShippingAddressId))).AsGuid().ForeignKey<Address>(onDelete: Rule.None).Nullable();
         }
