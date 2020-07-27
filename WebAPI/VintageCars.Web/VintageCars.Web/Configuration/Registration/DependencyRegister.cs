@@ -54,14 +54,11 @@ namespace VintageCars.Web.Configuration.Registration
         private static void RegisterMediatR(ContainerBuilder builder)
         {
             var mediatRTypes = new Type[] { typeof(IRequest<>), typeof(IRequestHandler<>) };
-            var serviceAssemblyNames = Assembly.GetExecutingAssembly().GetReferencedAssemblies()
-                .Where(x => x.Name.EndsWith("Service"));
-            var serviceAssemblies = new Collection<Assembly>();
-
-            foreach (var assemblyName in serviceAssemblyNames)
-                serviceAssemblies.Add(Assembly.Load(assemblyName));
+            var serviceAssemblyNames = AppDomain.CurrentDomain.GetAssemblies()
+                .Where(x => x.GetName().Name.EndsWith("Service"))
+                .ToArray();
             foreach (var mediaType in mediatRTypes)
-                builder.RegisterAssemblyTypes(serviceAssemblies.ToArray())
+                builder.RegisterAssemblyTypes(serviceAssemblyNames)
                     .Where(type => type.IsClosedTypeOf(mediaType))
                     .AsImplementedInterfaces();
         }

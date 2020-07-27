@@ -34,6 +34,8 @@ namespace VintageCars.Web.Configuration
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            if (DataSettingsManager.DatabaseIsInstalled)
+                return;
             if (!Enum.TryParse(_installationConfiguration["DataProvider"], out DataProviderType dataProviderType))
                 throw new DataException("Wrong data provider type.");
 
