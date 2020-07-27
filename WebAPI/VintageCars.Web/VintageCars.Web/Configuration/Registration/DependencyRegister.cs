@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Reflection;
 using Autofac;
 using Autofac.Builder;
 using Autofac.Core;
+using MediatR;
 using Nop.Core;
 using Nop.Core.Caching;
 using Nop.Core.Configuration;
@@ -44,6 +47,23 @@ namespace VintageCars.Web.Configuration.Registration
             builder.RegisterType<CacheKeyService>().As<ICacheKeyService>().InstancePerLifetimeScope();
 
             builder.RegisterSource(new SettingsSource());
+            builder.RegisterAssemblyTypes(typeof(IMediator).GetTypeInfo().Assembly).AsImplementedInterfaces();
+            RegisterMediatR(builder);
+        }
+
+        private static void RegisterMediatR(ContainerBuilder builder)
+        {
+            var mediatRTypes = new Type[] { typeof(IRequest<>), typeof(IRequestHandler<>) };
+            var serviceAssemblyNames = Assembly.GetExecutingAssembly().GetReferencedAssemblies()
+                .Where(x => x.Name.EndsWith("Service"));
+            var serviceAssemblies = new Collection<Assembly>();
+
+            foreach (var assemblyName in serviceAssemblyNames)
+                serviceAssemblies.Add(Assembly.Load(assemblyName));
+            foreach (var mediaType in mediatRTypes)
+                builder.RegisterAssemblyTypes(serviceAssemblies.ToArray())
+                    .Where(type => type.IsClosedTypeOf(mediaType))
+                    .AsImplementedInterfaces();
         }
 
         public int Order => 0;
@@ -63,15 +83,13 @@ namespace VintageCars.Web.Configuration.Registration
         /// <param name="service">Service</param>
         /// <param name="registrations">Registrations</param>
         /// <returns>Registrations</returns>
-        public IEnumerable<IComponentRegistration> RegistrationsFor(Service service,
-            Func<Service, IEnumerable<IComponentRegistration>> registrations)
+        public IEnumerable<IComponentRegistration> RegistrationsFor(Autofac.Core.Service service,
+            Func<Autofac.Core.Service, IEnumerable<IComponentRegistration>> registrations)
         {
             var ts = service as TypedService;
-            if (ts != null && typeof(ISettings).IsAssignableFrom(ts.ServiceType))
-            {
-                var buildMethod = _buildMethod.MakeGenericMethod(ts.ServiceType);
-                yield return (IComponentRegistration)buildMethod.Invoke(null, null);
-            }
+            if (ts == null || !typeof(ISettings).IsAssignableFrom(ts.ServiceType)) yield break;
+            var buildMethod = _buildMethod.MakeGenericMethod(ts.ServiceType);
+            yield return (IComponentRegistration)buildMethod.Invoke(null, null);
         }
 
         private static IComponentRegistration BuildRegistration<TSettings>() where TSettings : ISettings, new()

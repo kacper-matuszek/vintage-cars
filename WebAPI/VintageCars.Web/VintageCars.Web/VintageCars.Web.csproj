@@ -19,6 +19,7 @@
     <ProjectReference Include="..\Framework\Nop.Data\Nop.Data.csproj" />
     <ProjectReference Include="..\Nop.Service\Nop.Service.csproj" />
     <ProjectReference Include="..\VintageCars.Domain\VintageCars.Domain.csproj" />
+    <ProjectReference Include="..\VintageCars.Service\VintageCars.Service.csproj" />
   </ItemGroup>
 
 

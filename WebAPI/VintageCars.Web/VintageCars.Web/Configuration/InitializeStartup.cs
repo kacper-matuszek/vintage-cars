@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Nop.Core.Infrastructure;
+using MediatR;
 
 namespace VintageCars.Web.Configuration
 {
@@ -11,6 +12,7 @@ namespace VintageCars.Web.Configuration
     {
         public void ConfigureServices(IServiceCollection services, IConfiguration configuration)
             => services.ConfigureSecurity(configuration)
+                .AddOptions()
                 .AddControllers()
                 .RegisterValidators();
 
