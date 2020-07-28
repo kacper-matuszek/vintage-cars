@@ -5,7 +5,7 @@ init:
 
 # Build script
 build_script:
-  - ps: .\WebAPI\build.ps1 --target="AppVeyor"
+  - ps: .\build.ps1 --target="AppVeyor"
 
 # Tests
 test: off
