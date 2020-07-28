@@ -9,9 +9,9 @@ var configuration = Argument("configuration", "Release");
 //////////////////////////////////////////////////////////////////////
 ///    Build Variables
 /////////////////////////////////////////////////////////////////////
-var outputDir = Directory("Build") + Directory(configuration);
-var projDir = "./VintageCars.Web/VintageCars.Web";
-var packageDir = "./VintageCars.Web/packages";
+var outputDir = Directory("./WebAPI/Build") + Directory(configuration);
+var projDir = "./WebAPI/VintageCars.Web/VintageCars.Web";
+var packageDir = "./WebAPI/VintageCars.Web/packages";
 var mainCsprojPath = projDir + "/VintageCars.Web.csproj";
 var buildSettings = new DotNetCoreBuildSettings
      {
