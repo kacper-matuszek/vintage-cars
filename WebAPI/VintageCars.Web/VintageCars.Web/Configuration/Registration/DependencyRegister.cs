@@ -7,6 +7,7 @@ using Autofac;
 using Autofac.Builder;
 using Autofac.Core;
 using MediatR;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Nop.Core;
 using Nop.Core.Caching;
 using Nop.Core.Configuration;
@@ -15,6 +16,7 @@ using Nop.Core.Infrastructure;
 using Nop.Core.Infrastructure.DependencyManagement;
 using Nop.Data;
 using Nop.Service.Caching;
+using Nop.Service.Installation;
 using Nop.Service.Settings;
 using Nop.Service.Store;
 using Nop.Services.Logging;
@@ -47,10 +49,16 @@ namespace VintageCars.Web.Configuration.Registration
             builder.RegisterType<DefaultLogger>().As<ILogger>().InstancePerLifetimeScope();
             builder.RegisterType<CacheKeyService>().As<ICacheKeyService>().InstancePerLifetimeScope();
             builder.RegisterType<StoreService>().As<IStoreService>().InstancePerLifetimeScope();
+            builder.RegisterType<SettingService>().As<ISettingService>().InstancePerLifetimeScope();
+
+            builder.RegisterType<ActionContextAccessor>().As<IActionContextAccessor>().InstancePerLifetimeScope();
 
             builder.RegisterSource(new SettingsSource());
             builder.RegisterAssemblyTypes(typeof(IMediator).GetTypeInfo().Assembly).AsImplementedInterfaces();
             RegisterMediatR(builder);
+
+            if (!DataSettingsManager.DatabaseIsInstalled)
+                builder.RegisterType<InstallationService>().As<IInstallationService>().InstancePerLifetimeScope();
         }
 
         private static void RegisterMediatR(ContainerBuilder builder)

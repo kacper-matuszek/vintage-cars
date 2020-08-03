@@ -212,7 +212,7 @@ namespace Nop.Data.Migrations
             var type = typeof(TEntity);
 
             var builder = expressionRoot.Table(NameCompatibilityManager.GetTableName(type)) as CreateTableExpressionBuilder;
-
+            builder?.WithColumn(nameof(BaseEntity.Id)).AsGuid().WithDefault(SystemMethods.NewGuid);
             RetrieveTableExpressions(type, builder);
         }
 

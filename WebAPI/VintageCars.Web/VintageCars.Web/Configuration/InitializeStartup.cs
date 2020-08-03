@@ -13,6 +13,7 @@ namespace VintageCars.Web.Configuration
         public void ConfigureServices(IServiceCollection services, IConfiguration configuration)
             => services.ConfigureSecurity(configuration)
                 .AddOptions()
+                .AddMemoryCache()
                 .AddControllers()
                 .RegisterValidators();
 

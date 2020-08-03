@@ -5,19 +5,19 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Nop.Core;
 using Nop.Core.Infrastructure;
 using Nop.Data;
-using Nop.Services.Logging;
+using Nop.Service.Installation;
 
 namespace VintageCars.Web.Configuration
 {
     public class InstallationStartup : INopStartup
     {
+        private const string Installation = "Installation";
         private readonly INopFileProvider _fileProvider;
-        private const string _installation = "Installation";
         private static IConfiguration _installationConfiguration;
+        private IInstallationService _installationService;
         public InstallationStartup()
         {
             _fileProvider = CommonHelper.DefaultFileProvider;
@@ -27,9 +27,7 @@ namespace VintageCars.Web.Configuration
         {
             if(DataSettingsManager.DatabaseIsInstalled)
                 return;
-            _installationConfiguration = configuration.GetSection(_installation);
-
-           
+            _installationConfiguration = configuration.GetSection(Installation);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -58,6 +56,8 @@ namespace VintageCars.Web.Configuration
             }
 
             dataProvider.InitializeDatabase();
+            _installationService = EngineContext.Current.Resolve<IInstallationService>();
+            _installationService.InstallRequiredData();
         }
 
 
