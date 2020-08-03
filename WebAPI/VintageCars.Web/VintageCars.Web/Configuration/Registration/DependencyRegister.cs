@@ -16,6 +16,7 @@ using Nop.Core.Infrastructure.DependencyManagement;
 using Nop.Data;
 using Nop.Service.Caching;
 using Nop.Service.Settings;
+using Nop.Service.Store;
 using Nop.Services.Logging;
 
 namespace VintageCars.Web.Configuration.Registration
@@ -45,6 +46,7 @@ namespace VintageCars.Web.Configuration.Registration
             //services
             builder.RegisterType<DefaultLogger>().As<ILogger>().InstancePerLifetimeScope();
             builder.RegisterType<CacheKeyService>().As<ICacheKeyService>().InstancePerLifetimeScope();
+            builder.RegisterType<StoreService>().As<IStoreService>().InstancePerLifetimeScope();
 
             builder.RegisterSource(new SettingsSource());
             builder.RegisterAssemblyTypes(typeof(IMediator).GetTypeInfo().Assembly).AsImplementedInterfaces();
@@ -98,7 +100,7 @@ namespace VintageCars.Web.Configuration.Registration
 
                     try
                     {
-                        store = c.Resolve<IStoreContext>().CurrentStore;
+                        store = c.Resolve<IStoreService>().GetAllStores().FirstOrDefault();
                     }
                     catch
                     {
