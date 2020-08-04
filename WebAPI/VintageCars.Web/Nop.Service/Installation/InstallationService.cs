@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using System.Text;
+using Nop.Core.Domain.Customers;
 using Nop.Data;
 
 namespace Nop.Service.Installation
@@ -11,12 +10,15 @@ namespace Nop.Service.Installation
         #region Fields
 
         private readonly IRepository<Core.Domain.Stores.Store> _storeRepository;
+        private readonly IRepository<CustomerRole> _customerRoleRepository;
 
         #endregion
 
-        public InstallationService(IRepository<Core.Domain.Stores.Store> storeRepository)
+        public InstallationService(IRepository<Core.Domain.Stores.Store> storeRepository,
+            IRepository<CustomerRole> customerRoleRepository)
         {
             _storeRepository = storeRepository ?? throw new ArgumentNullException(nameof(storeRepository));
+            _customerRoleRepository = customerRoleRepository ?? throw new ArgumentNullException(nameof(customerRoleRepository));
         }
 
         public virtual void InstallRequiredData()
@@ -33,7 +35,7 @@ namespace Nop.Service.Installation
                 new Core.Domain.Stores.Store
                 {
                     Name = "Vintage Cars",
-                    Url = "http://localhost:44318",
+                    Url = "https://localhost:44318",
                     SslEnabled = true,
                     Hosts = "vintage-cars.com,www.vintage-cars.com",
                     DisplayOrder = 1,
@@ -46,6 +48,54 @@ namespace Nop.Service.Installation
             };
 
             _storeRepository.Insert(stores);
+        }
+
+        protected virtual void InstallRoles()
+        {
+            var crAdministrators = new CustomerRole
+            {
+                Name = "Administrators",
+                Active = true,
+                IsSystemRole = true,
+                SystemName = NopCustomerDefaults.AdministratorsRoleName
+            };
+            var crForumModerators = new CustomerRole
+            {
+                Name = "Forum Moderators",
+                Active = true,
+                IsSystemRole = true,
+                SystemName = NopCustomerDefaults.ForumModeratorsRoleName
+            };
+            var crRegistered = new CustomerRole
+            {
+                Name = "Registered",
+                Active = true,
+                IsSystemRole = true,
+                SystemName = NopCustomerDefaults.RegisteredRoleName
+            };
+            var crGuests = new CustomerRole
+            {
+                Name = "Guests",
+                Active = true,
+                IsSystemRole = true,
+                SystemName = NopCustomerDefaults.GuestsRoleName
+            };
+            var crVendors = new CustomerRole
+            {
+                Name = "Vendors",
+                Active = true,
+                IsSystemRole = true,
+                SystemName = NopCustomerDefaults.VendorsRoleName
+            };
+            var customerRoles = new List<CustomerRole>
+            {
+                crAdministrators,
+                crForumModerators,
+                crRegistered,
+                crGuests,
+                crVendors
+            };
+            _customerRoleRepository.Insert(customerRoles);
         }
         #endregion
     }
