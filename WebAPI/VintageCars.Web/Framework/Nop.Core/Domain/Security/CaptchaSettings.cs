@@ -18,61 +18,6 @@ namespace Nop.Core.Domain.Security
         public CaptchaType CaptchaType { get; set; }
 
         /// <summary>
-        /// A value indicating whether CAPTCHA should be displayed on the login page
-        /// </summary>
-        public bool ShowOnLoginPage { get; set; }
-
-        /// <summary>
-        /// A value indicating whether CAPTCHA should be displayed on the registration page
-        /// </summary>
-        public bool ShowOnRegistrationPage { get; set; }
-
-        /// <summary>
-        /// A value indicating whether CAPTCHA should be displayed on the contacts page
-        /// </summary>
-        public bool ShowOnContactUsPage { get; set; }
-
-        /// <summary>
-        /// A value indicating whether CAPTCHA should be displayed on the wishlist page
-        /// </summary>
-        public bool ShowOnEmailWishlistToFriendPage { get; set; }
-
-        /// <summary>
-        /// A value indicating whether CAPTCHA should be displayed on the "email a friend" page
-        /// </summary>
-        public bool ShowOnEmailProductToFriendPage { get; set; }
-
-        /// <summary>
-        /// A value indicating whether CAPTCHA should be displayed on the "comment blog" page
-        /// </summary>
-        public bool ShowOnBlogCommentPage { get; set; }
-
-        /// <summary>
-        /// A value indicating whether CAPTCHA should be displayed on the "comment news" page
-        /// </summary>
-        public bool ShowOnNewsCommentPage { get; set; }
-
-        /// <summary>
-        /// A value indicating whether CAPTCHA should be displayed on the product reviews page
-        /// </summary>
-        public bool ShowOnProductReviewPage { get; set; }
-
-        /// <summary>
-        /// A value indicating whether CAPTCHA should be displayed on the "Apply for vendor account" page
-        /// </summary>
-        public bool ShowOnApplyVendorPage { get; set; }
-
-        /// <summary>
-        /// A value indicating whether CAPTCHA should be displayed on the "forgot password" page
-        /// </summary>
-        public bool ShowOnForgotPasswordPage { get; set; }
-
-        /// <summary>
-        /// A value indicating whether CAPTCHA should be displayed on the Forum
-        /// </summary>
-        public bool ShowOnForum { get; set; }
-
-        /// <summary>
         /// The base reCAPTCHA API URL
         /// </summary>
         public string ReCaptchaApiUrl { get; set; }

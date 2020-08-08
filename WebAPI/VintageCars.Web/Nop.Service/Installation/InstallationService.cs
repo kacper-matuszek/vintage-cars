@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using Nop.Core.Domain.Customers;
+using Nop.Core.Domain.Security;
+using Nop.Core.Infrastructure;
 using Nop.Data;
+using Nop.Service.Settings;
 
 namespace Nop.Service.Installation
 {
@@ -24,6 +27,8 @@ namespace Nop.Service.Installation
         public virtual void InstallRequiredData()
         {
             InstallStores();
+            InstallRoles();
+            InstallSettings();
         }
 
         #region Defaults
@@ -96,6 +101,23 @@ namespace Nop.Service.Installation
                 crVendors
             };
             _customerRoleRepository.Insert(customerRoles);
+        }
+
+        protected virtual void InstallSettings()
+        {
+            var settingsService = EngineContext.Current.Resolve<ISettingService>();
+            settingsService.SaveSetting(new CaptchaSettings()
+            {
+                ReCaptchaApiUrl = "https://www.google.com/recaptcha/",
+                Enabled = true,
+                CaptchaType = CaptchaType.CheckBoxReCaptchaV2,
+                ReCaptchaV3ScoreThreshold = 0.5M,
+                ReCaptchaPrivateKey = "6LcrH2oUAAAAAIEGnSLm4WtPVkU51pPa2woS5GWe",
+                ReCaptchaPublicKey = "6LcrH2oUAAAAABK1XuahqJ5OYUIM7h0xCJgveTr1",
+                ReCaptchaDefaultLanguage = string.Empty,
+                ReCaptchaRequestTimeout = 20,
+                ReCaptchaTheme = string.Empty
+            });
         }
         #endregion
     }
