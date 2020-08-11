@@ -1,4 +1,6 @@
-﻿namespace Nop.Core.Domain.Common
+﻿using System;
+
+namespace Nop.Core.Domain.Common
 {
     /// <summary>
     /// Search term record (for statistics)
@@ -13,7 +15,7 @@
         /// <summary>
         /// Gets or sets the store identifier
         /// </summary>
-        public int StoreId { get; set; }
+        public Guid StoreId { get; set; }
 
         /// <summary>
         /// Gets or sets search count

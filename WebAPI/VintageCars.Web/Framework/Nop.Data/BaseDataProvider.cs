@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.Common;
 using System.Linq;
 using System.Linq.Expressions;
+using Humanizer;
 using LinqToDB;
 using LinqToDB.Data;
 using LinqToDB.DataProvider;
@@ -13,6 +14,7 @@ using Nop.Core;
 using Nop.Core.Domain;
 using Nop.Core.Infrastructure;
 using Nop.Data.Mapping;
+using Org.BouncyCastle.Asn1.X509.Qualified;
 using StackExchange.Profiling;
 using StackExchange.Profiling.Data;
 
@@ -135,8 +137,8 @@ namespace Nop.Data
         public TEntity InsertEntity<TEntity>(TEntity entity) where TEntity : BaseEntity
         {
             using var dataContext = CreateDataConnection();
-            entity.Id = (dataContext.InsertWithIdentity(entity) as TEntity)?.Id 
-                ?? throw new ArgumentNullException($"Not found ${typeof(TEntity).Name} id: {entity.Id}");
+            if(dataContext.Insert(entity) == 0) 
+                throw new ArgumentNullException($"Not found ${typeof(TEntity).Name} id: {entity.Id}");
             return entity;
         }
 

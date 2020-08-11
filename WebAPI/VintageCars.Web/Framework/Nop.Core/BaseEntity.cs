@@ -13,6 +13,10 @@ namespace Nop.Core
         /// </summary>
         public Guid Id { get; set; }
 
+        protected BaseEntity()
+        {
+            Id = Guid.NewGuid();
+        }
         /// <summary>
         /// Get key for caching the entity
         /// </summary>
