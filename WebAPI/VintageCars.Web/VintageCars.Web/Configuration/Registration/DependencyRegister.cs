@@ -20,6 +20,7 @@ using Nop.Service.Installation;
 using Nop.Service.Settings;
 using Nop.Service.Store;
 using Nop.Services.Logging;
+using VintageCars.Domain.Commands.Base;
 
 namespace VintageCars.Web.Configuration.Registration
 {
@@ -54,7 +55,6 @@ namespace VintageCars.Web.Configuration.Registration
             builder.RegisterType<ActionContextAccessor>().As<IActionContextAccessor>().InstancePerLifetimeScope();
 
             builder.RegisterSource(new SettingsSource());
-            builder.RegisterAssemblyTypes(typeof(IMediator).GetTypeInfo().Assembly).AsImplementedInterfaces();
             RegisterMediatR(builder);
 
             if (!DataSettingsManager.DatabaseIsInstalled)
@@ -63,18 +63,33 @@ namespace VintageCars.Web.Configuration.Registration
 
         private static void RegisterMediatR(ContainerBuilder builder)
         {
-            var mediatRTypes = new Type[] { typeof(IRequest<>), typeof(IRequestHandler<>) };
-            var serviceAssemblyNames = AppDomain.CurrentDomain.GetAssemblies()
-                .Where(x => x.GetName().Name.EndsWith("Service"))
-                .ToArray();
-            foreach (var mediaType in mediatRTypes)
-                builder.RegisterAssemblyTypes(serviceAssemblyNames)
+            builder.RegisterAssemblyTypes(typeof(IMediator).GetTypeInfo().Assembly).AsImplementedInterfaces();
+            var mediatRTypes = new Dictionary<Type, Assembly[]>
+            {
+                { typeof(IRequest<>), GetAssembliesWithEndName("Domain") },
+                { typeof(IRequestHandler<,>), GetAssembliesWithEndName("Service") }
+            };
+
+            foreach (var (mediaType, assemblies) in mediatRTypes)
+                builder.RegisterAssemblyTypes(assemblies)
                     .Where(type => type.IsClosedTypeOf(mediaType))
                     .AsImplementedInterfaces();
+
+            builder.Register<ServiceFactory>(ctx =>
+            {
+                var c = ctx.Resolve<IComponentContext>();
+                return t => c.Resolve(t);
+            });
         }
+
+        private static Assembly[] GetAssembliesWithEndName(string endName)
+            => AppDomain.CurrentDomain.GetAssemblies()
+                .Where(x => x.GetName().Name.EndsWith(endName))
+                .ToArray();
 
         public int Order => 0;
     }
+    
 
     /// <summary>
     /// Setting source
