@@ -108,7 +108,7 @@ namespace Nop.Service.Installation
             var settingsService = EngineContext.Current.Resolve<ISettingService>();
             settingsService.SaveSetting(new CaptchaSettings()
             {
-                ReCaptchaApiUrl = "https://www.google.com/recaptcha/",
+                ReCaptchaApiUrl = "https://www.google.com/recaptcha/api/siteverify",
                 Enabled = true,
                 CaptchaType = CaptchaType.CheckBoxReCaptchaV2,
                 ReCaptchaV3ScoreThreshold = 0.5M,

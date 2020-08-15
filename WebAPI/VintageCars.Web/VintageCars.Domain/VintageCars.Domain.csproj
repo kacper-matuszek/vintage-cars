@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Framework\Nop.Core\Nop.Core.csproj" />
+    <ProjectReference Include="..\Nop.Service\Nop.Service.csproj" />
   </ItemGroup>
 
 </Project>
