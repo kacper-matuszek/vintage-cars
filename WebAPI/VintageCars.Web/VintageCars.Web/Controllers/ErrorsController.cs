@@ -31,7 +31,8 @@ namespace VintageCars.Web.Controllers
             };
 
             Response.StatusCode = code;
-            _logger.Error(exception?.Message, exception);
+            if(code == 500)
+                _logger.Error(exception?.Message, exception);
             return code == 500 ? new ErrorDetails("Unexpected error. Contact with Administrator.", code) : new ErrorDetails(exception, code);
         }
     }
