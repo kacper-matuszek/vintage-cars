@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Nop.Core.Domain.Customers;
+using Nop.Core.Domain.Localization;
 using Nop.Core.Domain.Security;
 using Nop.Core.Infrastructure;
 using Nop.Data;
@@ -14,6 +15,7 @@ namespace Nop.Service.Installation
 
         private readonly IRepository<Core.Domain.Stores.Store> _storeRepository;
         private readonly IRepository<CustomerRole> _customerRoleRepository;
+        private readonly IRepository<Language> _languageRepository;
 
         #endregion
 
@@ -27,6 +29,7 @@ namespace Nop.Service.Installation
         public virtual void InstallRequiredData()
         {
             InstallStores();
+            InstallLanguages();
             InstallRoles();
             InstallSettings();
         }
@@ -119,6 +122,21 @@ namespace Nop.Service.Installation
                 ReCaptchaTheme = string.Empty
             });
         }
+
+        protected virtual void InstallLanguages()
+        {
+            var language = new Language
+            {
+                Name = "English",
+                LanguageCulture = "en-US",
+                UniqueSeoCode = "en",
+                FlagImageFileName = "us.png",
+                Published = true,
+                DisplayOrder = 1
+            };
+            _languageRepository.Insert(language);
+        }
+
         #endregion
     }
 }
