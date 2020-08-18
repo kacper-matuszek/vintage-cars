@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using Nop.Core;
 using Nop.Core.Domain.Customers;
 using Nop.Core.Domain.Localization;
 using Nop.Core.Domain.Security;
 using Nop.Core.Infrastructure;
 using Nop.Data;
+using Nop.Service.Localization;
 using Nop.Service.Settings;
 
 namespace Nop.Service.Installation
@@ -12,7 +16,7 @@ namespace Nop.Service.Installation
     public class InstallationService : IInstallationService
     {
         #region Fields
-
+        private readonly INopFileProvider _fileProvider;
         private readonly IRepository<Core.Domain.Stores.Store> _storeRepository;
         private readonly IRepository<CustomerRole> _customerRoleRepository;
         private readonly IRepository<Language> _languageRepository;
@@ -20,10 +24,13 @@ namespace Nop.Service.Installation
         #endregion
 
         public InstallationService(IRepository<Core.Domain.Stores.Store> storeRepository,
-            IRepository<CustomerRole> customerRoleRepository)
+            IRepository<CustomerRole> customerRoleRepository,
+            IRepository<Language> languageRepository)
         {
+            _fileProvider = CommonHelper.DefaultFileProvider;
             _storeRepository = storeRepository ?? throw new ArgumentNullException(nameof(storeRepository));
             _customerRoleRepository = customerRoleRepository ?? throw new ArgumentNullException(nameof(customerRoleRepository));
+            _languageRepository = languageRepository ?? throw new ArgumentNullException(nameof(languageRepository));
         }
 
         public virtual void InstallRequiredData()
@@ -137,6 +144,21 @@ namespace Nop.Service.Installation
             _languageRepository.Insert(language);
         }
 
+        protected virtual void InstallLocaleResources()
+        {
+            //'English' language
+            var language = _languageRepository.Table.Single(l => l.Name == "English");
+
+            //save resources
+            var directoryPath = _fileProvider.MapPath(NopInstallationDefaults.LocalizationResourcesPath);
+            var pattern = $"*.{NopInstallationDefaults.LocalizationResourcesFileExtension}";
+            foreach (var filePath in _fileProvider.EnumerateFiles(directoryPath, pattern))
+            {
+                var localizationService = EngineContext.Current.Resolve<ILocalizationService>();
+                using var streamReader = new StreamReader(filePath);
+                localizationService.ImportResourcesFromXml(language, streamReader);
+            }
+        }
         #endregion
     }
 }
