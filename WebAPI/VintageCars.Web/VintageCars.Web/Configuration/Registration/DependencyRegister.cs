@@ -17,6 +17,7 @@ using Nop.Core.Infrastructure.DependencyManagement;
 using Nop.Data;
 using Nop.Service.Caching;
 using Nop.Service.Installation;
+using Nop.Service.Localization;
 using Nop.Service.Settings;
 using Nop.Service.Store;
 using Nop.Services.Logging;
@@ -51,6 +52,7 @@ namespace VintageCars.Web.Configuration.Registration
             builder.RegisterType<CacheKeyService>().As<ICacheKeyService>().InstancePerLifetimeScope();
             builder.RegisterType<StoreService>().As<IStoreService>().InstancePerLifetimeScope();
             builder.RegisterType<SettingService>().As<ISettingService>().InstancePerLifetimeScope();
+            builder.RegisterType<LocalizationService>().As<ILocalizationService>().InstancePerLifetimeScope();
 
             builder.RegisterType<ActionContextAccessor>().As<IActionContextAccessor>().InstancePerLifetimeScope();
 
