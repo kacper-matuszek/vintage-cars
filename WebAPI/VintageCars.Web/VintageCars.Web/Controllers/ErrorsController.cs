@@ -25,6 +25,7 @@ namespace VintageCars.Web.Controllers
 
             var code = exception switch
             {
+                ValidationException _ => 400,
                 ResourcesNotFoundException _ => 404,
                 UnexpectedException _ => 500,
                 _ => 500,
