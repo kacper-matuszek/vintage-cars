@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Language Name="English">
+  <LocaleResource Name="Customer.RegisterCustomer.SearchEngineAccount.Validation">
+    <Value>Search engine can't be registered</Value>
+  </LocaleResource>
+  <LocaleResource Name="Customer.RegisterCustomer.BackgroundTask.Validation">
+    <Value>Background task account can't be registered</Value>
+  </LocaleResource>
+  <LocaleResource Name="Customer.RegisterCustomer.IsRegistered.Validation">
+    <Value>Current customer is already registered</Value>
+  </LocaleResource>
+  <LocaleResource Name="Customer.RegisterCustomer.EmailNotProvided.Validation">
+    <Value>Email cannot be empty.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Customer.RegisterCustomer.EmailAlreadyExist.Validation">
+    <Value>Email already exists.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Customer.RegisterCustomer.IsNotEmail.Validation">
+    <Value>Provided wrong email.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Customer.RegisterCustomer.PasswordNotProvided.Validation">
+    <Value>Password cannot be empty</Value>
+  </LocaleResource>
+  <LocaleResource Name="Customer.RegisterCustomer.UsernameEmpty.Validation">
+    <Value>Username cannot be empty</Value>
+  </LocaleResource>
+  <LocaleResource Name="Customer.RegisterCustomer.PasswordMinLength.Validation">
+    <Value>Password must have at least {0} chars.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Customer.RegisterCustomer.PasswordUppercase.Validation">
+    <Value>Password must have at least a big letter.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Customer.RegisterCustomer.PasswordLowercase.Validation">
+    <Value>Password must have at least a letter.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Customer.RegisterCustomer.PasswordDigit.Validation">
+    <Value>Password must have at least a digit.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Customer.RegisterCustomer.PasswordAlphanumeric.Validation">
+    <Value>Password must have at least a special char.</Value>
+  </LocaleResource>
+</Language>
