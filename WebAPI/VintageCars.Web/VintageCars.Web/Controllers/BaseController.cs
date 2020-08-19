@@ -5,6 +5,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Ubiety.Dns.Core;
+using VintageCars.Domain.Commands.Base;
 using VintageCars.Domain.Exceptions;
 using VintageCars.Domain.Exceptions.Response;
 
@@ -22,7 +23,12 @@ namespace VintageCars.Web.Controllers
 
         protected async Task<TResult> SendAsync<TResult>(IRequest<TResult> query)
             => await _mediator.Send(query);
-            
+
+        protected async Task<ActionResult> ExecuteCommandWithoutResult(IRequest command)
+        {
+            await _mediator.Send(command);
+            return Ok();
+        } 
 
         protected ActionResult<T> Single<T>(T data)
         {
