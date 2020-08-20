@@ -128,6 +128,15 @@ namespace Nop.Service.Installation
                 ReCaptchaRequestTimeout = 20,
                 ReCaptchaTheme = string.Empty
             });
+            settingsService.SaveSetting(new CustomerSettings()
+            {
+                PasswordMinLength = 8,
+                PasswordRequireLowercase = true,
+                PasswordRequireUppercase = true,
+                PasswordRequireDigit = true,
+                PasswordRequireNonAlphanumeric = true,
+                UsernameValidationEnabled = true,
+            });
         }
 
         protected virtual void InstallLanguages()
