@@ -33,13 +33,17 @@ namespace VintageCars.Domain.Customer.Validators
                 .WithMessage(GetMessageFromKey("Customer.RegisterCustomer.PasswordMinLength.Validation",
                     _customerSettings.PasswordMinLength))
                 .Matches("[a-z]")
-                .SetCurrentValidation(_customerSettings.PasswordRequireLowercase, GetMessageFromKey("Customer.RegisterCustomer.PasswordLowercase.Validation"))
+                .SetCurrentValidation(_customerSettings.PasswordRequireLowercase,
+                    GetMessageFromKey("Customer.RegisterCustomer.PasswordLowercase.Validation"))
                 .Matches("[A-Z]")
-                .SetCurrentValidation(_customerSettings.PasswordRequireUppercase, GetMessageFromKey("Customer.RegisterCustomer.PasswordUppercase.Validation"))
+                .SetCurrentValidation(_customerSettings.PasswordRequireUppercase,
+                    GetMessageFromKey("Customer.RegisterCustomer.PasswordUppercase.Validation"))
                 .Matches("[0-9]")
-                .SetCurrentValidation(_customerSettings.PasswordRequireDigit, GetMessageFromKey("Customer.RegisterCustomer.PasswordDigit.Validation"))
+                .SetCurrentValidation(_customerSettings.PasswordRequireDigit,
+                    GetMessageFromKey("Customer.RegisterCustomer.PasswordDigit.Validation"))
                 .Matches("[^a-zA-Z0-9]")
-                .SetCurrentValidation(_customerSettings.PasswordRequireNonAlphanumeric, GetMessageFromKey("Customer.RegisterCustomer.PasswordAlphanumeric.Validation"))
+                .SetCurrentValidation(_customerSettings.PasswordRequireNonAlphanumeric,
+                    GetMessageFromKey("Customer.RegisterCustomer.PasswordAlphanumeric.Validation"));
 
             RuleFor(r => r.Username)
                 .NotEmpty()
