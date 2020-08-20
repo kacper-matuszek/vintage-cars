@@ -39,6 +39,7 @@ namespace Nop.Service.Installation
             InstallLanguages();
             InstallRoles();
             InstallSettings();
+            InstallLocaleResources();
         }
 
         #region Defaults
