@@ -19,5 +19,9 @@
     <ProjectReference Include="..\VintageCars.Service\VintageCars.Service.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="App_Data\Localization\" />
+  </ItemGroup>
+
 
 </Project>
