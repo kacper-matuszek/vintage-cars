@@ -19,12 +19,17 @@ namespace VintageCars.Web.Configuration
         public static void ConfigureRequestPipeline(this IApplicationBuilder application, IWebHostEnvironment environment)
             => EngineContext.Current.ConfigureRequestPipeline(application, environment);
 
-        public static void StartEngine(this IApplicationBuilder application)
+        public static void StartEngine(this IApplicationBuilder application, IApplicationLifetime applicationLifetime)
         {
             var engine = EngineContext.Current;
 
             if (!DataSettingsManager.DatabaseIsInstalled)
+            {
+                //if DatabaseIsInstalled is false after installing database, so we should restart app
+                //after that useless services wont be loaded
+                applicationLifetime.StopApplication();
                 return;
+            }
 
             //log application start
             engine.Resolve<ILogger>().Information("Application started");

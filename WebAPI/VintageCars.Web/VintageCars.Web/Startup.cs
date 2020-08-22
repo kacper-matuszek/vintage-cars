@@ -31,10 +31,10 @@ namespace VintageCars.Web
             _nopEngine.RegisterDependencies(builder);
         }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IApplicationLifetime applicationLifetime)
         {
             app.ConfigureRequestPipeline(env);
-            app.StartEngine();
+            app.StartEngine(applicationLifetime);
         }
     }
 }
