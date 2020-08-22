@@ -1,4 +1,6 @@
-﻿namespace Nop.Service.Installation
+﻿using Microsoft.Extensions.Configuration;
+
+namespace Nop.Service.Installation
 {
     public interface IInstallationService
     {

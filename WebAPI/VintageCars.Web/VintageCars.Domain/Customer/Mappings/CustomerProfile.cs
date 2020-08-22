@@ -12,7 +12,8 @@ namespace VintageCars.Domain.Customer.Mappings
     {
         public CustomerProfile()
         {
-            CreateMap<CreateAccountCommand, Nop.Core.Domain.Customers.Customer>();
+            CreateMap<CreateAccountCommand, Nop.Core.Domain.Customers.Customer>()
+                .ForMember(d => d.Active, opt => opt.MapFrom(_ => true));
             CreateMap<CreateAccountCommand, CustomerRegistrationRequest>()
                 .ForMember(d => d.IsApproved, opt => opt.MapFrom(_ => true))
                 .ForMember(d => d.Customer, opt => opt.MapFrom(src => src));

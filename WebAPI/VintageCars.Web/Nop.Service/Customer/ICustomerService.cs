@@ -45,5 +45,9 @@ namespace Nop.Service.Customer
         void UpdateCustomerRole(CustomerRole customerRole);
         void UpdateCustomer(Core.Domain.Customers.Customer customer);
         void InsertCustomer(Core.Domain.Customers.Customer customer);
+        Core.Domain.Customers.Customer GetCustomerByUsername(string username);
+        CustomerPassword GetCurrentPassword(Guid customerId);
+        IList<CustomerPassword> GetCustomerPasswords(Guid? customerId = null,
+            PasswordFormat? passwordFormat = null, int? passwordsToReturn = null);
     }
 }

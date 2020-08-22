@@ -181,5 +181,64 @@ namespace Nop.Service.Customer
 
             _customerRepository.Insert(customer);
         }
+
+        /// <summary>
+        /// Get customer by username
+        /// </summary>
+        /// <param name="username">Username</param>
+        /// <returns>Customer</returns>
+        public virtual Core.Domain.Customers.Customer GetCustomerByUsername(string username)
+        {
+            if (string.IsNullOrWhiteSpace(username))
+                return null;
+
+            var query = from c in _customerRepository.Table
+                orderby c.Id
+                where c.Username == username
+                select c;
+            var customer = query.FirstOrDefault();
+            return customer;
+        }
+
+        /// <summary>
+        /// Get current customer password
+        /// </summary>
+        /// <param name="customerId">Customer identifier</param>
+        /// <returns>Customer password</returns>
+        public virtual CustomerPassword GetCurrentPassword(Guid customerId)
+        {
+            if (customerId == Guid.Empty)
+                return null;
+
+            //return the latest password
+            return GetCustomerPasswords(customerId, passwordsToReturn: 1).FirstOrDefault();
+        }
+
+        /// <summary>
+        /// Gets customer passwords
+        /// </summary>
+        /// <param name="customerId">Customer identifier; pass null to load all records</param>
+        /// <param name="passwordFormat">Password format; pass null to load all records</param>
+        /// <param name="passwordsToReturn">Number of returning passwords; pass null to load all records</param>
+        /// <returns>List of customer passwords</returns>
+        public virtual IList<CustomerPassword> GetCustomerPasswords(Guid? customerId = null,
+            PasswordFormat? passwordFormat = null, int? passwordsToReturn = null)
+        {
+            var query = _customerPasswordRepository.Table;
+
+            //filter by customer
+            if (customerId.HasValue)
+                query = query.Where(password => password.CustomerId == customerId.Value);
+
+            //filter by password format
+            if (passwordFormat.HasValue)
+                query = query.Where(password => password.PasswordFormatId == (int)passwordFormat.Value);
+
+            //get the latest passwords
+            if (passwordsToReturn.HasValue)
+                query = query.OrderByDescending(password => password.CreatedOnUtc).Take(passwordsToReturn.Value);
+
+            return query.ToList();
+        }
     }
 }

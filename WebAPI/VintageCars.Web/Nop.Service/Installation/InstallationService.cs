@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Microsoft.Extensions.Configuration;
 using Nop.Core;
 using Nop.Core.Domain.Customers;
 using Nop.Core.Domain.Localization;
@@ -12,26 +13,29 @@ using Nop.Service.Customer;
 using Nop.Service.Localization;
 using Nop.Service.Settings;
 
+
 namespace Nop.Service.Installation
 {
     public class InstallationService : IInstallationService
     {
         #region Fields
-        private readonly INopFileProvider _fileProvider;
-        private readonly IRepository<Core.Domain.Stores.Store> _storeRepository;
-        private readonly IRepository<CustomerRole> _customerRoleRepository;
-        private readonly IRepository<Language> _languageRepository;
-
+        protected readonly INopFileProvider _fileProvider;
+        protected readonly IRepository<Core.Domain.Stores.Store> _storeRepository;
+        protected readonly IRepository<CustomerRole> _customerRoleRepository;
+        protected readonly IRepository<Language> _languageRepository;
+        protected readonly ISettingService _settingsService;
         #endregion
 
         public InstallationService(IRepository<Core.Domain.Stores.Store> storeRepository,
             IRepository<CustomerRole> customerRoleRepository,
-            IRepository<Language> languageRepository)
+            IRepository<Language> languageRepository,
+            ISettingService settingService)
         {
             _fileProvider = CommonHelper.DefaultFileProvider;
             _storeRepository = storeRepository ?? throw new ArgumentNullException(nameof(storeRepository));
             _customerRoleRepository = customerRoleRepository ?? throw new ArgumentNullException(nameof(customerRoleRepository));
             _languageRepository = languageRepository ?? throw new ArgumentNullException(nameof(languageRepository));
+            _settingsService = settingService;
         }
 
         public virtual void InstallRequiredData()
@@ -117,8 +121,8 @@ namespace Nop.Service.Installation
 
         protected virtual void InstallSettings()
         {
-            var settingsService = EngineContext.Current.Resolve<ISettingService>();
-            settingsService.SaveSetting(new CaptchaSettings()
+           // var settingsService = EngineContext.Current.Resolve<ISettingService>();
+            _settingsService.SaveSetting(new CaptchaSettings()
             {
                 ReCaptchaApiUrl = "https://www.google.com/recaptcha/api/siteverify",
                 Enabled = true,
@@ -130,7 +134,7 @@ namespace Nop.Service.Installation
                 ReCaptchaRequestTimeout = 20,
                 ReCaptchaTheme = string.Empty
             });
-            settingsService.SaveSetting(new CustomerSettings()
+            _settingsService.SaveSetting(new CustomerSettings()
             {
                 PasswordMinLength = 8,
                 PasswordRequireLowercase = true,

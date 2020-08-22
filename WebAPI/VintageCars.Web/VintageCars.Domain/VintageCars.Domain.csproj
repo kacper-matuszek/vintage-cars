@@ -14,4 +14,8 @@
     <ProjectReference Include="..\Nop.Service\Nop.Service.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Settings\Models\" />
+  </ItemGroup>
+
 </Project>

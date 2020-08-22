@@ -25,6 +25,7 @@ using Nop.Service.Store;
 using Nop.Services.Logging;
 using VintageCars.Domain.Commands.Base;
 using VintageCars.Service.Infrastructure;
+using InstallationService = VintageCars.Service.Infrastructure.InstallationService;
 
 namespace VintageCars.Web.Configuration.Registration
 {
@@ -51,6 +52,7 @@ namespace VintageCars.Web.Configuration.Registration
                 .SingleInstance();
 
             //services
+            builder.RegisterType<JwtService>().As<IJwtService>().InstancePerLifetimeScope();
             builder.RegisterType<DefaultLogger>().As<ILogger>().InstancePerLifetimeScope();
             builder.RegisterType<CacheKeyService>().As<ICacheKeyService>().InstancePerLifetimeScope();
             builder.RegisterType<StoreService>().As<IStoreService>().InstancePerLifetimeScope();

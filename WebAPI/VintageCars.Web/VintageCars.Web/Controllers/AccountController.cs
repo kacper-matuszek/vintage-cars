@@ -2,6 +2,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using VintageCars.Domain.Customer.Commands;
+using VintageCars.Domain.Customer.Responses;
 
 namespace VintageCars.Web.Controllers
 {
@@ -16,5 +17,9 @@ namespace VintageCars.Web.Controllers
         [HttpPost("register")]
         public async Task<ActionResult> Register([FromBody] CreateAccountCommand account)
             => await ExecuteCommandWithoutResult(account);
+
+        [HttpPost("login")]
+        public async Task<ActionResult<LoginCustomerResponse>> Login([FromBody] LoginCustomerCommand account)
+            => Single(await SendAsync(account));
     }
 }
