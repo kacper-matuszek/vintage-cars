@@ -105,16 +105,16 @@ namespace Nop.Core.Domain.Customers
         /// <summary>
         ///  Gets or sets the store identifier in which customer registered
         /// </summary>
-        public int RegisteredInStoreId { get; set; }
+        public Guid RegisteredInStoreId { get; set; }
 
         /// <summary>
         /// Gets or sets the billing address identifier
         /// </summary>
-        public int? BillingAddressId { get; set; }
+        public Guid? BillingAddressId { get; set; }
 
         /// <summary>
         /// Gets or sets the shipping address identifier
         /// </summary>
-        public int? ShippingAddressId { get; set; }
+        public Guid? ShippingAddressId { get; set; }
     }
 }

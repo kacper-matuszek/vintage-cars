@@ -45,9 +45,7 @@ namespace Nop.Service.Localization
             _languageRepository = languageRepository;
             _logger = logger;
             _lsrRepository = lsrRepository;
-            _settingService = settingService;
             _staticCacheManager = staticCacheManager;
-            _localizationSettings = localizationSettings;
         }
 
         #endregion
@@ -224,10 +222,7 @@ namespace Nop.Service.Localization
             var languageId = (from language in _languageRepository.Table
                          select language.Id).FirstOrDefault();
 
-            if (languageId != default(Guid))
-                GetResource(resourceKey, languageId); 
-
-            return string.Empty;
+            return languageId != default(Guid) ? GetResource(resourceKey, languageId) : string.Empty;
         }
 
         /// <summary>

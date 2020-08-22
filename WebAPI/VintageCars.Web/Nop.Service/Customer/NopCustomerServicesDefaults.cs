@@ -13,6 +13,11 @@ namespace Nop.Service.Customer
         public static int PasswordSaltKeySize => 5;
 
         /// <summary>
+        /// Gets a default hash format for customer password
+        /// </summary>
+        public static string DefaultHashedPasswordFormat => "SHA512";
+
+        /// <summary>
         /// Gets a key for caching
         /// </summary>
         /// <remarks>

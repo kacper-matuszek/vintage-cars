@@ -8,6 +8,7 @@ using Nop.Core.Domain.Localization;
 using Nop.Core.Domain.Security;
 using Nop.Core.Infrastructure;
 using Nop.Data;
+using Nop.Service.Customer;
 using Nop.Service.Localization;
 using Nop.Service.Settings;
 
@@ -137,6 +138,10 @@ namespace Nop.Service.Installation
                 PasswordRequireDigit = true,
                 PasswordRequireNonAlphanumeric = true,
                 UsernameValidationEnabled = true,
+                UserRegistrationType = UserRegistrationType.Standard,
+                DefaultPasswordFormat = PasswordFormat.Hashed,
+                HashedPasswordFormat = NopCustomerServicesDefaults.DefaultHashedPasswordFormat,
+                CustomerNameFormat = CustomerNameFormat.ShowUsernames,
             });
         }
 

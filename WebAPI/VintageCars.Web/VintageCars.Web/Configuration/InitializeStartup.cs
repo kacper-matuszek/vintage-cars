@@ -21,6 +21,8 @@ namespace VintageCars.Web.Configuration
         {
             if (env.IsDevelopment())
                 app.UseDeveloperExceptionPage();
+            else
+                app.UseExceptionHandler("/error");
 
             app.UseRouting()
                 .UseAuthentication()

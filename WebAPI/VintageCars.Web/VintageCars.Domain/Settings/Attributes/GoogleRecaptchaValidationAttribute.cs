@@ -17,14 +17,6 @@ namespace VintageCars.Domain.Settings.Attributes
 {
     public class GoogleRecaptchaValidationAttribute : ValidationAttribute
     {
-        private readonly ILogger _logger;
-
-        public GoogleRecaptchaValidationAttribute()
-        {
-            _logger = EngineContext.Current.Resolve<ILogger>()
-                      ?? throw new ArgumentNullException(nameof(ILogger));
-        }
-
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
             if (!(value is GoogleRecaptchaBase recaptchaModel))

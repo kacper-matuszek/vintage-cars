@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Nop.Core;
+using Nop.Core.Caching;
 using Nop.Core.Infrastructure;
 using Nop.Data;
 using Nop.Services.Logging;
+using VintageCars.Service.Infrastructure;
 
 namespace VintageCars.Web.Configuration
 {
@@ -26,6 +28,9 @@ namespace VintageCars.Web.Configuration
 
             //log application start
             engine.Resolve<ILogger>().Information("Application started");
+
+            //default caching
+            engine.Resolve<IInfrastructureService>().SetDefaultCache();
         }
     }
 }

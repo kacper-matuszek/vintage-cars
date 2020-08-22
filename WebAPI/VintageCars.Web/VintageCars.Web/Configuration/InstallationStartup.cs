@@ -28,6 +28,10 @@ namespace VintageCars.Web.Configuration
             if(DataSettingsManager.DatabaseIsInstalled)
                 return;
             _installationConfiguration = configuration.GetSection(Installation);
+            Singleton<DataSettings>.Instance = new DataSettings()
+            {
+                DataProvider = Enum.Parse<DataProviderType>(_installationConfiguration["DataProvider"]),
+            };
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

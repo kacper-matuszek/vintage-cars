@@ -18,5 +18,7 @@
         /// {1} : Entity id
         /// </remarks>
         public static string NopEntityCacheKey => "Nop.{0}.id-{1}";
+
+        public static string NopObjectCacheKey => "Nop.{0}";
     }
 }

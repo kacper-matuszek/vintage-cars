@@ -62,7 +62,7 @@ namespace Nop.Service.Customer
             //validate unique user
             if (_customerService.GetCustomerByEmail(request.Customer?.Email) != null)
             {
-                result.Add(_localizationService.GetResource("Account.Register.Errors.EmailAlreadyExists"));
+                result.Add(_localizationService.GetResource("Customer.RegisterCustomer.EmailAlreadyExist.Validation"));
                 return result;
             }
 
@@ -92,9 +92,8 @@ namespace Nop.Service.Customer
                     break;
             }
 
+            _customerService.InsertCustomer(request.Customer);
             _customerService.InsertCustomerPassword(customerPassword);
-
-            request.Customer.Active = request.IsApproved;
 
             //add to 'Registered' role
             var registeredRole = _customerService.GetCustomerRoleBySystemName(NopCustomerDefaults.RegisteredRoleName);
@@ -109,8 +108,6 @@ namespace Nop.Service.Customer
             //    var guestRole = _customerService.GetCustomerRoleBySystemName(NopCustomerDefaults.GuestsRoleName);
             //    _customerService.RemoveCustomerRoleMapping(request.Customer, guestRole);
             //}
-            _customerService.UpdateCustomer(request.Customer);
-
             return result;
         }
     }

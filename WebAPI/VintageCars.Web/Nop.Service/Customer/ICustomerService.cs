@@ -44,5 +44,6 @@ namespace Nop.Service.Customer
         void InsertCustomerPassword(CustomerPassword customerPassword);
         void UpdateCustomerRole(CustomerRole customerRole);
         void UpdateCustomer(Core.Domain.Customers.Customer customer);
+        void InsertCustomer(Core.Domain.Customers.Customer customer);
     }
 }

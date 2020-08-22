@@ -170,5 +170,16 @@ namespace Nop.Service.Customer
             _customerRepository.Update(customer);
         }
 
+        /// <summary>
+        /// Insert the customer
+        /// </summary>
+        /// <param name="customer">Customer</param>
+        public virtual void InsertCustomer(Core.Domain.Customers.Customer customer)
+        {
+            if (customer == null)
+                throw new ArgumentNullException(nameof(customer));
+
+            _customerRepository.Insert(customer);
+        }
     }
 }

@@ -12,11 +12,10 @@ namespace VintageCars.Domain.Customer.Mappings
     {
         public CustomerProfile()
         {
+            CreateMap<CreateAccountCommand, Nop.Core.Domain.Customers.Customer>();
             CreateMap<CreateAccountCommand, CustomerRegistrationRequest>()
                 .ForMember(d => d.IsApproved, opt => opt.MapFrom(_ => true))
-                .ForMember(d => d.Customer, opt => opt.NullSubstitute(new Nop.Core.Domain.Customers.Customer()))
-                .ForMember(d => d.Customer.Username, opt => opt.MapFrom(s => s.Username))
-                .ForAllOtherMembers(opt => opt.Ignore());
+                .ForMember(d => d.Customer, opt => opt.MapFrom(src => src));
         }
         public int Order => 1;
     }

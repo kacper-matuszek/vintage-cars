@@ -24,6 +24,7 @@ using Nop.Service.Settings;
 using Nop.Service.Store;
 using Nop.Services.Logging;
 using VintageCars.Domain.Commands.Base;
+using VintageCars.Service.Infrastructure;
 
 namespace VintageCars.Web.Configuration.Registration
 {
@@ -58,6 +59,7 @@ namespace VintageCars.Web.Configuration.Registration
             builder.RegisterType<EncryptionService>().As<IEncryptionService>().InstancePerLifetimeScope();
             builder.RegisterType<CustomerService>().As<ICustomerService>().InstancePerLifetimeScope();
             builder.RegisterType<CustomerRegistrationService>().As<ICustomerRegistrationService>().InstancePerLifetimeScope();
+            builder.RegisterType<InfrastructureService>().As<IInfrastructureService>().InstancePerLifetimeScope();
 
             builder.RegisterType<ActionContextAccessor>().As<IActionContextAccessor>().InstancePerLifetimeScope();
 

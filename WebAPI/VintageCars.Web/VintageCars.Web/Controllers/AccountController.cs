@@ -13,7 +13,7 @@ namespace VintageCars.Web.Controllers
         {
         }
 
-        [HttpPost]
+        [HttpPost("register")]
         public async Task<ActionResult> Register([FromBody] CreateAccountCommand account)
             => await ExecuteCommandWithoutResult(account);
     }
