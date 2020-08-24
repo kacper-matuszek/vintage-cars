@@ -1,0 +1,6 @@
+{
+    "protocol": "https",
+    "domain": "localhost",
+    "port": "44397",
+    "mainEndpoint": "api"
+}
