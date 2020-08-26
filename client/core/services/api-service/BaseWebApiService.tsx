@@ -4,15 +4,15 @@ import { ICallback } from './Callback';
 import { ErrorDetails } from '../../models/errors/ErrorDetail';
 
 class BaseWebApiService {
-    protected headers: {
-        'Accept': 'application/json, text/plain, */*',
-        'Conent-Type': 'application/json',
+    protected headers = {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
     };
 
     public post<T>(url: string, data: object, callback: ICallback<T>): void {
-        fetch(`${generateBasicUrl()}/${url}`, {
+        fetch(`${generateBasicUrl()}${url}`, {
             method: 'post',
-            headers: this.headers,
+            headers: new Headers(this.headers),
             body: JSON.stringify(data)
         }).then(response => {
             if(response.ok){
@@ -32,6 +32,8 @@ class BaseWebApiService {
                         callback.OnValidationError(e);
                 })
             }
-        })
+        }).catch(error => console.log(error));
     }
 }
+
+export default BaseWebApiService;
