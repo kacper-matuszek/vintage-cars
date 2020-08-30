@@ -1,7 +1,8 @@
 import generateBasicUrl from '../../../configuration/model/apiSettings';
-import fetch from 'isomorphic-unfetch'
+import fetch from 'node-fetch'
 import { ICallback } from './Callback';
 import { ErrorDetails } from '../../models/errors/ErrorDetail';
+import { Agent } from 'https';
 
 class BaseWebApiService {
     protected headers = {
@@ -33,6 +34,35 @@ class BaseWebApiService {
                 })
             }
         }).catch(error => console.log(error));
+    }
+
+    public get<T>(url: string, callback: ICallback<T>): void {
+        fetch(`${generateBasicUrl()}${url}`, {
+            method: 'get',
+            headers: new Headers({
+                'Content-Type': 'application/json'
+            }),
+            agent: new Agent({
+                rejectUnauthorized: false
+            })
+        }).then(response => {
+            if(response.ok) {
+                if(callback.OnSuccess) {
+                    response.json().then(m => callback.OnSuccess(m))
+                }
+            } else {
+                response.json().then(e => {
+                    if((e as ErrorDetails) && callback.OnError) {
+                        callback.OnError(e);
+                        return;
+                    }
+                    if(callback.OnValidationError) {
+                        callback.OnValidationError(e);
+                        return;
+                    }
+                })
+            }
+        })
     }
 }
 
