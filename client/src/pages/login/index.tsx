@@ -2,6 +2,8 @@ import AppBase from "../../../components/base/AppBaseComponent";
 import Grid from '@material-ui/core/Grid';
 import { CssBaseline, Paper, FormControlLabel, TextField, Checkbox, Button, Link, Typography } from "@material-ui/core";
 import  loginStyle  from "./login-form-style";
+import BaseWebApiService from "../../../core/services/api-service/BaseWebApiService";
+import { toCallback } from "../../../core/services/api-service/Callback";
 
 const LoginPage = () => {
     const classes = loginStyle();
@@ -10,58 +12,30 @@ const LoginPage = () => {
         <Grid container>
             <CssBaseline/>
             <Grid item xs={false} sm={4} md={5} className={classes.image} />
-            <Grid item xs={12} sm={8} md={7} component={Paper} elevation={6} square>
-            <div className={classes.paper}>
-            <Typography component="h1" variant="h5">
-                Logowanie
-            </Typography>
-                <form className={classes.form} noValidate>
-                    <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Adres email"
-              name="email"
-              autoComplete="email"
-              autoFocus
-            />
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Hasło"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-            />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Zapamiętaj mnie"
-            />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="primary"
-            >
-              Zaloguj się
-            </Button>
-            <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
-                  Zapomniałeś hasła ?
-                </Link>
-              </Grid>
-            </Grid>
-                    </form>
-                </div>
-            </Grid>
         </Grid>
     </AppBase>
 )}
+
+class LoginResult {
+    public loginResult: number;
+    public token: string;
+}
+
+LoginPage.getInitialProps = async () => {
+    const apiService = new BaseWebApiService();
+    const login = {
+        "email": "admin@gmail.com",
+        "password": "Admin1!!!"
+    };
+    apiService.get<any>("/settings/captcha-key", toCallback(
+        data => console.log(data),
+        validationError => console.log(validationError),
+        error => console.log(error),
+    ));
+
+    return {
+        objects: "cos"
+    }
+}
 
 export default LoginPage;
