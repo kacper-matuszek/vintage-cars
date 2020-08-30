@@ -2,6 +2,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using VintageCars.Domain.Settings.Queries;
+using VintageCars.Domain.Settings.Response;
 
 namespace VintageCars.Web.Controllers
 {
@@ -15,7 +16,7 @@ namespace VintageCars.Web.Controllers
         }
 
         [HttpGet("captcha-key")]
-        public async Task<ActionResult<string>> GetCaptchaKey()
+        public async Task<ActionResult<CaptchaKeyResponse>> GetCaptchaKey()
             => Single(await SendAsync(new GetCaptchaKeyQuery()));
     }
 }

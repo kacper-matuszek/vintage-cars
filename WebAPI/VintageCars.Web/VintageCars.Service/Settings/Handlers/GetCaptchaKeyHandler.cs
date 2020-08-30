@@ -12,10 +12,11 @@ using Nop.Service.Store;
 using Nop.Services.Logging;
 using VintageCars.Domain.Exceptions;
 using VintageCars.Domain.Settings.Queries;
+using VintageCars.Domain.Settings.Response;
 
 namespace VintageCars.Service.Settings.Handlers
 {
-    public class GetCaptchaKeyHandler : IRequestHandler<GetCaptchaKeyQuery, string>
+    public class GetCaptchaKeyHandler : IRequestHandler<GetCaptchaKeyQuery, CaptchaKeyResponse>
     {
         private readonly ISettingService _settingService;
         private readonly IStoreService _storeService;
@@ -28,13 +29,13 @@ namespace VintageCars.Service.Settings.Handlers
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
-        public Task<string> Handle(GetCaptchaKeyQuery request, CancellationToken cancellationToken)
+        public Task<CaptchaKeyResponse> Handle(GetCaptchaKeyQuery request, CancellationToken cancellationToken)
         {
             var storeId = _storeService.GetAllStores().FirstOrDefault()?.Id
                           ?? throw new ResourcesNotFoundException(typeof(Store));
             var captchaSettings = _settingService.LoadSetting<CaptchaSettings>(storeId);
 
-            if (captchaSettings.Enabled) return Task.FromResult(captchaSettings.ReCaptchaPublicKey);
+            if (captchaSettings.Enabled) return Task.FromResult(new CaptchaKeyResponse(captchaSettings.ReCaptchaPublicKey));
 
             const string message = "Captcha settings is not enabled.";
             _logger.Warning(message);
