@@ -36,8 +36,8 @@ class BaseWebApiService {
         }).catch(error => console.log(error));
     }
 
-    public get<T>(url: string, callback: ICallback<T>): void {
-        fetch(`${generateBasicUrl()}${url}`, {
+    public async get<T>(url: string, callback: ICallback<T>): Promise<T> {
+        return await fetch(`${generateBasicUrl()}${url}`, {
             method: 'get',
             headers: new Headers({
                 'Content-Type': 'application/json'
@@ -48,7 +48,7 @@ class BaseWebApiService {
         }).then(response => {
             if(response.ok) {
                 if(callback.OnSuccess) {
-                    response.json().then(m => callback.OnSuccess(m))
+                    return response.json().then(m => callback.OnSuccess(m));
                 }
             } else {
                 response.json().then(e => {
