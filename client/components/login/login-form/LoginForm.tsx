@@ -2,7 +2,7 @@ import { CssBaseline, Paper, FormControlLabel, TextField, Checkbox, Button, Link
 import Grid from '@material-ui/core/Grid';
 import { loginFormStyle } from "./login-form-style";
 
-const LoginForm = props => {
+const LoginForm = (props) => {
     const classes = loginFormStyle();
     return(
         <Grid item xs={12} sm={8} md={7} component={Paper} elevation={6} square>
@@ -10,9 +10,10 @@ const LoginForm = props => {
                 <Typography component="h1" variant="h5">
                     Logowanie
                 </Typography>
-                <form className={classes.form} noValidate>
+                <form className={classes.form} noValidate method="POST" onSubmit={props.onSubmit}>
                     <TextField
-                      error={!!props.errors}
+                      error={!!props.errors.email}
+                      value={props.loginAccount.email}
                       variant="outlined"
                       margin="normal"
                       required
@@ -22,8 +23,20 @@ const LoginForm = props => {
                       name="email"
                       autoComplete="email"
                       autoFocus
+                      helperText={props.errors.email}
+                      onChange={(email) => {
+                        const valueEmail = email.target.value;
+                        props.setLoginData(prevState => {
+                          return {
+                            ...prevState,
+                            email: valueEmail
+                          }
+                        });
+                      }}
                     />
                     <TextField
+                      error={!!props.errors.password}
+                      value={props.loginAccount.password}
                       variant="outlined"
                       margin="normal"
                       required
@@ -33,6 +46,16 @@ const LoginForm = props => {
                       type="password"
                       id="password"
                       autoComplete="current-password"
+                      helperText={props.errors.password}
+                      onChange={(pass) => {
+                        const valuePass = pass.target.value;
+                        props.setLoginData(prevState => {
+                          return {
+                            ...prevState,
+                            password: valuePass
+                          }
+                        });
+                      }}
                     />
                     <FormControlLabel
                       control={<Checkbox value="remember" color="primary" />}
@@ -57,3 +80,4 @@ const LoginForm = props => {
             </div>
         </Grid>
     )}
+export default LoginForm
