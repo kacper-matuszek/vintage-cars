@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useRef, useState} from "react";
 import AppBase from "../../../components/base/AppBaseComponent";
 import BaseWebApiService from "../../../core/services/api-service/BaseWebApiService";
 import { toCallback } from "../../../core/services/api-service/Callback";
@@ -7,6 +7,8 @@ import LoginForm from "../../../components/login/login-form/LoginForm";
 import LoginAccount from "../../../components/login/models/LoginAccount";
 import LoginResponse from "../../../components/login/models/LoginResponse";
 import { Validator, ValidatorManage, ValidatorType } from "../../../components/login/models/validators/Validator";
+import { LoginResult } from "../../../components/login/models/enums/LoginResult";
+import cookieCutter from 'cookie-cutter'
 
 const LoginPage = () => {
     const apiService = new BaseWebApiService();
@@ -46,7 +48,21 @@ const LoginPage = () => {
         if(validatorManager.isAllValid()) {
             setLoading(true);
             apiService.post<LoginResponse>("/v1/account/login", loginData, toCallback<LoginResponse>(
-                success => console.log(success),
+                success => {
+                    if(success.loginResult === LoginResult.Successful) {
+                        cookieCutter.set('token', success.token, {
+                            expires: new Date(
+                                        new Date().getFullYear(),
+                                        new Date().getMonth(),
+                                        new Date().getDate() + 1,
+                                        new Date().getHours(),
+                                        new Date().getMinutes())
+                        });
+                        return;
+                    }
+                    setErrorRespText("Nie udało się zalogować. Sprawdź poprawność email oraz hasła.");
+                    setErrorResponse(true);
+                },
                 vErr => {
                     setValidationRespText(vErr.message);
                     setValidationResponse(true);
@@ -81,7 +97,7 @@ const LoginPage = () => {
                 <LoginForm errors={errors} loginAccount={loginData} setLoginData={setData} onSubmit={onSubmitHandle}></LoginForm>
             </PictureContent>
         </AppBase>
-    )
+    );
 }
 
 export default LoginPage

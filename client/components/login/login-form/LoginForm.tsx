@@ -57,10 +57,6 @@ const LoginForm = (props) => {
                         });
                       }}
                     />
-                    <FormControlLabel
-                      control={<Checkbox value="remember" color="primary" />}
-                      label="Zapamiętaj mnie"
-                    />
                     <Button
                       type="submit"
                       fullWidth

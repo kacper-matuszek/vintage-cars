@@ -1,6 +1,6 @@
 import { LoginResult } from "./enums/LoginResult";
 
 export default class LoginResponse {
-    public result: LoginResult;
+    public loginResult: LoginResult;
     public token: string;
 }
