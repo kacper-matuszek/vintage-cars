@@ -16,6 +16,7 @@ using Nop.Core.Infrastructure;
 using Nop.Core.Infrastructure.DependencyManagement;
 using Nop.Data;
 using Nop.Service.Caching;
+using Nop.Service.Common;
 using Nop.Service.Customer;
 using Nop.Service.Installation;
 using Nop.Service.Localization;
@@ -53,6 +54,7 @@ namespace VintageCars.Web.Configuration.Registration
                 .SingleInstance();
 
             //services
+            builder.RegisterType<GenericAttributeService>().As<IGenericAttributeService>().InstancePerLifetimeScope();
             builder.RegisterType<LanguageService>().As<ILanguageService>().InstancePerLifetimeScope();
             builder.RegisterType<MessageTemplateService>().As<IMessageTemplateService>().InstancePerLifetimeScope();
             builder.RegisterType<JwtService>().As<IJwtService>().InstancePerLifetimeScope();
