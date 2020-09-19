@@ -17,7 +17,7 @@ namespace Nop.Data.Mapping.Builders.Messages
         public override void MapEntity(CreateTableExpressionBuilder table)
         {
             table
-                .WithColumn(nameof(MessageTemplate.Name)).AsString(200).NotNullable()
+                .WithColumn(nameof(MessageTemplate.Name)).AsString(200).NotNullable().Unique()
                 .WithColumn(nameof(MessageTemplate.BccEmailAddresses)).AsString(200).Nullable()
                 .WithColumn(nameof(MessageTemplate.Subject)).AsString(1000).Nullable()
                 //don't create an ForeignKey for the EmailAccount table, because this field may by zero
