@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using AutoMapper;
+﻿using AutoMapper;
+using Nop.Core.Domain.Customers;
 using Nop.Core.Infrastructure.Mapper;
 using Nop.Core.Requests.Customers;
 using VintageCars.Domain.Customer.Commands;
@@ -16,7 +14,8 @@ namespace VintageCars.Domain.Customer.Mappings
                 .ForMember(d => d.Active, opt => opt.MapFrom(_ => true));
             CreateMap<CreateAccountCommand, CustomerRegistrationRequest>()
                 .ForMember(d => d.IsApproved, opt => opt.MapFrom(_ => true))
-                .ForMember(d => d.Customer, opt => opt.MapFrom(src => src));
+                .ForMember(d => d.Customer, opt => opt.MapFrom(src => src))
+                .ForMember(d => d.PasswordFormat, opt => opt.MapFrom( _ => PasswordFormat.Hashed));
         }
         public int Order => 1;
     }
