@@ -19,6 +19,7 @@ using Nop.Service.Caching;
 using Nop.Service.Customer;
 using Nop.Service.Installation;
 using Nop.Service.Localization;
+using Nop.Service.Messages;
 using Nop.Service.Security;
 using Nop.Service.Settings;
 using Nop.Service.Store;
@@ -52,6 +53,7 @@ namespace VintageCars.Web.Configuration.Registration
                 .SingleInstance();
 
             //services
+            builder.RegisterType<MessageTemplateService>().As<IMessageTemplateService>().InstancePerLifetimeScope();
             builder.RegisterType<JwtService>().As<IJwtService>().InstancePerLifetimeScope();
             builder.RegisterType<DefaultLogger>().As<ILogger>().InstancePerLifetimeScope();
             builder.RegisterType<CacheKeyService>().As<ICacheKeyService>().InstancePerLifetimeScope();
