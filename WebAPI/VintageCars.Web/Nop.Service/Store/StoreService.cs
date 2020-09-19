@@ -69,9 +69,9 @@ namespace Nop.Service.Store
         /// </summary>
         /// <param name="storeId">Store identifier</param>
         /// <returns>Store</returns>
-        public virtual Core.Domain.Stores.Store GetStoreById(int storeId)
+        public virtual Core.Domain.Stores.Store GetStoreById(Guid storeId)
         {
-            if (storeId == 0)
+            if (storeId == Guid.Empty)
                 return null;
 
             var store = _storeRepository.ToCachedGetById(storeId);

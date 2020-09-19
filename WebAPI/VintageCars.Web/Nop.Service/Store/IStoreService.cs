@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Nop.Service.Store
 {
@@ -21,7 +22,7 @@ namespace Nop.Service.Store
         /// </summary>
         /// <param name="storeId">Store identifier</param>
         /// <returns>Store</returns>
-        Core.Domain.Stores.Store GetStoreById(int storeId);
+        Core.Domain.Stores.Store GetStoreById(Guid storeId);
 
         /// <summary>
         /// Inserts a store
