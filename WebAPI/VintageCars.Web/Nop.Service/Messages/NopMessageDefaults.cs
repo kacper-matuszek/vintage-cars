@@ -23,5 +23,12 @@ namespace Nop.Service.Messages
         /// {0} : template name
         /// </remarks>
         public static string MessageTemplatesByNamePrefixCacheKey => "Nop.messagetemplate.name-{0}";
+        /// <summary>
+        /// Gets a key for caching
+        /// </summary>
+        /// <remarks>
+        /// {0} : store ID
+        /// </remarks>
+        public static CacheKey EmailAccountsAllCacheKey => new CacheKey("Nop.emailaccounts.all");
     }
 }
