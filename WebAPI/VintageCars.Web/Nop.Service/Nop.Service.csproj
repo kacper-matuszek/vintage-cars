@@ -13,4 +13,8 @@
     <Folder Include="Logging\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="System.Linq.Dynamic.Core" Version="1.1.0" />
+  </ItemGroup>
+
 </Project>
