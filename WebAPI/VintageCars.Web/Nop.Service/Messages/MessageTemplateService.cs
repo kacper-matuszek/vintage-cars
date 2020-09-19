@@ -27,7 +27,7 @@ namespace Nop.Service.Messages
         /// <param name="messageTemplateName">Message template name</param>
         /// <param name="storeId">Store identifier; pass null to load all records</param>
         /// <returns>List of message templates</returns>
-        public virtual IList<MessageTemplate> GetMessageTemplatesByName(string messageTemplateName, int? storeId = null)
+        public virtual IList<MessageTemplate> GetMessageTemplatesByName(string messageTemplateName, Guid? storeId = null)
         {
             if (string.IsNullOrWhiteSpace(messageTemplateName))
                 throw new ArgumentException(nameof(messageTemplateName));
