@@ -1,4 +1,5 @@
-﻿using Nop.Core.Domain.Localization;
+﻿using System;
+using Nop.Core.Domain.Localization;
 using Nop.Core.Domain.Stores;
 
 namespace Nop.Core.Domain.Messages
@@ -51,7 +52,7 @@ namespace Nop.Core.Domain.Messages
         /// <summary>
         /// Gets or sets the used email account identifier
         /// </summary>
-        public int EmailAccountId { get; set; }
+        public Guid EmailAccountId { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether the entity is limited/restricted to certain stores
