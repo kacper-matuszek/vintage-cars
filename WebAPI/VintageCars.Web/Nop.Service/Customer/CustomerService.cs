@@ -6,6 +6,7 @@ using Nop.Core.Caching;
 using Nop.Core.Domain.Customers;
 using Nop.Data;
 using Nop.Service.Caching;
+using Nop.Service.Common;
 using Nop.Service.Extensions;
 
 namespace Nop.Service.Customer
@@ -18,8 +19,15 @@ namespace Nop.Service.Customer
         private readonly ICacheKeyService _cacheKeyService;
         private readonly IStaticCacheManager _staticCacheManager;
         private readonly IRepository<CustomerPassword> _customerPasswordRepository;
+        private readonly IGenericAttributeService _genericAttributeService;
 
-        public CustomerService(IRepository<Core.Domain.Customers.Customer> customerRepository, IRepository<CustomerRole> customerRoleRepository, IRepository<CustomerCustomerRoleMapping> customerCustomerRoleMappingRepository, ICacheKeyService cacheKeyService, IStaticCacheManager staticCacheManager, IRepository<CustomerPassword> customerPasswordRepository)
+        public CustomerService(IRepository<Core.Domain.Customers.Customer> customerRepository,
+            IRepository<CustomerRole> customerRoleRepository,
+            IRepository<CustomerCustomerRoleMapping> customerCustomerRoleMappingRepository,
+            ICacheKeyService cacheKeyService,
+            IStaticCacheManager staticCacheManager,
+            IRepository<CustomerPassword> customerPasswordRepository,
+            IGenericAttributeService genericAttributeService)
         {
             _customerRepository = customerRepository;
             _customerRoleRepository = customerRoleRepository;
@@ -27,6 +35,7 @@ namespace Nop.Service.Customer
             _cacheKeyService = cacheKeyService;
             _staticCacheManager = staticCacheManager;
             _customerPasswordRepository = customerPasswordRepository;
+            _genericAttributeService = genericAttributeService;
         }
 
         /// <summary>
@@ -239,6 +248,34 @@ namespace Nop.Service.Customer
                 query = query.OrderByDescending(password => password.CreatedOnUtc).Take(passwordsToReturn.Value);
 
             return query.ToList();
+        }
+
+        /// <summary>
+        /// Get full name
+        /// </summary>
+        /// <param name="customer">Customer</param>
+        /// <returns>Customer full name</returns>
+        public virtual string GetCustomerFullName(Core.Domain.Customers.Customer customer)
+        {
+            if (customer == null)
+                throw new ArgumentNullException(nameof(customer));
+
+            var firstName = _genericAttributeService.GetAttribute<string>(customer, NopCustomerDefaults.FirstNameAttribute);
+            var lastName = _genericAttributeService.GetAttribute<string>(customer, NopCustomerDefaults.LastNameAttribute);
+
+            var fullName = string.Empty;
+            if (!string.IsNullOrWhiteSpace(firstName) && !string.IsNullOrWhiteSpace(lastName))
+                fullName = $"{firstName} {lastName}";
+            else
+            {
+                if (!string.IsNullOrWhiteSpace(firstName))
+                    fullName = firstName;
+
+                if (!string.IsNullOrWhiteSpace(lastName))
+                    fullName = lastName;
+            }
+
+            return fullName;
         }
     }
 }

@@ -49,5 +49,7 @@ namespace Nop.Service.Customer
         CustomerPassword GetCurrentPassword(Guid customerId);
         IList<CustomerPassword> GetCustomerPasswords(Guid? customerId = null,
             PasswordFormat? passwordFormat = null, int? passwordsToReturn = null);
+
+        string GetCustomerFullName(Core.Domain.Customers.Customer customer);
     }
 }
