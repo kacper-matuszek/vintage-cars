@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Nop.Core;
+using Nop.Core.Domain;
 using Nop.Core.Domain.Customers;
 using Nop.Core.Domain.Messages;
 using Nop.Core.Domain.Tax;
@@ -20,18 +21,21 @@ namespace Nop.Service.Messages
         private readonly IUrlHelperFactory _urlHelperFactory;
         private readonly IActionContextAccessor _actionContextAccessor;
         private readonly IGenericAttributeService _genericAttributeService;
+        private readonly StoreInformationSettings _storeInformationSettings;
 
         public MessageTokenProvider(IStoreService storeService,
             IStoreContext storeContext,
             IUrlHelperFactory urlHelperFactory,
             IActionContextAccessor actionContextAccessor,
-            IGenericAttributeService genericAttributeService)
+            IGenericAttributeService genericAttributeService,
+            StoreInformationSettings storeInformationSettings)
         {
             _storeService = storeService;
             _storeContext = storeContext;
             _urlHelperFactory = urlHelperFactory;
             _actionContextAccessor = actionContextAccessor;
             _genericAttributeService = genericAttributeService;
+            _storeInformationSettings = storeInformationSettings;
         }
 
         /// <summary>
@@ -90,6 +94,30 @@ namespace Nop.Service.Messages
 
             //compose the result
             return Uri.EscapeUriString(WebUtility.UrlDecode($"{store.Url.TrimEnd('/')}{url}"));
+        }
+
+        /// <summary>
+        /// Add store tokens
+        /// </summary>
+        /// <param name="tokens">List of already added tokens</param>
+        /// <param name="store">Store</param>
+        /// <param name="emailAccount">Email account</param>
+        public virtual void AddStoreTokens(IList<Token> tokens, Core.Domain.Stores.Store store, EmailAccount emailAccount)
+        {
+            if (emailAccount == null)
+                throw new ArgumentNullException(nameof(emailAccount));
+
+            tokens.Add(new Token("Store.Name", store.Name));
+            tokens.Add(new Token("Store.URL", store.Url, true));
+            tokens.Add(new Token("Store.Email", emailAccount.Email));
+            tokens.Add(new Token("Store.CompanyName", store.CompanyName));
+            tokens.Add(new Token("Store.CompanyAddress", store.CompanyAddress));
+            tokens.Add(new Token("Store.CompanyPhoneNumber", store.CompanyPhoneNumber));
+            tokens.Add(new Token("Store.CompanyVat", store.CompanyVat));
+
+            tokens.Add(new Token("Facebook.URL", _storeInformationSettings.FacebookLink));
+            tokens.Add(new Token("Twitter.URL", _storeInformationSettings.TwitterLink));
+            tokens.Add(new Token("YouTube.URL", _storeInformationSettings.YoutubeLink));
         }
     }
 }
