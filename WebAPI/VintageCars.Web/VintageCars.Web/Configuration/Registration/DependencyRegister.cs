@@ -24,6 +24,7 @@ using Nop.Service.Messages;
 using Nop.Service.Security;
 using Nop.Service.Settings;
 using Nop.Service.Store;
+using Nop.Service.Tasks;
 using Nop.Services.Logging;
 using VintageCars.Domain.Commands.Base;
 using VintageCars.Service.Infrastructure;
@@ -75,6 +76,7 @@ namespace VintageCars.Web.Configuration.Registration
             builder.RegisterType<WorkflowMessageService>().As<IWorkflowMessageService>().InstancePerLifetimeScope();
             builder.RegisterType<SmtpBuilder>().As<ISmtpBuilder>().InstancePerLifetimeScope();
             builder.RegisterType<EmailSender>().As<IEmailSender>().InstancePerLifetimeScope();
+            builder.RegisterType<ScheduleTaskService>().As<IScheduleTaskService>();
 
             builder.RegisterType<ActionContextAccessor>().As<IActionContextAccessor>().InstancePerLifetimeScope();
 
