@@ -21,5 +21,9 @@ namespace VintageCars.Web.Controllers
         [HttpPost("login")]
         public async Task<ActionResult<LoginCustomerResponse>> Login([FromBody] LoginCustomerCommand account)
             => Single(await SendAsync(account));
+
+        [HttpPost("recovery-password")]
+        public async Task<ActionResult> RecoveryPassword([FromBody] RecoverPasswordCommand command)
+            => await ExecuteCommandWithoutResult(command);
     }
 }
