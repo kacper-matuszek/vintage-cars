@@ -1,4 +1,5 @@
 ﻿using System;
+using FluentScheduler;
 using Nop.Service.Tasks;
 using Nop.Services.Logging;
 
@@ -7,7 +8,7 @@ namespace Nop.Service.Messages.Task
     /// <summary>
     /// Represents a task for sending queued message 
     /// </summary>
-    public partial class QueuedMessagesSendTask : IScheduleTask
+    public partial class QueuedMessagesSendTask : IJob
     {
         #region Fields
 

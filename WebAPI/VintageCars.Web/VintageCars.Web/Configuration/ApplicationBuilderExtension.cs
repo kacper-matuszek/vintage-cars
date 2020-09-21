@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Nop.Core;
-using Nop.Core.Caching;
 using Nop.Core.Infrastructure;
 using Nop.Data;
+using Nop.Service.Tasks;
 using Nop.Services.Logging;
 using VintageCars.Service.Infrastructure;
 
@@ -31,6 +30,9 @@ namespace VintageCars.Web.Configuration
                 return;
             }
 
+            //initialize and start schedule tasks
+            TaskManager.Instance.Initialize();
+            TaskManager.Instance.Start();
             //log application start
             engine.Resolve<ILogger>().Information("Application started");
 

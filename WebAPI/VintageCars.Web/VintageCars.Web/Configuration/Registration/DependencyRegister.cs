@@ -6,6 +6,7 @@ using System.Reflection;
 using Autofac;
 using Autofac.Builder;
 using Autofac.Core;
+using FluentScheduler;
 using MediatR;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Nop.Core;
@@ -21,6 +22,7 @@ using Nop.Service.Customer;
 using Nop.Service.Installation;
 using Nop.Service.Localization;
 using Nop.Service.Messages;
+using Nop.Service.Messages.Task;
 using Nop.Service.Security;
 using Nop.Service.Settings;
 using Nop.Service.Store;
@@ -53,6 +55,9 @@ namespace VintageCars.Web.Configuration.Registration
                 .As<ILocker>()
                 .As<IStaticCacheManager>()
                 .SingleInstance();
+
+            //jobs
+            builder.RegisterType<QueuedMessagesSendTask>().As<IJob>().InstancePerLifetimeScope();
 
             //services
             builder.RegisterType<GenericAttributeService>().As<IGenericAttributeService>().InstancePerLifetimeScope();
