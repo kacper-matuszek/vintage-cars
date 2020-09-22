@@ -18,12 +18,14 @@ namespace Nop.Service.Tasks
         #region Fields
         private Registry _registry = new Registry();
         private readonly ILogger _logger;
+        private readonly IScheduleTaskService _scheduleTaskService;
         #endregion
         #region Ctor
 
         private TaskManager()
         {
             _logger = EngineContext.Current.Resolve<ILogger>();
+            _scheduleTaskService = EngineContext.Current.Resolve<IScheduleTaskService>();
             ConfigureJobManager();
         }
 
@@ -52,10 +54,20 @@ namespace Nop.Service.Tasks
             _registry = new Registry();
             foreach (var scheduleTask in scheduleTasks)
             {
-                var instance = EngineContext.Current.Resolve(Type.GetType(scheduleTask.Type)) as IJob;
+                var instance = EngineContext.Current.Resolve(Type.GetType(scheduleTask.Type)) as IJobExtension;
                 if (instance == null) 
                     continue;
 
+                instance.OnBeforeExecute += (s, e) =>
+                {
+                    scheduleTask.LastStartUtc = DateTime.UtcNow;
+                    _scheduleTaskService.UpdateTask(scheduleTask);
+                };
+                instance.OnAfterExecute += (s, e) =>
+                {
+                    scheduleTask.LastEndUtc = scheduleTask.LastSuccessUtc = DateTime.UtcNow;
+                    _scheduleTaskService.UpdateTask(scheduleTask);
+                };
                 _registry.Schedule(instance).ToRunEvery(scheduleTask.Seconds);
             }
         }

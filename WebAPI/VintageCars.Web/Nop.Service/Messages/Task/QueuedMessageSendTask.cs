@@ -8,7 +8,7 @@ namespace Nop.Service.Messages.Task
     /// <summary>
     /// Represents a task for sending queued message 
     /// </summary>
-    public partial class QueuedMessagesSendTask : IJob
+    public partial class QueuedMessagesSendTask : IJobExtension
     {
         #region Fields
 
@@ -41,6 +41,7 @@ namespace Nop.Service.Messages.Task
         /// </summary>
         public virtual void Execute()
         {
+            OnBeforeExecute?.Invoke(this, new EventArgs());
             const int maxTries = 3;
             var queuedEmails = _queuedEmailService.SearchEmails(null, null, null, null,
                 true, true, maxTries, false, 0, 500);
@@ -79,8 +80,14 @@ namespace Nop.Service.Messages.Task
                     _queuedEmailService.UpdateQueuedEmail(queuedEmail);
                 }
             }
+            OnAfterExecute?.Invoke(this, new EventArgs());
         }
 
+        #endregion
+
+        #region Events
+        public event EventHandler OnAfterExecute;
+        public event EventHandler OnBeforeExecute;
         #endregion
     }
 }
