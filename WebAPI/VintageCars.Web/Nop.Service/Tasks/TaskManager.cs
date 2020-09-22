@@ -55,8 +55,11 @@ namespace Nop.Service.Tasks
             foreach (var scheduleTask in scheduleTasks)
             {
                 var instance = EngineContext.Current.Resolve(Type.GetType(scheduleTask.Type)) as IJobExtension;
-                if (instance == null) 
+                if (instance == null)
+                {
+                    _logger.Error($"Not resolved schedule task type: {scheduleTask.Type}");
                     continue;
+                }
 
                 instance.OnBeforeExecute += (s, e) =>
                 {
