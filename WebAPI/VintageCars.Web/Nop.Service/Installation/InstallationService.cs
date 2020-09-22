@@ -8,6 +8,7 @@ using Nop.Core.Domain.Customers;
 using Nop.Core.Domain.Localization;
 using Nop.Core.Domain.Messages;
 using Nop.Core.Domain.Security;
+using Nop.Core.Domain.Tasks;
 using Nop.Core.Infrastructure;
 using Nop.Data;
 using Nop.Service.Customer;
@@ -26,6 +27,7 @@ namespace Nop.Service.Installation
         protected readonly IRepository<Language> _languageRepository;
         protected readonly IRepository<MessageTemplate> _messageTemplateRepository;
         protected readonly IRepository<EmailAccount> _emailAccountRepository;
+        protected readonly IRepository<ScheduleTask> _scheduleTaskRepository;
         protected readonly ISettingService _settingsService;
         #endregion
 
@@ -34,6 +36,7 @@ namespace Nop.Service.Installation
             IRepository<Language> languageRepository,
             IRepository<MessageTemplate> messageTemplate,
             IRepository<EmailAccount> emailAccountRepository,
+            IRepository<ScheduleTask> scheduleTaskRepository,
             ISettingService settingService)
         {
             _fileProvider = CommonHelper.DefaultFileProvider;
@@ -43,11 +46,13 @@ namespace Nop.Service.Installation
             _settingsService = settingService;
             _messageTemplateRepository = messageTemplate;
             _emailAccountRepository = emailAccountRepository;
+            _scheduleTaskRepository = scheduleTaskRepository;
         }
 
         public virtual void InstallRequiredData()
         {
             InstallStores();
+            InstallScheduleTasks();
             InstallEmailAccount();
             InstallMessageTemplate();
             InstallLanguages();
@@ -230,6 +235,22 @@ namespace Nop.Service.Installation
             };
 
             _messageTemplateRepository.Insert(messageTemplates);
+        }
+
+        protected virtual void InstallScheduleTasks()
+        {
+            var tasks = new List<ScheduleTask>()
+            {
+                new ScheduleTask
+                {
+                    Name = "Send emails",
+                    Seconds = 60,
+                    Type = "Nop.Services.Messages.QueuedMessagesSendTask, Nop.Services",
+                    Enabled = true,
+                    StopOnError = false
+                },
+            };
+            _scheduleTaskRepository.Insert(tasks);
         }
         #endregion
     }
