@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Nop.Core;
 using Nop.Core.Domain.Customers;
 using Nop.Core.Domain.Localization;
+using Nop.Core.Domain.Messages;
 using Nop.Core.Domain.Security;
 using Nop.Core.Infrastructure;
 using Nop.Data;
@@ -23,12 +24,16 @@ namespace Nop.Service.Installation
         protected readonly IRepository<Core.Domain.Stores.Store> _storeRepository;
         protected readonly IRepository<CustomerRole> _customerRoleRepository;
         protected readonly IRepository<Language> _languageRepository;
+        protected readonly IRepository<MessageTemplate> _messageTemplateRepository;
+        protected readonly IRepository<EmailAccount> _emailAccountRepository;
         protected readonly ISettingService _settingsService;
         #endregion
 
         public InstallationService(IRepository<Core.Domain.Stores.Store> storeRepository,
             IRepository<CustomerRole> customerRoleRepository,
             IRepository<Language> languageRepository,
+            IRepository<MessageTemplate> messageTemplate,
+            IRepository<EmailAccount> emailAccountRepository,
             ISettingService settingService)
         {
             _fileProvider = CommonHelper.DefaultFileProvider;
@@ -36,11 +41,15 @@ namespace Nop.Service.Installation
             _customerRoleRepository = customerRoleRepository ?? throw new ArgumentNullException(nameof(customerRoleRepository));
             _languageRepository = languageRepository ?? throw new ArgumentNullException(nameof(languageRepository));
             _settingsService = settingService;
+            _messageTemplateRepository = messageTemplate;
+            _emailAccountRepository = emailAccountRepository;
         }
 
         public virtual void InstallRequiredData()
         {
             InstallStores();
+            InstallEmailAccount();
+            InstallMessageTemplate();
             InstallLanguages();
             InstallRoles();
             InstallSettings();
@@ -147,6 +156,13 @@ namespace Nop.Service.Installation
                 HashedPasswordFormat = NopCustomerServicesDefaults.DefaultHashedPasswordFormat,
                 CustomerNameFormat = CustomerNameFormat.ShowUsernames,
             });
+
+            var defaultEmailAccountId = _emailAccountRepository.Table.FirstOrDefault()?.Id ??
+                                      throw new Exception("Brak domyslnego e-mail.");
+            _settingsService.SaveSetting(new EmailAccountSettings()
+            {
+                DefaultEmailAccountId = defaultEmailAccountId,
+            });
         }
 
         protected virtual void InstallLanguages()
@@ -177,6 +193,43 @@ namespace Nop.Service.Installation
                 using var streamReader = new StreamReader(filePath);
                 localizationService.ImportResourcesFromXml(language, streamReader);
             }
+        }
+
+        protected virtual void InstallEmailAccount()
+        {
+            var emailAccount = new EmailAccount()
+            {
+                Email = "test@mail.com",
+                DisplayName = "Store name",
+                Host = "smtp.mail.com",
+                Port = 25,
+                Username = "123",
+                Password = "123",
+                EnableSsl = false,
+                UseDefaultCredentials = false
+            };
+            _emailAccountRepository.Insert(emailAccount);
+        }
+
+        protected virtual void InstallMessageTemplate()
+        {
+            var generalEmail = _emailAccountRepository.Table.FirstOrDefault() ??
+                               throw new Exception("Nie można załadować domyślnego e-mail.");
+
+            var messageTemplates = new List<MessageTemplate>()
+            {
+                new MessageTemplate()
+                {
+                    Name = MessageTemplateSystemNames.CustomerPasswordRecoveryMessage,
+                    Subject = "%Store.Name%. Resetowanie hasła",
+                    Body =
+                        $"<a href=\"%Store.URL%\">%Store.Name%</a>{Environment.NewLine}<br />{Environment.NewLine}<br />{Environment.NewLine}Aby zresetować hasło naciśnij link <a href=\"%Customer.PasswordRecoveryURL%\">Resetowanie hasła</a>.{Environment.NewLine}<br />{Environment.NewLine}<br />{Environment.NewLine}%Store.Name%{Environment.NewLine}",
+                    IsActive = true,
+                    EmailAccountId = generalEmail.Id
+                },
+            };
+
+            _messageTemplateRepository.Insert(messageTemplates);
         }
         #endregion
     }
