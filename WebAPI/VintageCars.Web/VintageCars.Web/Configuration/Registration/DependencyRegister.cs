@@ -56,9 +56,6 @@ namespace VintageCars.Web.Configuration.Registration
                 .As<IStaticCacheManager>()
                 .SingleInstance();
 
-            //jobs
-            builder.RegisterType<QueuedMessagesSendTask>().As<IJob>().InstancePerLifetimeScope();
-
             //services
             builder.RegisterType<GenericAttributeService>().As<IGenericAttributeService>().InstancePerLifetimeScope();
             builder.RegisterType<LanguageService>().As<ILanguageService>().InstancePerLifetimeScope();
@@ -87,6 +84,7 @@ namespace VintageCars.Web.Configuration.Registration
 
             builder.RegisterSource(new SettingsSource());
             RegisterMediatR(builder);
+            RegisterJobs(builder);
 
             if (!DataSettingsManager.DatabaseIsInstalled)
                 builder.RegisterType<InstallationService>().As<IInstallationService>().InstancePerLifetimeScope();
@@ -111,6 +109,13 @@ namespace VintageCars.Web.Configuration.Registration
                 var c = ctx.Resolve<IComponentContext>();
                 return t => c.Resolve(t);
             });
+        }
+
+        private static void RegisterJobs(ContainerBuilder builder)
+        {
+            builder.RegisterAssemblyTypes(GetAssembliesWithEndName("Service"))
+                .Where(type => typeof(IJobExtension).IsAssignableFrom(type))
+                .AsSelf().InstancePerLifetimeScope();
         }
 
         private static Assembly[] GetAssembliesWithEndName(string endName)
