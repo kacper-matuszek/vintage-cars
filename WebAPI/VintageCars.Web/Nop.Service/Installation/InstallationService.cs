@@ -245,7 +245,7 @@ namespace Nop.Service.Installation
                 {
                     Name = "Send emails",
                     Seconds = 60,
-                    Type = "Nop.Services.Messages.QueuedMessagesSendTask, Nop.Services",
+                    Type = "Nop.Service.Messages.Task.QueuedMessagesSendTask, Nop.Service",
                     Enabled = true,
                     StopOnError = false
                 },
