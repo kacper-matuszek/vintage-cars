@@ -65,14 +65,12 @@ const LoginForm = (props) => {
                     >
                       Zaloguj się
                     </Button>
-                    <Grid container>
-                      <Grid item xs>
-                        <Link href="#" variant="body2">
-                          Zapomniałeś hasła ?
-                        </Link>
-                      </Grid>
-                    </Grid>
                 </form>
+                <Grid container>
+                      <Grid item xs>
+                        {props.children}
+                      </Grid>
+                </Grid>
             </div>
         </Grid>
     )}

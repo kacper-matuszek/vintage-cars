@@ -1,7 +1,7 @@
 import React, {useRef, useState} from "react";
 import AppBase from "../../../components/base/AppBaseComponent";
 import BaseWebApiService from "../../../core/services/api-service/BaseWebApiService";
-import { toCallback } from "../../../core/services/api-service/Callback";
+import { postCallback, toCallback } from "../../../core/services/api-service/Callback";
 import PictureContent from "../../../components/base/picture-content-component/PictureContent";
 import LoginForm from "../../../components/login/login-form/LoginForm";
 import LoginAccount from "../../../components/login/models/LoginAccount";
@@ -9,6 +9,8 @@ import LoginResponse from "../../../components/login/models/LoginResponse";
 import { Validator, ValidatorManage, ValidatorType } from "../../../components/login/models/validators/Validator";
 import { LoginResult } from "../../../components/login/models/enums/LoginResult";
 import cookieCutter from 'cookie-cutter'
+import FormDialog from "../../../components/base/FormDialogComponent";
+import RecoveryPassword from "../../../components/login/login-form/RecoveryPassword";
 
 const LoginPage = () => {
     const apiService = new BaseWebApiService();
@@ -89,12 +91,28 @@ const LoginPage = () => {
         setErrorResponse(!showErrorResponse);
         setErrorRespText("");
     }
+
+    const sendRecoveryPasswordHandle = (email) => {
+        setLoading(true);
+        apiService.postWithoutResponse("/v1/account/recovery-password", {email}, postCallback(
+            vErr => {
+                setValidationRespText(vErr.message);
+                setValidationResponse(true);
+            },
+            err => {
+                setErrorRespText(err.message);
+                setErrorResponse(true);
+            }
+        )).finally(() => setLoading(false))
+    }
     return (
         <AppBase title="Login" loading={loading} 
             showError={showErrorResponse} errorMessage={showErrorRespText} handleError={handleError}
             showValidation={showValidationResponse} validationMessage={showValidationRespText}>
             <PictureContent>
-                <LoginForm errors={errors} loginAccount={loginData} setLoginData={setData} onSubmit={onSubmitHandle}></LoginForm>
+                <LoginForm errors={errors} loginAccount={loginData} setLoginData={setData} onSubmit={onSubmitHandle}>
+                    <RecoveryPassword sendRecoveryPassword={sendRecoveryPasswordHandle}></RecoveryPassword>
+                </LoginForm>
             </PictureContent>
         </AppBase>
     );
