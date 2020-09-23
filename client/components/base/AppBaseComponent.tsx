@@ -30,7 +30,7 @@ const AppBase = ({children, title, head, loading, showError, errorMessage, handl
             <ThemeProvider theme={theme}>
                 <Grid container className={useStyles().root}>
                     <Backdrop className={classes.backdrop} open={loading}>
-                        <CircularProgress />
+                        <CircularProgress style={{'color': 'white'}} />
                     </Backdrop>
                      {children}
                 </Grid>
