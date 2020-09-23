@@ -59,7 +59,6 @@ namespace VintageCars.Web.Configuration.Registration
             //services
             builder.RegisterType<GenericAttributeService>().As<IGenericAttributeService>().InstancePerLifetimeScope();
             builder.RegisterType<LanguageService>().As<ILanguageService>().InstancePerLifetimeScope();
-            builder.RegisterType<MessageTemplateService>().As<IMessageTemplateService>().InstancePerLifetimeScope();
             builder.RegisterType<JwtService>().As<IJwtService>().InstancePerLifetimeScope();
             builder.RegisterType<DefaultLogger>().As<ILogger>().InstancePerLifetimeScope();
             builder.RegisterType<CacheKeyService>().As<ICacheKeyService>().InstancePerLifetimeScope();
