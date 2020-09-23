@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
@@ -17,21 +18,18 @@ namespace Nop.Service.Messages
     public partial class MessageTokenProvider : IMessageTokenProvider
     {
         private readonly IStoreService _storeService;
-        private readonly IStoreContext _storeContext;
         private readonly IUrlHelperFactory _urlHelperFactory;
         private readonly IActionContextAccessor _actionContextAccessor;
         private readonly IGenericAttributeService _genericAttributeService;
         private readonly StoreInformationSettings _storeInformationSettings;
 
         public MessageTokenProvider(IStoreService storeService,
-            IStoreContext storeContext,
             IUrlHelperFactory urlHelperFactory,
             IActionContextAccessor actionContextAccessor,
             IGenericAttributeService genericAttributeService,
             StoreInformationSettings storeInformationSettings)
         {
             _storeService = storeService;
-            _storeContext = storeContext;
             _urlHelperFactory = urlHelperFactory;
             _actionContextAccessor = actionContextAccessor;
             _genericAttributeService = genericAttributeService;
@@ -77,7 +75,7 @@ namespace Nop.Service.Messages
         public virtual string RouteUrl(Guid storeId = default, string routeName = null, object routeValues = null)
         {
             //try to get a store by the passed identifier
-            var store = _storeService.GetStoreById(storeId) ?? _storeContext.CurrentStore
+            var store = _storeService.GetStoreById(storeId) ?? GetCurrentStore()
                 ?? throw new Exception("No store could be loaded");
 
             //ensure that the store URL is specified
@@ -118,6 +116,11 @@ namespace Nop.Service.Messages
             tokens.Add(new Token("Facebook.URL", _storeInformationSettings.FacebookLink));
             tokens.Add(new Token("Twitter.URL", _storeInformationSettings.TwitterLink));
             tokens.Add(new Token("YouTube.URL", _storeInformationSettings.YoutubeLink));
+        }
+
+        protected virtual Core.Domain.Stores.Store GetCurrentStore()
+        {
+            return _storeService.GetAllStores().FirstOrDefault();
         }
     }
 }

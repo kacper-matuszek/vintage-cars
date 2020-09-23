@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
 using Autofac;
 using Autofac.Builder;
 using Autofac.Core;
-using FluentScheduler;
 using MediatR;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Nop.Core;
@@ -22,14 +20,13 @@ using Nop.Service.Customer;
 using Nop.Service.Installation;
 using Nop.Service.Localization;
 using Nop.Service.Messages;
-using Nop.Service.Messages.Task;
 using Nop.Service.Security;
 using Nop.Service.Settings;
 using Nop.Service.Store;
 using Nop.Service.Tasks;
 using Nop.Services.Logging;
-using VintageCars.Domain.Commands.Base;
 using VintageCars.Service.Infrastructure;
+using VintageCars.Service.Messages;
 using InstallationService = VintageCars.Service.Infrastructure.InstallationService;
 
 namespace VintageCars.Web.Configuration.Registration
@@ -69,7 +66,7 @@ namespace VintageCars.Web.Configuration.Registration
             builder.RegisterType<CustomerService>().As<ICustomerService>().InstancePerLifetimeScope();
             builder.RegisterType<CustomerRegistrationService>().As<ICustomerRegistrationService>().InstancePerLifetimeScope();
             builder.RegisterType<InfrastructureService>().As<IInfrastructureService>().InstancePerLifetimeScope();
-            builder.RegisterType<MessageTokenProvider>().As<IMessageTokenProvider>().InstancePerLifetimeScope();
+            builder.RegisterType<MessageTokenProviderExtended>().As<IMessageTokenProvider>().InstancePerLifetimeScope();
             builder.RegisterType<MessageTemplateService>().As<IMessageTemplateService>().InstancePerLifetimeScope();
             builder.RegisterType<EmailAccountService>().As<IEmailAccountService>().InstancePerLifetimeScope();
             builder.RegisterType<Tokenizer>().As<ITokenizer>().InstancePerLifetimeScope();

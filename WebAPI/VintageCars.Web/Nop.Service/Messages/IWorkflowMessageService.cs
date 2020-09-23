@@ -12,7 +12,7 @@ namespace Nop.Service.Messages
         /// <param name="customer">Customer instance</param>
         /// <param name="languageId">Message language identifier</param>
         /// <returns>Queued email identifier</returns>
-        IList<Guid> SendCustomerPasswordRecoveryMessage(Core.Domain.Customers.Customer customer, Guid languageId);
+        IList<Guid> SendCustomerPasswordRecoveryMessage(Core.Domain.Customers.Customer customer, Guid languageId, Core.Domain.Stores.Store store);
 
         /// <summary>
         /// Send notification

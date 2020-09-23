@@ -10,7 +10,6 @@ namespace Nop.Service.Messages
 {
     public partial class WorkflowMessageService : IWorkflowMessageService
     {
-        private readonly IStoreContext _storeContext;
         private readonly ILanguageService _languageService;
         private readonly IMessageTemplateService _messageTemplateService;
         private readonly IMessageTokenProvider _messageTokenProvider;
@@ -20,7 +19,7 @@ namespace Nop.Service.Messages
         private readonly ITokenizer _tokenizer;
         private readonly IQueuedEmailService _queuedEmailService;
 
-        public WorkflowMessageService(IStoreContext storeContext,
+        public WorkflowMessageService(
             ILanguageService languageService,
             IMessageTemplateService messageTemplateService,
             IMessageTokenProvider messageTokenProvider,
@@ -30,7 +29,6 @@ namespace Nop.Service.Messages
             ITokenizer tokenizer,
             IQueuedEmailService queuedEmailService)
         {
-            _storeContext = storeContext;
             _languageService = languageService;
             _messageTemplateService = messageTemplateService;
             _messageTokenProvider = messageTokenProvider;
@@ -93,12 +91,11 @@ namespace Nop.Service.Messages
         /// <param name="customer">Customer instance</param>
         /// <param name="languageId">Message language identifier</param>
         /// <returns>Queued email identifier</returns>
-        public virtual IList<Guid> SendCustomerPasswordRecoveryMessage(Core.Domain.Customers.Customer customer, Guid languageId)
+        public virtual IList<Guid> SendCustomerPasswordRecoveryMessage(Core.Domain.Customers.Customer customer, Guid languageId, Core.Domain.Stores.Store store)
         {
             if (customer == null)
                 throw new ArgumentNullException(nameof(customer));
 
-            var store = _storeContext.CurrentStore;
             languageId = EnsureLanguageIsActive(languageId, store.Id);
 
             var messageTemplates = GetActiveMessageTemplates(MessageTemplateSystemNames.CustomerPasswordRecoveryMessage, store.Id);

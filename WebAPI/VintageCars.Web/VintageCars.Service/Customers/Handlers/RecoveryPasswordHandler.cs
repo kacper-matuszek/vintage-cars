@@ -28,8 +28,9 @@ namespace VintageCars.Service.Customers.Handlers
         public Task<Unit> Handle(RecoverPasswordCommand request, CancellationToken cancellationToken)
         {
             var languageId = _infrastructureService.Cache.Language.Id;
+            var store = _infrastructureService.Cache.Store;
             var customer = _customerService.GetCustomerByEmail(request.Email);
-            var response = _workflowService.SendCustomerPasswordRecoveryMessage(customer, languageId);
+            var response = _workflowService.SendCustomerPasswordRecoveryMessage(customer, languageId, store);
             if(!response.Any())
                 throw new ResourcesNotFoundException("Nie udało się wysłać e-mail do resetowania hasła.");
             return Unit.Task;
