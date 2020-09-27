@@ -5,6 +5,7 @@ const drawerWidth = 240;
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
+      display: 'flex',
       flexGrow: 1,
     },
     menuButton: {
@@ -41,6 +42,9 @@ const useStyles = makeStyles((theme: Theme) =>
           easing: theme.transitions.easing.easeOut,
           duration: theme.transitions.duration.enteringScreen,
         }),
+    },
+    hide: {
+        display: 'none',
     },
   }),
 );

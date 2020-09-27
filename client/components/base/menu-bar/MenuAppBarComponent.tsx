@@ -19,12 +19,14 @@ import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
 import { useTheme } from '@material-ui/core/styles';
 import clsx from 'clsx';
+import { NameWithNode } from "../../../core/models/base/NameWithNode";
 
 type Props = {
     isAuthorized?:boolean
     accountMenuChildren: ReactNode,
+    listMenu: [NameWithNode]
 }
-const MenuAppBar = ({isAuthorized, accountMenuChildren}: Props) => {
+const MenuAppBar = ({isAuthorized, accountMenuChildren, listMenu}: Props) => {
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
@@ -51,10 +53,11 @@ const MenuAppBar = ({isAuthorized, accountMenuChildren}: Props) => {
         <div className={classes.root}>
       <AppBar position="fixed"
         className={clsx(classes.appBar, {
-          [classes.appBarShift]: open,
+          [classes.appBarShift]: leftOpen
         })}>
         <Toolbar>
-          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
+          <IconButton edge="start" className={clsx(classes.menuButton, leftOpen && classes.hide)} color="inherit" aria-label="menu"
+            onClick={handleDrawerOpen}>
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
@@ -96,7 +99,7 @@ const MenuAppBar = ({isAuthorized, accountMenuChildren}: Props) => {
         className={classes.drawer}
         variant="persistent"
         anchor="left"
-        open={open}
+        open={leftOpen}
         classes={{
           paper: classes.drawerPaper,
         }}
@@ -108,19 +111,10 @@ const MenuAppBar = ({isAuthorized, accountMenuChildren}: Props) => {
         </div>
         <Divider />
         <List>
-          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
-        </List>
-        <Divider />
-        <List>
-          {['All mail', 'Trash', 'Spam'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-              <ListItemText primary={text} />
+          {listMenu.map((text) => (
+            <ListItem button key={text.name}>
+              <ListItemIcon>{text.children}</ListItemIcon>
+              <ListItemText primary={text.name} />
             </ListItem>
           ))}
         </List>
