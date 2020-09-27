@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import AppBase from "../../components/base/AppBaseComponent";
+import MainLayout from "../../components/base/mainLayout/MainLayoutComponent";
 import PictureContent from "../../components/base/picture-content-component/PictureContent";
 import isEmpty from "../../core/models/utils/StringExtension";
 
@@ -50,11 +51,12 @@ export default function App({Component, pageProps, router}) {
                 setLoading={setLoading}
                 showError={handleShowError}
                 showWarning={handleShowWarning}/>
-            </PictureContent> :
+            </PictureContent> : <MainLayout>
             <Component {...pageProps} 
             setLoading={setLoading}
             showError={handleShowError}
             showWarning={handleShowWarning}/>
+            </MainLayout>
             }
         </AppBase>
     )
