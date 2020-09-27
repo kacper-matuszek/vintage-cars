@@ -14,6 +14,7 @@ export const theme = createMuiTheme({
 
 export const useStyles = makeStyles({
     root: {
+        display: 'flex',
         height: '100vh',
     }
 });
