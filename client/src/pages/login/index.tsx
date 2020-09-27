@@ -1,22 +1,18 @@
-import React, {useRef, useState} from "react";
-import AppBase from "../../../components/base/AppBaseComponent";
+import React, { useState} from "react";
 import BaseWebApiService from "../../../core/services/api-service/BaseWebApiService";
 import { postCallback, toCallback } from "../../../core/services/api-service/Callback";
-import PictureContent from "../../../components/base/picture-content-component/PictureContent";
 import LoginForm from "../../../components/login/login-form/LoginForm";
 import LoginAccount from "../../../components/login/models/LoginAccount";
 import LoginResponse from "../../../components/login/models/LoginResponse";
-import { Validator, ValidatorManage, ValidatorType } from "../../../components/login/models/validators/Validator";
+import { ValidatorManage, ValidatorType } from "../../../components/login/models/validators/Validator";
 import { LoginResult } from "../../../components/login/models/enums/LoginResult";
 import cookieCutter from 'cookie-cutter'
-import FormDialog from "../../../components/base/FormDialogComponent";
 import RecoveryPassword from "../../../components/login/login-form/RecoveryPassword";
 
-const LoginPage = () => {
+const LoginPage = (props) => {
     const apiService = new BaseWebApiService();
     /*state*/
     const [loginData, setData] = useState(new LoginAccount());
-    const [loading, setLoading] = useState(false);
     /*errors*/
     const [errors, setErrors] = useState({
         email: "",
@@ -37,10 +33,6 @@ const LoginPage = () => {
             isValid: true
         }]
     });
-    const [showErrorResponse, setErrorResponse] = useState(false);
-    const [showErrorRespText, setErrorRespText] = useState("");
-    const [showValidationResponse, setValidationResponse] = useState(false);
-    const [showValidationRespText, setValidationRespText] =  useState("");
 
     /*handlers*/
     const onSubmitHandle = (event) => {
@@ -48,7 +40,7 @@ const LoginPage = () => {
         validatorManager.isValid(loginData);
         setErrors({...errors, email: validatorManager.getMessageByKey("email"), password: validatorManager.getMessageByKey("password")});
         if(validatorManager.isAllValid()) {
-            setLoading(true);
+            props.setLoading(true);
             apiService.post<LoginResponse>("/v1/account/login", loginData, toCallback<LoginResponse>(
                 success => {
                     if(success.loginResult === LoginResult.Successful) {
@@ -62,60 +54,32 @@ const LoginPage = () => {
                         });
                         return;
                     }
-                    setErrorRespText("Nie udało się zalogować. Sprawdź poprawność email oraz hasła.");
-                    setErrorResponse(true);
+                    props.showError("Nie udało się zalogować. Sprawdź poprawność email oraz hasła.");
                 },
-                vErr => {
-                    setValidationRespText(vErr.message);
-                    setValidationResponse(true);
-                },
-                err => {
-                    setErrorRespText(err.message);
-                    setErrorResponse(true);
-                }
-            )).finally(() => setLoading(false));
+                vErr => props.showWarning(vErr.message),
+                err => props.showError(err.message),
+            )).finally(() => props.setLoading(false));
         }
-    }
-
-    const handleError = (event?: React.SyntheticEvent, reason?: string) => {
-        if (reason === 'clickaway') {
-            return;
-          }
-        
-        if(showValidationResponse)
-        {
-            setValidationResponse(false);
-            setValidationRespText("");
-            return;
-        }
-        setErrorResponse(!showErrorResponse);
-        setErrorRespText("");
     }
 
     const sendRecoveryPasswordHandle = (email) => {
-        setLoading(true);
+        props.setLoading(true);
         apiService.postWithoutResponse("/v1/account/recovery-password", {email}, postCallback(
-            vErr => {
-                setValidationRespText(vErr.message);
-                setValidationResponse(true);
-            },
-            err => {
-                setErrorRespText(err.message);
-                setErrorResponse(true);
-            }
-        )).finally(() => setLoading(false))
+            vErr => props.showWarning(vErr.message),
+            err => props.showError(err.message),
+        )).finally(() => props.setLoading(false))
     }
     return (
-        <AppBase title="Login" loading={loading} 
-            showError={showErrorResponse} errorMessage={showErrorRespText} handleError={handleError}
-            showValidation={showValidationResponse} validationMessage={showValidationRespText}>
-            <PictureContent>
-                <LoginForm errors={errors} loginAccount={loginData} setLoginData={setData} onSubmit={onSubmitHandle}>
-                    <RecoveryPassword sendRecoveryPassword={sendRecoveryPasswordHandle}></RecoveryPassword>
-                </LoginForm>
-            </PictureContent>
-        </AppBase>
+        <LoginForm errors={errors} loginAccount={loginData} setLoginData={setData} onSubmit={onSubmitHandle}>
+            <RecoveryPassword sendRecoveryPassword={sendRecoveryPasswordHandle}></RecoveryPassword>
+        </LoginForm>
     );
 }
-
+export async function getStaticProps() {
+    return {
+        props: {
+            title: "Logowanie",
+        }
+    }
+}
 export default LoginPage
