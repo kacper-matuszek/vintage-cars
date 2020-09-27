@@ -4,10 +4,6 @@ const drawerWidth = 240;
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    root: {
-      display: 'flex',
-      flexGrow: 1,
-    },
     menuButton: {
       marginRight: theme.spacing(2),
     },
@@ -34,6 +30,10 @@ const useStyles = makeStyles((theme: Theme) =>
           easing: theme.transitions.easing.sharp,
           duration: theme.transitions.duration.leavingScreen,
         }),
+        position: 'fixed',
+        top: '0',
+        left: '0',
+        margin: '0',
     },
     appBarShift: {
         width: `calc(100% - ${drawerWidth}px)`,

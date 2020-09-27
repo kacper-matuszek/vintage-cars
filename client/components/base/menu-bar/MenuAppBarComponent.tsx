@@ -8,23 +8,17 @@ import MenuIcon from '@material-ui/icons/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
 import Menu from '@material-ui/core/Menu';
 import Drawer from '@material-ui/core/Drawer';
 import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
 import { useTheme } from '@material-ui/core/styles';
 import clsx from 'clsx';
-import { NameWithNode } from "../../../core/models/base/NameWithNode";
 
 type Props = {
     isAuthorized?:boolean
     accountMenuChildren: ReactNode,
-    listMenu: [NameWithNode]
+    listMenu: ReactNode
 }
 const MenuAppBar = ({isAuthorized, accountMenuChildren, listMenu}: Props) => {
     const classes = useStyles();
@@ -50,11 +44,11 @@ const MenuAppBar = ({isAuthorized, accountMenuChildren, listMenu}: Props) => {
     };
 
     return (
-        <div className={classes.root}>
+      <React.Fragment>
       <AppBar position="fixed"
         className={clsx(classes.appBar, {
           [classes.appBarShift]: leftOpen
-        })}>
+        })} id="app-bar">
         <Toolbar>
           <IconButton edge="start" className={clsx(classes.menuButton, leftOpen && classes.hide)} color="inherit" aria-label="menu"
             onClick={handleDrawerOpen}>
@@ -111,15 +105,10 @@ const MenuAppBar = ({isAuthorized, accountMenuChildren, listMenu}: Props) => {
         </div>
         <Divider />
         <List>
-          {listMenu.map((text) => (
-            <ListItem button key={text.name}>
-              <ListItemIcon>{text.children}</ListItemIcon>
-              <ListItemText primary={text.name} />
-            </ListItem>
-          ))}
+          {listMenu}
         </List>
       </Drawer>
-    </div>
+      </React.Fragment>
     )
 }
 export default MenuAppBar;
