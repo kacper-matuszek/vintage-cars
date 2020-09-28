@@ -58,6 +58,16 @@ export default function App({Component, pageProps, router}) {
             showWarning={handleShowWarning}/>
             </MainLayout>
             }
+        <style jsx global>
+            {
+                `
+                body {
+                    margin: 0;
+                    padding: 0;
+                }
+                `
+            }
+        </style>
         </AppBase>
     )
 }
