@@ -15,14 +15,15 @@ createStyles({
        display: 'flex',
        justifyContent: 'center',
        flexDirection: 'column',
-       width: '80%',
+       width: '90%',
        minHeight: '8vh',
-       margin: '0 auto',
+       margin: '0',
+       padding: '2vh',
     },
     div: {
            display: 'flex',
            flexFlow: 'row wrap',
-           justifyContent: 'center'
+           justifyContent: 'space-evenly'
     }
 }))
   

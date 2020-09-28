@@ -17,6 +17,8 @@ export const useStyles = makeStyles({
         display: 'flex',
         height: '100vh',
         boxSizing: 'border-box',
+        margin: '0',
+        padding: '0',
     }
 });
 

@@ -1,16 +1,16 @@
-import { Box } from '@material-ui/core';
+import { Box, Paper } from '@material-ui/core';
 import {footerStyle} from './footer-style';
 
 const Footer = (props) => {
     const classes = footerStyle()
     return (
-        <Box className={classes.layoutFooter}>
+        <Paper className={classes.layoutFooter} square>
             <Box className={classes.footerContent}>
-                <div className={classes.div}>
+                <Box className={classes.div}>
                     {props.children}
-                </div>
+                </Box>
             </Box>
-        </Box>
+        </Paper>
     )
 }
 

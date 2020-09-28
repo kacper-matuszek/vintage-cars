@@ -16,5 +16,8 @@ export const layoutStyle = makeStyles((theme: Theme) =>
             justifyContent: 'flex-start',
             alignItems: 'flex-start',
             width: '90%'
+        },
+        footerTypography: {
+            textAlign: 'center'
         }
 }))

@@ -6,8 +6,9 @@ import { NameWithNode, RouterWithElement } from '../../../core/models/base/NameW
 import DirectionsCarIcon from '@material-ui/icons/DirectionsCar';
 import { generateMenuItems, generateLinkMenuItems } from '../../shared/generatorUtils/GeneratorExtension'
 import Footer from '../footer/FooterComponent'
-import { Box } from '@material-ui/core'
+import { AppBar, Box, Typography } from '@material-ui/core'
 import { layoutStyle } from './main-layout-style'
+import FooterSection from '../footer/footer-section/FooterSectionComponent'
 
 const MainLayout = (props) => {
     const classes = layoutStyle();
@@ -30,7 +31,16 @@ const MainLayout = (props) => {
             <Box className={classes.layoutContainer}>
                 <Box className={classes.layoutContent}>{props.children}</Box>
             </Box>
-            <Footer></Footer>
+            <Footer>
+                <FooterSection label="Media">
+                    <Typography variant="body2" className={classes.footerTypography}>TEST</Typography>
+                    <Typography variant="body2" className={classes.footerTypography}>TEST</Typography>
+                </FooterSection>
+                <FooterSection label="Kontakt">
+                    <Typography variant="body2" className={classes.footerTypography}>tel. 821u312</Typography>
+                    <Typography variant="body2" className={classes.footerTypography}>test adres</Typography>
+                </FooterSection>
+            </Footer>
         </React.Fragment>
     )
 }
