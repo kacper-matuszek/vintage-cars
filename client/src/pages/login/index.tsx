@@ -8,6 +8,7 @@ import { ValidatorManage, ValidatorType } from "../../../components/login/models
 import { LoginResult } from "../../../components/login/models/enums/LoginResult";
 import cookieCutter from 'cookie-cutter'
 import RecoveryPassword from "../../../components/login/login-form/RecoveryPassword";
+import CookieDictionary from "../../../core/models/settings/cookieSettings/CookieDictionary";
 
 const LoginPage = (props) => {
     const apiService = new BaseWebApiService();
@@ -44,7 +45,7 @@ const LoginPage = (props) => {
             apiService.post<LoginResponse>("/v1/account/login", loginData, toCallback<LoginResponse>(
                 success => {
                     if(success.loginResult === LoginResult.Successful) {
-                        cookieCutter.set('token', success.token, {
+                        cookieCutter.set(CookieDictionary.Token, success.token, {
                             expires: new Date(
                                         new Date().getFullYear(),
                                         new Date().getMonth(),
