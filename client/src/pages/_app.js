@@ -5,9 +5,20 @@ import PictureContent from "../../components/base/picture-content-component/Pict
 import isEmpty from "../../core/models/utils/StringExtension";
 import cookieCutter from 'cookie-cutter';
 import CookieDictionary from "../../core/models/settings/cookieSettings/CookieDictionary";
+import Router from 'next/router';
 
 export default function App({Component, pageProps, router}) {
     const [loading, setLoading] = useState(false);
+    /*router*/
+    Router.onRouteChangeStart = () => {
+        setLoading(true);
+    }
+    Router.onRouterChangeComplete = () => {
+        setLoading(false);
+    }
+    Router.onRouterChangeError = () => {
+        setLoading(false);
+    }
     /*errors*/
     const [showErrorResponse, setErrorResponse] = useState(false);
     const [showErrorRespText, setErrorRespText] = useState("");
