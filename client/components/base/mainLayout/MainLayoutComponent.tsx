@@ -6,7 +6,7 @@ import { NameWithNode, RouterWithElement } from '../../../core/models/base/NameW
 import DirectionsCarIcon from '@material-ui/icons/DirectionsCar';
 import { generateMenuItems, generateLinkMenuItems } from '../../shared/generatorUtils/GeneratorExtension'
 import Footer from '../footer/FooterComponent'
-import { AppBar, Box, Typography } from '@material-ui/core'
+import { AppBar, Box, Fade, Paper, Typography } from '@material-ui/core'
 import { layoutStyle } from './main-layout-style'
 import FooterSection from '../footer/footer-section/FooterSectionComponent'
 
@@ -29,7 +29,13 @@ const MainLayout = (props) => {
                 isAuthorized={props.isAuthorized}
             ></MenuAppBar>
             <Box className={classes.layoutContainer}>
-                <Box className={classes.layoutContent}>{props.children}</Box>
+                <Box className={classes.shadowBox}>
+                    <Box className={classes.layoutContent}>
+                        <Paper className={classes.paperBox} elevation={3}>
+                            {props.children}
+                        </Paper>
+                    </Box>
+                </Box>
             </Box>
             <Footer>
                 <FooterSection label="Media">

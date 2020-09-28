@@ -8,7 +8,9 @@ createStyles({
        justifyContent: 'center',
        flexDirection: 'row',
        flexWrap: "wrap",
-       width: '100%'
+       width: '100%',
+       marginTop: '1vh',
+       height: '30vh',
     }
     ,
     footerContent: {
@@ -22,7 +24,8 @@ createStyles({
     },
     div: {
            display: 'flex',
-           flexFlow: 'row wrap',
+           flexFlow: 'row',
+           flexWrap: 'wrap',
            justifyContent: 'space-evenly'
     }
 }))

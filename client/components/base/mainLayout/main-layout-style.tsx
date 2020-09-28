@@ -7,7 +7,7 @@ export const layoutStyle = makeStyles((theme: Theme) =>
             display: 'flex',
             width: '100%',
             height: '100vh',
-            marginTop: '7vh'
+            marginTop: '7vh',
         },
         layoutContent: {
             display: 'flex',
@@ -15,7 +15,23 @@ export const layoutStyle = makeStyles((theme: Theme) =>
             margin: '0 auto',
             justifyContent: 'flex-start',
             alignItems: 'flex-start',
-            width: '90%'
+            width: '90%',
+        },
+        shadowBox: {
+            position: 'relative',
+            width: '100%',
+            height: '100%',
+            backgroundColor: 'rgba(0,0,0,0.1)',
+        },
+        paperBox: {
+            position: 'relative',
+            display: 'flex',
+            flexFlow: 'column',
+            padding: '2vh',
+            width: '100%',
+            height: '100vh',
+            margin: '1vh 0vh',
+            zIndex: 1,
         },
         footerTypography: {
             textAlign: 'center'
