@@ -14,6 +14,9 @@ import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
 import { useTheme } from '@material-ui/core/styles';
 import clsx from 'clsx';
+import { Box, Button } from "@material-ui/core";
+import { ExtendedBox } from "../../shared/helperComponents/box-component";
+import Link from "next/link";
 
 type Props = {
     isAuthorized?:boolean
@@ -57,7 +60,7 @@ const MenuAppBar = ({isAuthorized, accountMenuChildren, listMenu}: Props) => {
           <Typography variant="h6" className={classes.title}>
             Your logo and company name
           </Typography>
-          {isAuthorized && (
+          {isAuthorized ? (
             <div>
               <IconButton
                 aria-label="account of current user"
@@ -86,7 +89,20 @@ const MenuAppBar = ({isAuthorized, accountMenuChildren, listMenu}: Props) => {
                 {accountMenuChildren}
               </Menu>
             </div>
-          )}
+          ) : <Box className={classes.loginRegister}>
+                <ExtendedBox>
+                  <Link href="./register">
+                    <Button variant="outlined">
+                      Rejestracja
+                    </Button>
+                  </Link>
+                  <Link href="./login">
+                    <Button variant="contained">
+                      Logowanie
+                    </Button>
+                  </Link>
+                </ExtendedBox>
+              </Box>}
         </Toolbar>
       </AppBar>
       <Drawer

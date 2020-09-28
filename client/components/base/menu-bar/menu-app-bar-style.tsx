@@ -46,6 +46,10 @@ const useStyles = makeStyles((theme: Theme) =>
     hide: {
         display: 'none',
     },
+    loginRegister: {
+      display: 'flex',
+      
+    }
   }),
 );
 
