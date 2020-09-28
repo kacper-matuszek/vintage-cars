@@ -3,6 +3,8 @@ import AppBase from "../../components/base/AppBaseComponent";
 import MainLayout from "../../components/base/mainLayout/MainLayoutComponent";
 import PictureContent from "../../components/base/picture-content-component/PictureContent";
 import isEmpty from "../../core/models/utils/StringExtension";
+import cookieCutter from 'cookie-cutter';
+import CookieDictionary from "../../core/models/settings/cookieSettings/CookieDictionary";
 
 export default function App({Component, pageProps, router}) {
     const [loading, setLoading] = useState(false);
@@ -41,6 +43,11 @@ export default function App({Component, pageProps, router}) {
         }
     }
 
+    const checkAuthorization = () => {
+        const value = cookieCutter.get(CookieDictionary.Token);
+        return !isEmpty(value);
+    }
+
     return (
         <AppBase title={pageProps.title} loading={loading}
         showError={showErrorResponse} errorMessage={showErrorRespText} handleError={handleError}
@@ -51,7 +58,7 @@ export default function App({Component, pageProps, router}) {
                 setLoading={setLoading}
                 showError={handleShowError}
                 showWarning={handleShowWarning}/>
-            </PictureContent> : <MainLayout>
+            </PictureContent> : <MainLayout isAuthorized={checkAuthorization()}>
             <Component {...pageProps} 
             setLoading={setLoading}
             showError={handleShowError}
