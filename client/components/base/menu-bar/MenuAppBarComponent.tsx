@@ -16,7 +16,6 @@ import { useTheme } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import { Box, Button } from "@material-ui/core";
 import { ExtendedBox } from "../../shared/helperComponents/box-component";
-import Link from "next/link";
 
 type Props = {
     isAuthorized?:boolean
@@ -91,16 +90,12 @@ const MenuAppBar = ({isAuthorized, accountMenuChildren, listMenu}: Props) => {
             </div>
           ) : <Box className={classes.loginRegister}>
                 <ExtendedBox>
-                  <Link href="./register">
-                    <Button variant="outlined">
-                      Rejestracja
-                    </Button>
-                  </Link>
-                  <Link href="./login">
-                    <Button variant="contained">
-                      Logowanie
-                    </Button>
-                  </Link>
+                  <Button variant="outlined" href="./register">
+                    Rejestracja
+                  </Button>
+                  <Button variant="contained" href="./login">
+                    Logowanie
+                  </Button>
                 </ExtendedBox>
               </Box>}
         </Toolbar>
