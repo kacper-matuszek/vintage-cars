@@ -14,8 +14,11 @@ type Props = {
     handleError?: (event?: React.SyntheticEvent, reason?: string) => void,
     showValidation?: boolean,
     validationMessage?: string,
+    successMessage?:string,
+    showSuccessMessage?: boolean,
+    handleSuccess?: (event?: React.SyntheticEvent, reason?: string) => void,
 }
-const AppBase = ({children, title, head, loading, showError, errorMessage, handleError, showValidation, validationMessage}: Props, ref) => {
+const AppBase = ({children, title, head, loading, showError, errorMessage, handleError, showValidation, validationMessage, successMessage, showSuccessMessage, handleSuccess}: Props, ref) => {
     const classes = backdropStyle();
     const [open, setOpen] = useState(showError);
 
@@ -39,6 +42,9 @@ const AppBase = ({children, title, head, loading, showError, errorMessage, handl
                 </Snackbar>
                 <Snackbar open={showError} onClose={handleError}>
                     <Alert severity="error" onClose={handleError}>{errorMessage}</Alert>
+                </Snackbar>
+                <Snackbar open={showSuccessMessage} onClose={handleSuccess}>
+                    <Alert severity="success" onClose={handleSuccess}>{successMessage}</Alert>
                 </Snackbar>
             </ThemeProvider>
         </div>
