@@ -1,22 +1,41 @@
 import React from 'react'
-import { ListItemIcon, MenuItem, Typography } from "@material-ui/core"
+import { ListItem, ListItemIcon, ListItemText, MenuItem, Typography } from "@material-ui/core"
 import { NameWithNode, RouterWithElement } from '../../../core/models/base/NameWithNode'
 import { ListItemLink } from './ListItemLinkComponent';
+import Link from "next/link";
+import { generateUnique } from '../../../core/models/utils/Generator';
 
 export const generateMenuItems = (items: Array<NameWithNode>) => {
     return(
-     <React.Fragment>
+        <div>
          {items.map((nameWithIcon) => (
-          <MenuItem>
+          <MenuItem key={generateUnique(nameWithIcon.name)}>
              <ListItemIcon>
                  {nameWithIcon.children}
              </ListItemIcon>
          <Typography variant="inherit">{nameWithIcon.name}</Typography>
          </MenuItem>
          ))}
-     </React.Fragment>
+        </div>
      )
  }
+
+export const generateRouteMenuItems = (items: Array<RouterWithElement>) => {
+    return(
+        <div>
+            {items.map((routerWithElement) => (
+                <Link href={routerWithElement.route}>
+                <MenuItem key={generateUnique(routerWithElement.name)}>
+                    <ListItemIcon>
+                        {routerWithElement.children}
+                    </ListItemIcon>
+                <Typography variant="inherit">{routerWithElement.name}</Typography>
+                </MenuItem>
+                </Link>
+            ))}
+        </div>
+    )
+} 
 
  export const generateLinkMenuItems = (items: Array<RouterWithElement>) => {
      return (
