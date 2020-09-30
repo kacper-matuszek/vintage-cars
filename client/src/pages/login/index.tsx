@@ -6,7 +6,8 @@ import LoginAccount from "../../../components/login/models/LoginAccount";
 import LoginResponse from "../../../components/login/models/LoginResponse";
 import { ValidatorManage, ValidatorType } from "../../../components/login/models/validators/Validator";
 import { LoginResult } from "../../../components/login/models/enums/LoginResult";
-import cookieCutter from 'cookie-cutter'
+//import cookieCutter from 'cookie-cutter'
+import Cookie from 'universal-cookie';
 import RecoveryPassword from "../../../components/login/login-form/RecoveryPassword";
 import CookieDictionary from "../../../core/models/settings/cookieSettings/CookieDictionary";
 
@@ -45,7 +46,7 @@ const LoginPage = (props) => {
             apiService.post<LoginResponse>("/v1/account/login", loginData, toCallback<LoginResponse>(
                 success => {
                     if(success.loginResult === LoginResult.Successful) {
-                        cookieCutter.set(CookieDictionary.Token, success.token, {
+                        new Cookie().set(CookieDictionary.Token, success.token, {
                             expires: new Date(
                                         new Date().getFullYear(),
                                         new Date().getMonth(),

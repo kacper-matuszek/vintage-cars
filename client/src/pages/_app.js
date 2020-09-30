@@ -6,6 +6,7 @@ import isEmpty from "../../core/models/utils/StringExtension";
 import cookieCutter from 'cookie-cutter';
 import CookieDictionary from "../../core/models/settings/cookieSettings/CookieDictionary";
 import Router from 'next/router';
+import Cookie from 'universal-cookie';
 
 export default function App({Component, pageProps, router}) {
     const [loading, setLoading] = useState(false);
@@ -55,7 +56,7 @@ export default function App({Component, pageProps, router}) {
     }
 
     const checkAuthorization = () => {
-        const value = cookieCutter.get(CookieDictionary.Token);
+        const value = new Cookie().get(CookieDictionary.Token);
         return !isEmpty(value);
     }
 
