@@ -5,6 +5,7 @@ import BaseWebApiService from "../../../core/services/api-service/BaseWebApiServ
 import { toCallback, postCallback } from "../../../core/services/api-service/Callback";
 import RegisterValidator from "../../../components/login/models/validators/RegisterValidator";
 import { RegisterAccount } from "../../../components/login/models/RegisterAccount";
+import { redirectTo } from "../../../core/models/utils/Redirect";
 
 const RegisterPage = (props) => {
     const apiService = new BaseWebApiService();
@@ -25,6 +26,7 @@ const RegisterPage = (props) => {
             apiService.postWithoutResponse("/v1/account/register", registerData, postCallback(
                 vErr => props.showWarning(vErr.message),
                 err => props.showError(err.message),
+                () => redirectTo('/login')
             )).finally(() => props.setLoading(false));
         }
     }

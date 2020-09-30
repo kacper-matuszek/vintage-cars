@@ -45,7 +45,11 @@ class BaseWebApiService {
             body: JSON.stringify(data)
         }).then(response => {
             if(response.ok){
-                return;
+                if(callback.OnSuccess)
+                {
+                    callback.OnSuccess();
+                    return;
+                }
             } else {
                 response.json().then(e => {
                     if(response.status == 400 && (e as ErrorDetails) && callback.OnValidationError){

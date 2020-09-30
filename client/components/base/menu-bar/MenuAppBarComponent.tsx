@@ -14,8 +14,12 @@ import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
 import { useTheme } from '@material-ui/core/styles';
 import clsx from 'clsx';
-import { Box, Button } from "@material-ui/core";
+import { Box, Button, ListItemIcon, MenuItem } from "@material-ui/core";
 import { ExtendedBox } from "../../shared/helperComponents/box-component";
+import { ExitToApp } from "@material-ui/icons";
+import Cookie from 'universal-cookie';
+import CookieDictionary from "../../../core/models/settings/cookieSettings/CookieDictionary";
+import { redirectTo } from "../../../core/models/utils/Redirect";
 
 type Props = {
     isAuthorized?:boolean
@@ -45,6 +49,11 @@ const MenuAppBar = ({isAuthorized, accountMenuChildren, listMenu}: Props) => {
         setLeftOpen(false);
     };
 
+    const handleLogout = e => {
+        e.preventDefault();
+        new Cookie().remove(CookieDictionary.Token);
+        redirectTo('/');
+    }
     return (
       <React.Fragment>
       <AppBar position="fixed"
@@ -86,6 +95,13 @@ const MenuAppBar = ({isAuthorized, accountMenuChildren, listMenu}: Props) => {
                 onClose={handleClose}
               >
                 {accountMenuChildren}
+                <Divider/>
+                <MenuItem key="logout" onClick={handleLogout}>
+                    <ListItemIcon>
+                        <ExitToApp />
+                    </ListItemIcon>
+                <Typography variant="inherit">Wyloguj</Typography>
+                </MenuItem>
               </Menu>
             </div>
           ) : <Box className={classes.loginRegister}>

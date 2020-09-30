@@ -15,7 +15,6 @@ const MainLayout = (props) => {
     const fontSize = "small";
     const accountMenu: Array<RouterWithElement> = [
         {name: "Profil", route: "/profile",children: <PersonIcon fontSize={fontSize}/>},
-        {name: "Wyloguj", route: "/logout",children: <ExitToAppIcon fontSize={fontSize}/>}
     ]
     const sideBarItems: Array<RouterWithElement> = [
         {name: "Lista samochodów", route: "/login", children: <DirectionsCarIcon fontSize={fontSize}/>}
