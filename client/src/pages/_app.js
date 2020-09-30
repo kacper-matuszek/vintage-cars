@@ -3,7 +3,6 @@ import AppBase from "../../components/base/AppBaseComponent";
 import MainLayout from "../../components/base/mainLayout/MainLayoutComponent";
 import PictureContent from "../../components/base/picture-content-component/PictureContent";
 import isEmpty from "../../core/models/utils/StringExtension";
-import cookieCutter from 'cookie-cutter';
 import CookieDictionary from "../../core/models/settings/cookieSettings/CookieDictionary";
 import Router from 'next/router';
 import Cookie from 'universal-cookie';
