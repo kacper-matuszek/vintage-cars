@@ -36,14 +36,14 @@ const AppBase = ({children, title, head, loading, showError, errorMessage, handl
                     </Backdrop>
                      {children}
                 </Grid>
-                <Snackbar open={showValidation} onClose={handleError}>
-                    <Alert severity="warning" onClose={handleError}>{validationMessage}</Alert>
+                <Snackbar open={showValidation} onClose={handleError} autoHideDuration={6000}>
+                    <Alert severity="warning" onClose={handleError} variant="filled">{validationMessage}</Alert>
                 </Snackbar>
                 <Snackbar open={showError} onClose={handleError}>
-                    <Alert severity="error" onClose={handleError}>{errorMessage}</Alert>
+                    <Alert severity="error" onClose={handleError} variant="filled">{errorMessage}</Alert>
                 </Snackbar>
-                <Snackbar open={showSuccessMessage} onClose={handleSuccess}>
-                    <Alert severity="success" onClose={handleSuccess}>{successMessage}</Alert>
+                <Snackbar open={showSuccessMessage} onClose={handleSuccess} autoHideDuration={6000}>
+                    <Alert severity="success" onClose={handleSuccess} variant="filled">{successMessage}</Alert>
                 </Snackbar>
             </ThemeProvider>
         </div>

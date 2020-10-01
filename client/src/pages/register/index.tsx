@@ -27,7 +27,10 @@ const RegisterPage = (props) => {
             apiService.postWithoutResponse("/v1/account/register", registerData, postCallback(
                 vErr => props.showWarning(vErr.message),
                 err => props.showError(err.message),
-                () => router.push('/login')
+                () => {
+                    props.showSuccess("Zarejestrowano pomyślnie. Przechodzenie do logowania...");
+                    router.push('/login')
+                }
             )).finally(() => props.setLoading(false));
         }
     }

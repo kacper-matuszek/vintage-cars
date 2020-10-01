@@ -106,10 +106,10 @@ const MenuAppBar = ({isAuthorized, accountMenuChildren, listMenu}: Props) => {
             </div>
           ) : <Box className={classes.loginRegister}>
                 <ExtendedBox>
-                  <Button variant="outlined" href="./register">
+                  <Button variant="outlined" onClick={() => router.push('/register')}>
                     Rejestracja
                   </Button>
-                  <Button variant="contained" href="./login">
+                  <Button variant="contained" onClick={() => router.push('/login')}>
                     Logowanie
                   </Button>
                 </ExtendedBox>

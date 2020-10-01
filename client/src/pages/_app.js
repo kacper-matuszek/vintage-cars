@@ -57,7 +57,7 @@ export default function App({Component, pageProps, router}) {
     }
     
     const handleSuccess = (event, reason) => {
-        if(reson === 'clickway')
+        if(reason === 'clickway')
             return;
         setSuccess(false);
         setSuccessText("");
@@ -86,13 +86,13 @@ export default function App({Component, pageProps, router}) {
                 setLoading={setLoading}
                 showError={handleShowError}
                 showWarning={handleShowWarning}
-                showSuccess={handleSuccess}/>
+                showSuccess={handleShowSuccess}/>
             </PictureContent> : <MainLayout isAuthorized={checkAuthorization()}>
             <Component {...pageProps} 
             setLoading={setLoading}
             showError={handleShowError}
             showWarning={handleShowWarning}
-            showSuccess={handleSuccess}/>
+            showSuccess={handleShowSuccess}/>
             </MainLayout>
             }
         </AppBase>
