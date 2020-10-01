@@ -20,8 +20,7 @@ type Props = {
 }
 const AppBase = ({children, title, head, loading, showError, errorMessage, handleError, showValidation, validationMessage, successMessage, showSuccessMessage, handleSuccess}: Props, ref) => {
     const classes = backdropStyle();
-    const [open, setOpen] = useState(showError);
-
+    const gridStyles = useStyles();
     return(
         <div>
             <Head>
@@ -31,7 +30,7 @@ const AppBase = ({children, title, head, loading, showError, errorMessage, handl
                 {head}
             </Head>
             <ThemeProvider theme={theme}>
-                <Grid container className={useStyles().root}>
+                <Grid container className={gridStyles.root}>
                     <Backdrop className={classes.backdrop} open={loading}>
                         <CircularProgress style={{'color': 'white'}} />
                     </Backdrop>

@@ -6,7 +6,9 @@ import SendIcon from '@material-ui/icons/Send'
 import AppBase from "../../components/base/AppBaseComponent";
 import Typography from '@material-ui/core/Typography';
 import {useState} from "react";
+import { useRouter } from "next/router";
 const Home = (props) => {
+    const router = useRouter();
     const accountChildren = () => {
         return (
             <MenuItem>
@@ -20,8 +22,12 @@ const Home = (props) => {
     const menuItem: [NameWithNode] = [
         { name: "Tytuł", children: <InboxIcon/> }
     ]
+    const handleClickk = e => {
+        e.preventDefault();
+        router.push('/login');
+    }
     return (
-        
+        <button onClick={handleClickk}>HEJ</button>
     )
 }
 

@@ -13,10 +13,10 @@ export default function App({Component, pageProps, router}) {
     Router.onRouteChangeStart = () => {
         setLoading(true);
     }
-    Router.onRouterChangeComplete = () => {
+    Router.onRouteChangeComplete = () => {
         setLoading(false);
     }
-    Router.onRouterChangeError = () => {
+    Router.onRouteChangeError = () => {
         setLoading(false);
     }
     /*errors*/
@@ -79,7 +79,7 @@ export default function App({Component, pageProps, router}) {
         <AppBase title={pageProps.title} loading={loading}
         showError={showErrorResponse} errorMessage={showErrorRespText} handleError={handleError}
         showValidation={showValidationResponse} validationMessage={showValidationRespText} handleSuccess={handleSuccess}
-        showSuccess={showSuccess} showSuccessMessage={showSuccessText}>
+        showSuccessMessage={showSuccess} successMessage={showSuccessText}>
             {router.pathname.startsWith('/login') || router.pathname.startsWith('/register') ? 
             <PictureContent>
                 <Component {...pageProps} 
@@ -95,16 +95,6 @@ export default function App({Component, pageProps, router}) {
             showSuccess={handleSuccess}/>
             </MainLayout>
             }
-        <style jsx global>
-            {
-                `
-                body {
-                    margin: 0;
-                    padding: 0;
-                }
-                `
-            }
-        </style>
         </AppBase>
     )
 }

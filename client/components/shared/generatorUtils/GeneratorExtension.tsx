@@ -24,7 +24,7 @@ export const generateRouteMenuItems = (items: Array<RouterWithElement>) => {
     return(
         <div>
             {items.map((routerWithElement) => (
-                <Link href={routerWithElement.route}>
+                <Link href={routerWithElement.route} key={generateUnique(routerWithElement.name)}>
                 <MenuItem key={generateUnique(routerWithElement.name)}>
                     <ListItemIcon>
                         {routerWithElement.children}
@@ -41,7 +41,7 @@ export const generateRouteMenuItems = (items: Array<RouterWithElement>) => {
      return (
          <React.Fragment>
              {items.map((router) => (
-                 <ListItemLink to={router.route} primary={router.name} icon={router.children} />
+                 <ListItemLink to={router.route} primary={router.name} icon={router.children} key={generateUnique(router.name)} />
              ))}
          </React.Fragment>
      )

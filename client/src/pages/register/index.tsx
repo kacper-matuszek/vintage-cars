@@ -5,10 +5,11 @@ import BaseWebApiService from "../../../core/services/api-service/BaseWebApiServ
 import { toCallback, postCallback } from "../../../core/services/api-service/Callback";
 import RegisterValidator from "../../../components/login/models/validators/RegisterValidator";
 import { RegisterAccount } from "../../../components/login/models/RegisterAccount";
-import { redirectTo } from "../../../core/models/utils/Redirect";
+import { useRouter } from "next/router";
 
 const RegisterPage = (props) => {
     const apiService = new BaseWebApiService();
+    const router = useRouter();
     /*state */
     const [registerData, setData] = useState(new RegisterAccount());
     /*errors*/
@@ -26,7 +27,7 @@ const RegisterPage = (props) => {
             apiService.postWithoutResponse("/v1/account/register", registerData, postCallback(
                 vErr => props.showWarning(vErr.message),
                 err => props.showError(err.message),
-                () => redirectTo('/login')
+                () => router.push('/login')
             )).finally(() => props.setLoading(false));
         }
     }

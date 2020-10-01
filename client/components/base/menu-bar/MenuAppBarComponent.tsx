@@ -19,7 +19,7 @@ import { ExtendedBox } from "../../shared/helperComponents/box-component";
 import { ExitToApp } from "@material-ui/icons";
 import Cookie from 'universal-cookie';
 import CookieDictionary from "../../../core/models/settings/cookieSettings/CookieDictionary";
-import { redirectTo } from "../../../core/models/utils/Redirect";
+import { useRouter } from "next/router";
 
 type Props = {
     isAuthorized?:boolean
@@ -32,7 +32,7 @@ const MenuAppBar = ({isAuthorized, accountMenuChildren, listMenu}: Props) => {
     const open = Boolean(anchorEl);
     const [leftOpen, setLeftOpen] = React.useState(false);
     const theme = useTheme();
-
+    const router = useRouter();
     const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
       };
@@ -52,7 +52,7 @@ const MenuAppBar = ({isAuthorized, accountMenuChildren, listMenu}: Props) => {
     const handleLogout = e => {
         e.preventDefault();
         new Cookie().remove(CookieDictionary.Token);
-        redirectTo('/');
+        router.push('/');
     }
     return (
       <React.Fragment>
