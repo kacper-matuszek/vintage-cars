@@ -1,42 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Language Name="English">
+<Language Name="Polish">
   <LocaleResource Name="Customer.RegisterCustomer.SearchEngineAccount.Validation">
-    <Value>Search engine can't be registered</Value>
+    <Value>Nie można zrejestrować silnika do wyszukiwania.</Value>
   </LocaleResource>
   <LocaleResource Name="Customer.RegisterCustomer.BackgroundTask.Validation">
-    <Value>Background task account can't be registered</Value>
+    <Value>Nie można zarejestrować zadania cyklicznego.</Value>
   </LocaleResource>
   <LocaleResource Name="Customer.RegisterCustomer.IsRegistered.Validation">
-    <Value>Current customer is already registered</Value>
+    <Value>Konto już istnieje.</Value>
   </LocaleResource>
   <LocaleResource Name="Customer.RegisterCustomer.EmailNotProvided.Validation">
-    <Value>Email cannot be empty.</Value>
+    <Value>E-mail jest wymagany.</Value>
   </LocaleResource>
   <LocaleResource Name="Customer.RegisterCustomer.EmailAlreadyExist.Validation">
-    <Value>Email already exists.</Value>
+    <Value>Podany email już istnieje.</Value>
   </LocaleResource>
   <LocaleResource Name="Customer.RegisterCustomer.IsNotEmail.Validation">
-    <Value>Provided wrong email.</Value>
+    <Value>Podana fraza nie jest e-mailem.</Value>
   </LocaleResource>
   <LocaleResource Name="Customer.RegisterCustomer.PasswordNotProvided.Validation">
-    <Value>Password cannot be empty</Value>
+    <Value>Hasło jest wymagane.</Value>
   </LocaleResource>
   <LocaleResource Name="Customer.RegisterCustomer.UsernameEmpty.Validation">
-    <Value>Username cannot be empty</Value>
+    <Value>Login jest wymagany.</Value>
   </LocaleResource>
   <LocaleResource Name="Customer.RegisterCustomer.PasswordMinLength.Validation">
-    <Value>Password must have at least {0} chars.</Value>
+    <Value>Hasło musi posiadać przynajmniej {0} liter.</Value>
   </LocaleResource>
   <LocaleResource Name="Customer.RegisterCustomer.PasswordUppercase.Validation">
-    <Value>Password must have at least a big letter.</Value>
+    <Value>Hasło musi posiadać przynajmniej jedną wielką literę.</Value>
   </LocaleResource>
   <LocaleResource Name="Customer.RegisterCustomer.PasswordLowercase.Validation">
-    <Value>Password must have at least a letter.</Value>
+    <Value>Hasło musi posiadać przynamniej jedną małą literę.</Value>
   </LocaleResource>
   <LocaleResource Name="Customer.RegisterCustomer.PasswordDigit.Validation">
-    <Value>Password must have at least a digit.</Value>
+    <Value>Hasło musi posiadać przynajmniej jedną cyfrę.</Value>
   </LocaleResource>
   <LocaleResource Name="Customer.RegisterCustomer.PasswordAlphanumeric.Validation">
-    <Value>Password must have at least a special char.</Value>
+    <Value>Hasło musi posiadać przynajmniej jeden znak specjalny.</Value>
   </LocaleResource>
+  <LocalResource Name="Account.Register.Errors.UsernameIsNotProvided.Validation">
+    <Value>Login jest wymagany.</Value>
+  </LocalResource>
+  <LocalResource Name="Account.Register.Errors.UsernameAlreadyExists.Validation">
+    <Value>Podany login już istnieje.</Value>
+  </LocalResource>
 </Language>

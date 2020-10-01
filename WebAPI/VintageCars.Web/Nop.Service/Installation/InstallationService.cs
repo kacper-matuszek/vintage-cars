@@ -174,10 +174,10 @@ namespace Nop.Service.Installation
         {
             var language = new Language
             {
-                Name = "English",
-                LanguageCulture = "en-US",
-                UniqueSeoCode = "en",
-                FlagImageFileName = "us.png",
+                Name = "Polish",
+                LanguageCulture = "pl-PL",
+                UniqueSeoCode = "pl",
+                FlagImageFileName = "pl.png",
                 Published = true,
                 DisplayOrder = 1
             };

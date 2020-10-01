@@ -53,11 +53,11 @@ namespace Nop.Service.Customer
                 result.Add(_localizationService.GetResource(validation.Value));
                 return result;
             }
-            //if (_customerSettings.UsernamesEnabled && string.IsNullOrEmpty(request.Username))
-            //{
-            //    result.AddError(_localizationService.GetResource("Account.Register.Errors.UsernameIsNotProvided"));
-            //    return result;
-            //}
+            if (_customerSettings.UsernamesEnabled && string.IsNullOrEmpty(request.Customer?.Username))
+            {
+                result.Add(_localizationService.GetResource("Account.Register.Errors.UsernameIsNotProvided"));
+                return result;
+            }
 
             //validate unique user
             if (_customerService.GetCustomerByEmail(request.Customer?.Email) != null)
@@ -66,11 +66,11 @@ namespace Nop.Service.Customer
                 return result;
             }
 
-            //if (_customerSettings.UsernamesEnabled && _customerService.GetCustomerByUsername(request.Username) != null)
-            //{
-            //    result.AddError(_localizationService.GetResource("Account.Register.Errors.UsernameAlreadyExists"));
-            //    return result;
-            //}
+            if (_customerSettings.UsernamesEnabled && _customerService.GetCustomerByUsername(request.Customer.Username) != null)
+            {
+                result.Add(_localizationService.GetResource("Account.Register.Errors.UsernameAlreadyExists"));
+                return result;
+            }
             var customerPassword = new CustomerPassword
             {
                 CustomerId = request.Customer.Id,
