@@ -77,6 +77,7 @@ namespace VintageCars.Web.Configuration.Registration
             builder.RegisterType<EmailSender>().As<IEmailSender>().InstancePerLifetimeScope();
             builder.RegisterType<ScheduleTaskService>().As<IScheduleTaskService>();
             builder.RegisterType<ProductService>().As<IProductService>().InstancePerLifetimeScope();
+            builder.RegisterType<ManufacturerService>().As<IManufacturerService>().InstancePerLifetimeScope();
 
             builder.RegisterType<ActionContextAccessor>().As<IActionContextAccessor>().InstancePerLifetimeScope();
 
