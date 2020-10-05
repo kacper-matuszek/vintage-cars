@@ -55,7 +55,7 @@ namespace Nop.Service.Customer
             }
             if (_customerSettings.UsernamesEnabled && string.IsNullOrEmpty(request.Customer?.Username))
             {
-                result.Add(_localizationService.GetResource("Account.Register.Errors.UsernameIsNotProvided"));
+                result.Add(_localizationService.GetResource("Account.Register.Errors.UsernameIsNotProvided.Validation"));
                 return result;
             }
 
@@ -68,7 +68,7 @@ namespace Nop.Service.Customer
 
             if (_customerSettings.UsernamesEnabled && _customerService.GetCustomerByUsername(request.Customer.Username) != null)
             {
-                result.Add(_localizationService.GetResource("Account.Register.Errors.UsernameAlreadyExists"));
+                result.Add(_localizationService.GetResource("Account.Register.Errors.UsernameAlreadyExists.Validation"));
                 return result;
             }
             var customerPassword = new CustomerPassword
