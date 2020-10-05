@@ -43,6 +43,13 @@ namespace Nop.Service.Customer
         /// </summary>
         public static string CustomerRolesPrefixCacheKey => "Nop.customerrole.";
 
-
+        /// <summary>
+        /// Gets a key for caching
+        /// </summary>
+        /// <remarks>
+        /// {0} : customer identifier
+        /// {1} : show hidden
+        /// </remarks>
+        public static CacheKey CustomerRoleIdsCacheKey => new CacheKey("Nop.customer.customerrole.ids-{0}-{1}", CustomerCustomerRolesPrefixCacheKey);
     }
 }

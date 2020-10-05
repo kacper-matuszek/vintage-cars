@@ -51,5 +51,13 @@ namespace Nop.Service.Customer
             PasswordFormat? passwordFormat = null, int? passwordsToReturn = null);
 
         string GetCustomerFullName(Core.Domain.Customers.Customer customer);
+
+        /// <summary>
+        /// Get customer role identifiers
+        /// </summary>
+        /// <param name="customer">Customer</param>
+        /// <param name="showHidden">A value indicating whether to load hidden records</param>
+        /// <returns>Customer role identifiers</returns>
+        Guid[] GetCustomerRoleIds(Core.Domain.Customers.Customer customer, bool showHidden = false);
     }
 }

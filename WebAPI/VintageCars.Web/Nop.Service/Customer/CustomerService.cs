@@ -277,5 +277,27 @@ namespace Nop.Service.Customer
 
             return fullName;
         }
+
+        /// <summary>
+        /// Get customer role identifiers
+        /// </summary>
+        /// <param name="customer">Customer</param>
+        /// <param name="showHidden">A value indicating whether to load hidden records</param>
+        /// <returns>Customer role identifiers</returns>
+        public virtual Guid[] GetCustomerRoleIds(Core.Domain.Customers.Customer customer, bool showHidden = false)
+        {
+            if (customer == null)
+                throw new ArgumentNullException(nameof(customer));
+
+            var query = from cr in _customerRoleRepository.Table
+                join crm in _customerCustomerRoleMappingRepository.Table on cr.Id equals crm.CustomerRoleId
+                where crm.CustomerId == customer.Id &&
+                      (showHidden || cr.Active)
+                select cr.Id;
+
+            var key = _cacheKeyService.PrepareKeyForShortTermCache(NopCustomerServicesDefaults.CustomerRoleIdsCacheKey, customer, showHidden);
+
+            return _staticCacheManager.Get(key, () => query.ToArray());
+        }
     }
 }
