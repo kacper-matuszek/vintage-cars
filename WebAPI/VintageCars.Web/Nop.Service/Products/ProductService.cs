@@ -13,7 +13,7 @@ using Nop.Service.Localization;
 
 namespace Nop.Service.Products
 {
-    public class ProductService 
+    public class ProductService : IProductService
     {
         #region Fields
         protected readonly CommonSettings _commonSettings;
@@ -23,6 +23,22 @@ namespace Nop.Service.Products
         private readonly IStaticCacheManager _staticCacheManager;
         private readonly ILanguageService _languageService;
         #endregion
+
+        public ProductService(CommonSettings commonSettings,
+            IRepository<ProductCategory> productCategoryRepository,
+            IRepository<Product> productRepository,
+            ICacheKeyService cacheKeyService,
+            IStaticCacheManager staticCacheManager,
+            ILanguageService languageService)
+        {
+            _commonSettings = commonSettings;
+            _productCategoryRepository = productCategoryRepository;
+            _productRepository = productRepository;
+            _cacheKeyService = cacheKeyService;
+            _staticCacheManager = staticCacheManager;
+            _languageService = languageService;
+        }
+
         #region Products
         /// <summary>
         /// Delete a product
