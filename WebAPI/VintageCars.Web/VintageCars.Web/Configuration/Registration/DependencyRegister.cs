@@ -20,6 +20,7 @@ using Nop.Service.Customer;
 using Nop.Service.Installation;
 using Nop.Service.Localization;
 using Nop.Service.Messages;
+using Nop.Service.Products;
 using Nop.Service.Security;
 using Nop.Service.Settings;
 using Nop.Service.Store;
@@ -75,6 +76,7 @@ namespace VintageCars.Web.Configuration.Registration
             builder.RegisterType<SmtpBuilder>().As<ISmtpBuilder>().InstancePerLifetimeScope();
             builder.RegisterType<EmailSender>().As<IEmailSender>().InstancePerLifetimeScope();
             builder.RegisterType<ScheduleTaskService>().As<IScheduleTaskService>();
+            builder.RegisterType<ProductService>().As<IProductService>().InstancePerLifetimeScope();
 
             builder.RegisterType<ActionContextAccessor>().As<IActionContextAccessor>().InstancePerLifetimeScope();
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Nop.Core;
 using Nop.Core.Domain.Catalog;
+using Nop.Core.Domain.Discounts;
 
 namespace Nop.Service.Products
 {
@@ -184,5 +185,93 @@ namespace Nop.Service.Products
             ProductSortingEnum orderBy = ProductSortingEnum.Position,
             bool showHidden = false,
             bool? overridePublished = null);
+
+        /// <summary>
+        /// Get products for which a discount is applied
+        /// </summary>
+        /// <param name="discountId">Discount identifier; pass null to load all records</param>
+        /// <param name="showHidden">A value indicating whether to load deleted products</param>
+        /// <param name="pageIndex">Page index</param>
+        /// <param name="pageSize">Page size</param>
+        /// <returns>List of products</returns>
+        IPagedList<Product> GetProductsWithAppliedDiscount(Guid? discountId = null,
+            bool showHidden = false, int pageIndex = 0, int pageSize = int.MaxValue);
+
+        /// <summary>
+        /// Update HasDiscountsApplied property (used for performance optimization)
+        /// </summary>
+        /// <param name="product">Product</param>
+        void UpdateHasDiscountsApplied(Product product);
+
+        /// <summary>
+        /// Deletes a product picture
+        /// </summary>
+        /// <param name="productPicture">Product picture</param>
+        void DeleteProductPicture(ProductPicture productPicture);
+
+        /// <summary>
+        /// Gets a product pictures by product identifier
+        /// </summary>
+        /// <param name="productId">The product identifier</param>
+        /// <returns>Product pictures</returns>
+        IList<ProductPicture> GetProductPicturesByProductId(Guid productId);
+
+        /// <summary>
+        /// Gets a product picture
+        /// </summary>
+        /// <param name="productPictureId">Product picture identifier</param>
+        /// <returns>Product picture</returns>
+        ProductPicture GetProductPictureById(Guid productPictureId);
+
+        /// <summary>
+        /// Inserts a product picture
+        /// </summary>
+        /// <param name="productPicture">Product picture</param>
+        void InsertProductPicture(ProductPicture productPicture);
+
+        /// <summary>
+        /// Updates a product picture
+        /// </summary>
+        /// <param name="productPicture">Product picture</param>
+        void UpdateProductPicture(ProductPicture productPicture);
+
+        /// <summary>
+        /// Get the IDs of all product images 
+        /// </summary>
+        /// <param name="productsIds">Products IDs</param>
+        /// <returns>All picture identifiers grouped by product ID</returns>
+        IDictionary<Guid, Guid[]> GetProductsImagesIds(Guid[] productsIds);
+
+        /// <summary>
+        /// Clean up product references for a specified discount
+        /// </summary>
+        /// <param name="discount">Discount</param>
+        void ClearDiscountProductMapping(Discount discount);
+
+        /// <summary>
+        /// Get a discount-product mapping records by product identifier
+        /// </summary>
+        /// <param name="productId">Product identifier</param>
+        IList<DiscountProductMapping> GetAllDiscountsAppliedToProduct(Guid productId);
+
+        /// <summary>
+        /// Get a discount-product mapping record
+        /// </summary>
+        /// <param name="productId">Product identifier</param>
+        /// <param name="discountId">Discount identifier</param>
+        /// <returns>Result</returns>
+        DiscountProductMapping GetDiscountAppliedToProduct(Guid productId, Guid discountId);
+
+        /// <summary>
+        /// Inserts a discount-product mapping record
+        /// </summary>
+        /// <param name="discountProductMapping">Discount-product mapping</param>
+        void InsertDiscountProductMapping(DiscountProductMapping discountProductMapping);
+
+        /// <summary>
+        /// Deletes a discount-product mapping record
+        /// </summary>
+        /// <param name="discountProductMapping">Discount-product mapping</param>
+        void DeleteDiscountProductMapping(DiscountProductMapping discountProductMapping);
     }
 }

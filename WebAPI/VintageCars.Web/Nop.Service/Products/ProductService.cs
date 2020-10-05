@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Nop.Core;
 using Nop.Core.Caching;
 using Nop.Core.Domain.Catalog;
 using Nop.Core.Domain.Common;
+using Nop.Core.Domain.Discounts;
 using Nop.Data;
 using Nop.Service.Caching;
 using Nop.Service.Caching.Extensions;
@@ -16,9 +16,11 @@ namespace Nop.Service.Products
     public class ProductService : IProductService
     {
         #region Fields
-        protected readonly CommonSettings _commonSettings;
+        private readonly CommonSettings _commonSettings;
         private readonly IRepository<ProductCategory> _productCategoryRepository;
         private readonly IRepository<Product> _productRepository;
+        private readonly IRepository<ProductPicture> _productPictureRepository;
+        private readonly IRepository<DiscountProductMapping> _discountProductMappingRepository;
         private readonly ICacheKeyService _cacheKeyService;
         private readonly IStaticCacheManager _staticCacheManager;
         private readonly ILanguageService _languageService;
@@ -26,6 +28,8 @@ namespace Nop.Service.Products
 
         public ProductService(CommonSettings commonSettings,
             IRepository<ProductCategory> productCategoryRepository,
+            IRepository<ProductPicture> productPictureRepository,
+            IRepository<DiscountProductMapping> discountProductMappingRepository,
             IRepository<Product> productRepository,
             ICacheKeyService cacheKeyService,
             IStaticCacheManager staticCacheManager,
@@ -33,6 +37,8 @@ namespace Nop.Service.Products
         {
             _commonSettings = commonSettings;
             _productCategoryRepository = productCategoryRepository;
+            _productPictureRepository = productPictureRepository;
+            _discountProductMappingRepository = discountProductMappingRepository;
             _productRepository = productRepository;
             _cacheKeyService = cacheKeyService;
             _staticCacheManager = staticCacheManager;
@@ -440,6 +446,198 @@ namespace Nop.Service.Products
 
             return new PagedList<Product>(products, pageIndex, pageSize, totalRecords);
         }
+
+        /// <summary>
+        /// Get products for which a discount is applied
+        /// </summary>
+        /// <param name="discountId">Discount identifier; pass null to load all records</param>
+        /// <param name="showHidden">A value indicating whether to load deleted products</param>
+        /// <param name="pageIndex">Page index</param>
+        /// <param name="pageSize">Page size</param>
+        /// <returns>List of products</returns>
+        public virtual IPagedList<Product> GetProductsWithAppliedDiscount(Guid? discountId = null,
+            bool showHidden = false, int pageIndex = 0, int pageSize = int.MaxValue)
+        {
+            var products = _productRepository.Table.Where(product => product.HasDiscountsApplied);
+
+            if (discountId.HasValue)
+                products = from product in products
+                    join dpm in _discountProductMappingRepository.Table on product.Id equals dpm.EntityId
+                    where dpm.DiscountId == discountId.Value
+                    select product;
+
+            if (!showHidden)
+                products = products.Where(product => !product.Deleted);
+
+            products = products.OrderBy(product => product.DisplayOrder).ThenBy(product => product.Id);
+
+            return new PagedList<Product>(products, pageIndex, pageSize);
+        }
+
+        /// <summary>
+        /// Update HasDiscountsApplied property (used for performance optimization)
+        /// </summary>
+        /// <param name="product">Product</param>
+        public virtual void UpdateHasDiscountsApplied(Product product)
+        {
+            if (product == null)
+                throw new ArgumentNullException(nameof(product));
+
+            product.HasDiscountsApplied = _discountProductMappingRepository.Table.Any(dpm => dpm.EntityId == product.Id);
+            UpdateProduct(product);
+        }
+        #endregion
+
+        #region Product pictures
+        /// <summary>
+        /// Deletes a product picture
+        /// </summary>
+        /// <param name="productPicture">Product picture</param>
+        public virtual void DeleteProductPicture(ProductPicture productPicture)
+        {
+            if (productPicture == null)
+                throw new ArgumentNullException(nameof(productPicture));
+
+            _productPictureRepository.Delete(productPicture);
+        }
+
+        /// <summary>
+        /// Gets a product pictures by product identifier
+        /// </summary>
+        /// <param name="productId">The product identifier</param>
+        /// <returns>Product pictures</returns>
+        public virtual IList<ProductPicture> GetProductPicturesByProductId(Guid productId)
+        {
+            var query = from pp in _productPictureRepository.Table
+                        where pp.ProductId == productId
+                        orderby pp.DisplayOrder, pp.Id
+                        select pp;
+
+            var productPictures = query.ToList();
+
+            return productPictures;
+        }
+
+        /// <summary>
+        /// Gets a product picture
+        /// </summary>
+        /// <param name="productPictureId">Product picture identifier</param>
+        /// <returns>Product picture</returns>
+        public virtual ProductPicture GetProductPictureById(Guid productPictureId)
+        {
+            if (productPictureId == default)
+                return null;
+
+            return _productPictureRepository.ToCachedGetById(productPictureId);
+        }
+
+        /// <summary>
+        /// Inserts a product picture
+        /// </summary>
+        /// <param name="productPicture">Product picture</param>
+        public virtual void InsertProductPicture(ProductPicture productPicture)
+        {
+            if (productPicture == null)
+                throw new ArgumentNullException(nameof(productPicture));
+
+            _productPictureRepository.Insert(productPicture);
+        }
+
+        /// <summary>
+        /// Updates a product picture
+        /// </summary>
+        /// <param name="productPicture">Product picture</param>
+        public virtual void UpdateProductPicture(ProductPicture productPicture)
+        {
+            if (productPicture == null)
+                throw new ArgumentNullException(nameof(productPicture));
+
+            _productPictureRepository.Update(productPicture);
+        }
+
+        /// <summary>
+        /// Get the IDs of all product images 
+        /// </summary>
+        /// <param name="productsIds">Products IDs</param>
+        /// <returns>All picture identifiers grouped by product ID</returns>
+        public IDictionary<Guid, Guid[]> GetProductsImagesIds(Guid[] productsIds)
+        {
+            var productPictures = _productPictureRepository.Table.Where(p => productsIds.Contains(p.ProductId)).ToList();
+
+            return productPictures.GroupBy(p => p.ProductId).ToDictionary(p => p.Key, p => p.Select(p1 => p1.PictureId).ToArray());
+        }
+        #endregion
+
+        #region Product discounts
+
+        /// <summary>
+        /// Clean up product references for a specified discount
+        /// </summary>
+        /// <param name="discount">Discount</param>
+        public virtual void ClearDiscountProductMapping(Discount discount)
+        {
+            if (discount is null)
+                throw new ArgumentNullException(nameof(discount));
+
+            var mappingsWithProducts =
+                from dcm in _discountProductMappingRepository.Table
+                join p in _productRepository.Table on dcm.EntityId equals p.Id
+                where dcm.DiscountId == discount.Id
+                select new { product = p, dcm };
+
+            foreach (var pdcm in mappingsWithProducts.ToList())
+            {
+                _discountProductMappingRepository.Delete(pdcm.dcm);
+
+                //update "HasDiscountsApplied" property
+                UpdateHasDiscountsApplied(pdcm.product);
+            }
+        }
+
+        /// <summary>
+        /// Get a discount-product mapping records by product identifier
+        /// </summary>
+        /// <param name="productId">Product identifier</param>
+        public virtual IList<DiscountProductMapping> GetAllDiscountsAppliedToProduct(Guid productId)
+        {
+            return _discountProductMappingRepository.Table.Where(dcm => dcm.EntityId == productId).ToList();
+        }
+
+        /// <summary>
+        /// Get a discount-product mapping record
+        /// </summary>
+        /// <param name="productId">Product identifier</param>
+        /// <param name="discountId">Discount identifier</param>
+        /// <returns>Result</returns>
+        public virtual DiscountProductMapping GetDiscountAppliedToProduct(Guid productId, Guid discountId)
+        {
+            return _discountProductMappingRepository.Table.FirstOrDefault(dcm => dcm.EntityId == productId && dcm.DiscountId == discountId);
+        }
+
+        /// <summary>
+        /// Inserts a discount-product mapping record
+        /// </summary>
+        /// <param name="discountProductMapping">Discount-product mapping</param>
+        public virtual void InsertDiscountProductMapping(DiscountProductMapping discountProductMapping)
+        {
+            if (discountProductMapping is null)
+                throw new ArgumentNullException(nameof(discountProductMapping));
+
+            _discountProductMappingRepository.Insert(discountProductMapping);
+        }
+
+        /// <summary>
+        /// Deletes a discount-product mapping record
+        /// </summary>
+        /// <param name="discountProductMapping">Discount-product mapping</param>
+        public virtual void DeleteDiscountProductMapping(DiscountProductMapping discountProductMapping)
+        {
+            if (discountProductMapping is null)
+                throw new ArgumentNullException(nameof(discountProductMapping));
+
+            _discountProductMappingRepository.Delete(discountProductMapping);
+        }
+
         #endregion
     }
 }
