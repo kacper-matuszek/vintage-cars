@@ -86,6 +86,17 @@ namespace Nop.Data
         }
 
         /// <summary>
+        /// Get guid parameter
+        /// </summary>
+        /// <param name="parameterName">Parameter name</param>
+        /// <param name="parameterValue">Parameter value</param>
+        /// <returns>Parameter</returns>
+        public static DataParameter GetGuidParameter(string parameterName, Guid? guidValue)
+        {
+            return GetParameter(DataType.Guid, parameterName, guidValue);
+        }
+
+        /// <summary>
         /// Get output int32 parameter
         /// </summary>
         /// <param name="parameterName">Parameter name</param>
