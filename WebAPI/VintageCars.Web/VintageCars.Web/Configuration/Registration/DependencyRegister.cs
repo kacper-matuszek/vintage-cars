@@ -25,6 +25,7 @@ using Nop.Service.Messages;
 using Nop.Service.Products;
 using Nop.Service.Security;
 using Nop.Service.Settings;
+using Nop.Service.Shipping;
 using Nop.Service.Store;
 using Nop.Service.Tasks;
 using Nop.Services.Logging;
@@ -84,6 +85,7 @@ namespace VintageCars.Web.Configuration.Registration
             builder.RegisterType<CategoryService>().As<ICategoryService>().InstancePerLifetimeScope();
             builder.RegisterType<LocalizedEntityService>().As<ILocalizedEntityService>().InstancePerLifetimeScope();
             builder.RegisterType<ProductTagService>().As<IProductTagService>().InstancePerLifetimeScope();
+            builder.RegisterType<ShippingService>().As<IShippingService>().InstancePerLifetimeScope();
 
             builder.RegisterType<ActionContextAccessor>().As<IActionContextAccessor>().InstancePerLifetimeScope();
 
