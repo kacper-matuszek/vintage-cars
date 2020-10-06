@@ -47,5 +47,26 @@ namespace Nop.Service.Localization
         /// {1} : resource key
         /// </remarks>
         public static CacheKey LocaleStringResourcesByResourceNameCacheKey => new CacheKey("Nop.lsr.{0}-{1}", LocaleStringResourcesByResourceNamePrefixCacheKey, LocaleStringResourcesPrefixCacheKey);
+
+        #region Localized Properties
+
+        /// <summary>
+        /// Gets a key for caching
+        /// </summary>
+        public static CacheKey LocalizedPropertyAllCacheKey => new CacheKey("Nop.localizedproperty.all");
+
+        /// <summary>
+        /// Gets a key for caching
+        /// </summary>
+        /// <remarks>
+        /// {0} : language ID
+        /// {1} : entity ID
+        /// {2} : locale key group
+        /// {3} : locale key
+        /// </remarks>
+        public static CacheKey LocalizedPropertyCacheKey => new CacheKey("Nop.localizedproperty.value-{0}-{1}-{2}-{3}");
+
+        #endregion
+
     }
 }

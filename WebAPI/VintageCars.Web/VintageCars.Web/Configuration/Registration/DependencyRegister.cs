@@ -82,6 +82,7 @@ namespace VintageCars.Web.Configuration.Registration
             builder.RegisterType<ManufacturerService>().As<IManufacturerService>().InstancePerLifetimeScope();
             builder.RegisterType<DiscountService>().As<IDiscountService>().InstancePerLifetimeScope();
             builder.RegisterType<CategoryService>().As<ICategoryService>().InstancePerLifetimeScope();
+            builder.RegisterType<LocalizedEntityService>().As<ILocalizedEntityService>().InstancePerLifetimeScope();
 
             builder.RegisterType<ActionContextAccessor>().As<IActionContextAccessor>().InstancePerLifetimeScope();
 
