@@ -5,6 +5,7 @@ using System.Linq;
 using Microsoft.Extensions.Configuration;
 using Nop.Core;
 using Nop.Core.Domain.Customers;
+using Nop.Core.Domain.Directory;
 using Nop.Core.Domain.Localization;
 using Nop.Core.Domain.Messages;
 using Nop.Core.Domain.Security;
@@ -28,6 +29,8 @@ namespace Nop.Service.Installation
         protected readonly IRepository<MessageTemplate> _messageTemplateRepository;
         protected readonly IRepository<EmailAccount> _emailAccountRepository;
         protected readonly IRepository<ScheduleTask> _scheduleTaskRepository;
+        protected readonly IRepository<Country> _countryRepository;
+        protected readonly IRepository<StateProvince> _stateProvinceRepository;
         protected readonly ISettingService _settingsService;
         #endregion
 
@@ -37,6 +40,8 @@ namespace Nop.Service.Installation
             IRepository<MessageTemplate> messageTemplate,
             IRepository<EmailAccount> emailAccountRepository,
             IRepository<ScheduleTask> scheduleTaskRepository,
+            IRepository<Country> countryRepository,
+            IRepository<StateProvince> stateProvinceRepository,
             ISettingService settingService)
         {
             _fileProvider = CommonHelper.DefaultFileProvider;
@@ -44,6 +49,8 @@ namespace Nop.Service.Installation
             _customerRoleRepository = customerRoleRepository ?? throw new ArgumentNullException(nameof(customerRoleRepository));
             _languageRepository = languageRepository ?? throw new ArgumentNullException(nameof(languageRepository));
             _settingsService = settingService;
+            _countryRepository = countryRepository;
+            _stateProvinceRepository = stateProvinceRepository;
             _messageTemplateRepository = messageTemplate;
             _emailAccountRepository = emailAccountRepository;
             _scheduleTaskRepository = scheduleTaskRepository;
@@ -59,6 +66,7 @@ namespace Nop.Service.Installation
             InstallRoles();
             InstallSettings();
             InstallLocaleResources();
+            InstallCountryWithProvince();
         }
 
         #region Defaults
@@ -251,6 +259,160 @@ namespace Nop.Service.Installation
                 },
             };
             _scheduleTaskRepository.Insert(tasks);
+        }
+
+        protected virtual void InstallCountryWithProvince()
+        {
+            var country = new Country()
+            {
+                Name = "Polska",
+                AllowsBilling = true,
+                AllowsShipping = true,
+                TwoLetterIsoCode = "PL",
+                ThreeLetterIsoCode = "POL",
+                NumericIsoCode = 616,
+                SubjectToVat = false,
+                DisplayOrder = 100,
+                Published = true
+            };
+
+            _countryRepository.Insert(country);
+
+            //poland state province
+            var provinces = new List<StateProvince>()
+            {
+                new StateProvince()
+                {
+                    Name = "Dolnośląskie",
+                    Abbreviation = "D",
+                    CountryId = country.Id,
+                    Published = true,
+                    DisplayOrder = 1,
+                },
+                new StateProvince()
+                {
+                    Name = "Kujawsko-pomorskie",
+                    Abbreviation = "C",
+                    CountryId = country.Id,
+                    Published = true,
+                    DisplayOrder = 1,
+                },
+                new StateProvince()
+                {
+                    Name = "Lubelskie",
+                    Abbreviation = "L",
+                    CountryId = country.Id,
+                    Published = true,
+                    DisplayOrder = 1,
+                },
+                new StateProvince()
+                {
+                    Name = "Łódzkie",
+                    Abbreviation = "E",
+                    CountryId = country.Id,
+                    Published = true,
+                    DisplayOrder = 1
+                },
+                new StateProvince()
+                {
+                    Name = "Lubuskie",
+                    Abbreviation = "F",
+                    CountryId = country.Id,
+                    Published = true,
+                    DisplayOrder = 1,
+                },
+                new StateProvince()
+                {
+                    Name = "Małopolskie",
+                    Abbreviation = "K",
+                    CountryId = country.Id,
+                    Published = true,
+                    DisplayOrder = 1,
+
+                },
+                new StateProvince()
+                {
+                    Name = "Mazowieckie",
+                    Abbreviation = "W",
+                    CountryId = country.Id,
+                    Published = true,
+                    DisplayOrder = 1,
+                },
+                new StateProvince()
+                {
+                    Name = "Opolskie",
+                    Abbreviation = "O",
+                    CountryId = country.Id,
+                    Published = true,
+                    DisplayOrder = 1,
+                },
+                new StateProvince()
+                {
+                    Name = "Podkarpackie",
+                    Abbreviation = "R",
+                    CountryId = country.Id,
+                    Published = true,
+                    DisplayOrder = 1,
+                },
+                new StateProvince()
+                {
+                    Name = "Podlaskie",
+                    Abbreviation = "B",
+                    CountryId = country.Id,
+                    Published = true,
+                    DisplayOrder = 1,
+                },
+                new StateProvince()
+                {
+                    Name = "Pomorskie",
+                    Abbreviation = "G",
+                    CountryId = country.Id,
+                    Published = true,
+                    DisplayOrder = 1,
+                },
+                new StateProvince()
+                {
+                    Name = "Śląskie",
+                    Abbreviation = "S",
+                    CountryId = country.Id,
+                    Published = true,
+                    DisplayOrder = 1,
+                },
+                new StateProvince()
+                {
+                    Name = "Świętokrzyskie",
+                    Abbreviation = "T",
+                    CountryId = country.Id,
+                    Published = true,
+                    DisplayOrder = 1,
+                },
+                new StateProvince()
+                {
+                    Name = "Warmińsko-mazurskie",
+                    Abbreviation = "N",
+                    CountryId = country.Id,
+                    Published = true,
+                    DisplayOrder = 1,
+                },
+                new StateProvince()
+                {
+                    Name = "Wielkopolskie",
+                    Abbreviation = "P",
+                    CountryId = country.Id,
+                    Published = true,
+                    DisplayOrder = 1,
+                },
+                new StateProvince()
+                {
+                    Name = "Zachodniopomorskie",
+                    Abbreviation = "Z",
+                    CountryId = country.Id,
+                    Published = true,
+                    DisplayOrder = 1,
+                }
+            };
+
+            _stateProvinceRepository.Insert(provinces);
         }
         #endregion
     }
