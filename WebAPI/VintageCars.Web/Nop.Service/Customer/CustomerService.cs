@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 using Nop.Core.Caching;
+using Nop.Core.Domain.Common;
 using Nop.Core.Domain.Customers;
 using Nop.Data;
 using Nop.Service.Caching;
@@ -16,6 +17,8 @@ namespace Nop.Service.Customer
         private readonly IRepository<Core.Domain.Customers.Customer> _customerRepository;
         private readonly IRepository<CustomerRole> _customerRoleRepository;
         private readonly IRepository<CustomerCustomerRoleMapping> _customerCustomerRoleMappingRepository;
+        private readonly IRepository<CustomerAddressMapping> _customerAddressMappingRepository;
+        private readonly IRepository<Address> _customerAddressRepository;
         private readonly ICacheKeyService _cacheKeyService;
         private readonly IStaticCacheManager _staticCacheManager;
         private readonly IRepository<CustomerPassword> _customerPasswordRepository;
@@ -24,6 +27,8 @@ namespace Nop.Service.Customer
         public CustomerService(IRepository<Core.Domain.Customers.Customer> customerRepository,
             IRepository<CustomerRole> customerRoleRepository,
             IRepository<CustomerCustomerRoleMapping> customerCustomerRoleMappingRepository,
+            IRepository<CustomerAddressMapping> customerAddressMappingRepository,
+            IRepository<Address> customerAddressRepository,
             ICacheKeyService cacheKeyService,
             IStaticCacheManager staticCacheManager,
             IRepository<CustomerPassword> customerPasswordRepository,
@@ -32,6 +37,8 @@ namespace Nop.Service.Customer
             _customerRepository = customerRepository;
             _customerRoleRepository = customerRoleRepository;
             _customerCustomerRoleMappingRepository = customerCustomerRoleMappingRepository;
+            _customerAddressMappingRepository = customerAddressMappingRepository;
+            _customerAddressRepository = customerAddressRepository;
             _cacheKeyService = cacheKeyService;
             _staticCacheManager = staticCacheManager;
             _customerPasswordRepository = customerPasswordRepository;
@@ -299,5 +306,119 @@ namespace Nop.Service.Customer
 
             return _staticCacheManager.Get(key, () => query.ToArray());
         }
+
+        #region Customer address mapping
+
+        /// <summary>
+        /// Remove a customer-address mapping record
+        /// </summary>
+        /// <param name="customer">Customer</param>
+        /// <param name="address">Address</param>
+        public virtual void RemoveCustomerAddress(Core.Domain.Customers.Customer customer, Address address)
+        {
+            if (customer == null)
+                throw new ArgumentNullException(nameof(customer));
+
+            if (_customerAddressMappingRepository.Table.FirstOrDefault(m => m.AddressId == address.Id && m.CustomerId == customer.Id) is CustomerAddressMapping mapping)
+            {
+                if (customer.BillingAddressId == address.Id)
+                    customer.BillingAddressId = null;
+                if (customer.ShippingAddressId == address.Id)
+                    customer.ShippingAddressId = null;
+
+                _customerAddressMappingRepository.Delete(mapping);
+            }
+        }
+
+        /// <summary>
+        /// Inserts a customer-address mapping record
+        /// </summary>
+        /// <param name="customer">Customer</param>
+        /// <param name="address">Address</param>
+        public virtual void InsertCustomerAddress(Core.Domain.Customers.Customer customer, Address address)
+        {
+            if (customer is null)
+                throw new ArgumentNullException(nameof(customer));
+
+            if (address is null)
+                throw new ArgumentNullException(nameof(address));
+
+            if (_customerAddressMappingRepository.Table.FirstOrDefault(m => m.AddressId == address.Id && m.CustomerId == customer.Id) is null)
+            {
+                var mapping = new CustomerAddressMapping
+                {
+                    AddressId = address.Id,
+                    CustomerId = customer.Id
+                };
+
+                _customerAddressMappingRepository.Insert(mapping);
+            }
+        }
+
+        /// <summary>
+        /// Gets a list of addresses mapped to customer
+        /// </summary>
+        /// <param name="customerId">Customer identifier</param>
+        /// <returns>Result</returns>
+        public virtual IList<Address> GetAddressesByCustomerId(Guid customerId)
+        {
+            var query = from address in _customerAddressRepository.Table
+                        join cam in _customerAddressMappingRepository.Table on address.Id equals cam.AddressId
+                        where cam.CustomerId == customerId
+                        select address;
+
+            var key = _cacheKeyService.PrepareKeyForShortTermCache(NopCustomerServicesDefaults.CustomerAddressesByCustomerIdCacheKey, customerId);
+
+            return _staticCacheManager.Get(key, () => query.ToList());
+        }
+
+        /// <summary>
+        /// Gets a address mapped to customer
+        /// </summary>
+        /// <param name="customerId">Customer identifier</param>
+        /// <param name="addressId">Address identifier</param>
+        /// <returns>Result</returns>
+        public virtual Address GetCustomerAddress(Guid customerId, Guid addressId)
+        {
+            if (customerId == default || addressId == default)
+                return null;
+
+            var query = from address in _customerAddressRepository.Table
+                        join cam in _customerAddressMappingRepository.Table on address.Id equals cam.AddressId
+                        where cam.CustomerId == customerId && address.Id == addressId
+                        select address;
+
+            var key = _cacheKeyService.PrepareKeyForShortTermCache(NopCustomerServicesDefaults.CustomerAddressCacheKeyCacheKey, customerId, addressId);
+
+            return _staticCacheManager.Get(key, () => query.Single());
+        }
+
+        /// <summary>
+        /// Gets a customer billing address
+        /// </summary>
+        /// <param name="customer">Customer identifier</param>
+        /// <returns>Result</returns>
+        public virtual Address GetCustomerBillingAddress(Core.Domain.Customers.Customer customer)
+        {
+            if (customer is null)
+                throw new ArgumentNullException(nameof(customer));
+
+            return GetCustomerAddress(customer.Id, customer.BillingAddressId ?? Guid.Empty);
+        }
+
+        /// <summary>
+        /// Gets a customer shipping address
+        /// </summary>
+        /// <param name="customer">Customer</param>
+        /// <returns>Result</returns>
+        public virtual Address GetCustomerShippingAddress(Core.Domain.Customers.Customer customer)
+        {
+            if (customer is null)
+                throw new ArgumentNullException(nameof(customer));
+
+            return GetCustomerAddress(customer.Id, customer.ShippingAddressId ?? Guid.Empty);
+        }
+
+        #endregion
     }
 }

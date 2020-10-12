@@ -51,5 +51,21 @@ namespace Nop.Service.Customer
         /// {1} : show hidden
         /// </remarks>
         public static CacheKey CustomerRoleIdsCacheKey => new CacheKey("Nop.customer.customerrole.ids-{0}-{1}", CustomerCustomerRolesPrefixCacheKey);
+
+        /// <summary>
+        /// Gets a key pattern to clear cache
+        /// </summary>
+        public static string CustomerAddressesPrefixCacheKey => "Nop.customer.addresses";
+        public static CacheKey CustomerAddressesByCustomerIdCacheKey => new CacheKey("Nop.customer.addresses.by.id-{0}", CustomerAddressesPrefixCacheKey);
+
+        /// <summary>
+        /// Gets a key for caching
+        /// </summary>
+        /// <remarks>
+        /// {0} : customer identifier
+        /// {1} : address identifier
+        /// </remarks>
+        public static CacheKey CustomerAddressCacheKeyCacheKey => new CacheKey("Nop.customer.addresses.address-{0}-{1}", CustomerAddressesPrefixCacheKey);
+
     }
 }
