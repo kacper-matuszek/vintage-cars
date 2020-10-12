@@ -45,4 +45,10 @@
   <LocalResource Name="Account.Register.Errors.UsernameAlreadyExists.Validation">
     <Value>Podany login już istnieje.</Value>
   </LocalResource>
+  <LocalResource Name="Address.CreateUpdateAddressCommand.FirstNameNotProvided.Validation">
+    <Value>Imię jest wymagane.</Value>
+  </LocalResource>
+  <LocalResource Name="Address.CreateUpdateAddressCommand.LastNameNotProvided.Validation">
+    <Value>Nazwisko jest wymagane.</Value>
+  </LocalResource>
 </Language>

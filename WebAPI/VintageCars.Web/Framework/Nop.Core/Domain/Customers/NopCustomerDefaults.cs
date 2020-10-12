@@ -1,4 +1,6 @@
-﻿namespace Nop.Core.Domain.Customers
+﻿using Nop.Core.Caching;
+
+namespace Nop.Core.Domain.Customers
 {
     /// <summary>
     /// Represents default values related to customers data
@@ -270,6 +272,18 @@
         /// </summary>
         public static string EuCookieLawAcceptedAttribute => "EuCookieLaw.Accepted";
 
+        #endregion
+
+        #region Cache keys
+
+        public static string CustomerPrefixCacheKey => "Nop.cst.{0}";
+        /// <summary>
+        /// Gets a key for caching
+        /// </summary>
+        /// <remarks>
+        /// {0} : customer ID
+        /// </remarks>
+        public static CacheKey CustomerPublicCacheKey => new CacheKey("Nop.cst.one.public-{0}", CustomerPrefixCacheKey);
         #endregion
     }
 }

@@ -63,6 +63,15 @@ namespace Nop.Service.Customer
             return customer;
         }
 
+        public virtual Core.Domain.Customers.Customer GetCustomer(Guid id)
+        {
+            if (id == Guid.Empty)
+                return null;
+
+            var key = _cacheKeyService.PrepareKeyForDefaultCache(NopCustomerDefaults.CustomerPublicCacheKey, id);
+            return _customerRepository.Table.ToCachedFirstOrDefault(key);
+        }
+
         /// <summary>
         /// Gets a value indicating whether customer is registered
         /// </summary>

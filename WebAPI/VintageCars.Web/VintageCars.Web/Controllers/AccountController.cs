@@ -1,6 +1,8 @@
 ﻿using System.Threading.Tasks;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using VintageCars.Domain.Customer.Address.Commands;
 using VintageCars.Domain.Customer.Commands;
 using VintageCars.Domain.Customer.Responses;
 
@@ -24,6 +26,11 @@ namespace VintageCars.Web.Controllers
 
         [HttpPost("recovery-password")]
         public async Task<ActionResult> RecoveryPassword([FromBody] RecoverPasswordCommand command)
+            => await ExecuteCommandWithoutResult(command);
+
+        [Authorize]
+        [HttpPost("details")]
+        public async Task<ActionResult> AddressAccountDetails([FromBody] CreateUpdateAddressCommand command)
             => await ExecuteCommandWithoutResult(command);
     }
 }

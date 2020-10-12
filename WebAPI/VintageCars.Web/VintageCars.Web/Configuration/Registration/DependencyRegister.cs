@@ -29,6 +29,7 @@ using Nop.Service.Shipping;
 using Nop.Service.Store;
 using Nop.Service.Tasks;
 using Nop.Services.Logging;
+using VintageCars.Service.Customers.Address;
 using VintageCars.Service.Infrastructure;
 using VintageCars.Service.Messages;
 using InstallationService = VintageCars.Service.Infrastructure.InstallationService;
@@ -86,6 +87,7 @@ namespace VintageCars.Web.Configuration.Registration
             builder.RegisterType<LocalizedEntityService>().As<ILocalizedEntityService>().InstancePerLifetimeScope();
             builder.RegisterType<ProductTagService>().As<IProductTagService>().InstancePerLifetimeScope();
             builder.RegisterType<ShippingService>().As<IShippingService>().InstancePerLifetimeScope();
+            builder.RegisterType<AddressService>().As<IAddressService>().InstancePerLifetimeScope();
 
             builder.RegisterType<ActionContextAccessor>().As<IActionContextAccessor>().InstancePerLifetimeScope();
 

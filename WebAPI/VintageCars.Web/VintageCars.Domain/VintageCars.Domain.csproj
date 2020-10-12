@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Customer\Address\Responses\" />
     <Folder Include="Settings\Models\" />
   </ItemGroup>
 

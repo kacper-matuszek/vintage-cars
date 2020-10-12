@@ -14,6 +14,8 @@ namespace Nop.Service.Customer
         /// <returns>Customer</returns>
         Core.Domain.Customers.Customer GetCustomerByEmail(string email);
 
+        Core.Domain.Customers.Customer GetCustomer(Guid id);
+
         /// <summary>
         /// Gets a value indicating whether customer is registered
         /// </summary>
