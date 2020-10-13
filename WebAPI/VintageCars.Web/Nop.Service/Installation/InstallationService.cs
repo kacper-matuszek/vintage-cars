@@ -29,7 +29,7 @@ namespace Nop.Service.Installation
         protected readonly IRepository<MessageTemplate> _messageTemplateRepository;
         protected readonly IRepository<EmailAccount> _emailAccountRepository;
         protected readonly IRepository<ScheduleTask> _scheduleTaskRepository;
-        protected readonly IRepository<Country> _countryRepository;
+        protected readonly IRepository<Core.Domain.Directory.Country> _countryRepository;
         protected readonly IRepository<StateProvince> _stateProvinceRepository;
         protected readonly ISettingService _settingsService;
         #endregion
@@ -40,7 +40,7 @@ namespace Nop.Service.Installation
             IRepository<MessageTemplate> messageTemplate,
             IRepository<EmailAccount> emailAccountRepository,
             IRepository<ScheduleTask> scheduleTaskRepository,
-            IRepository<Country> countryRepository,
+            IRepository<Core.Domain.Directory.Country> countryRepository,
             IRepository<StateProvince> stateProvinceRepository,
             ISettingService settingService)
         {
@@ -263,7 +263,7 @@ namespace Nop.Service.Installation
 
         protected virtual void InstallCountryWithProvince()
         {
-            var country = new Country()
+            var country = new Core.Domain.Directory.Country()
             {
                 Name = "Polska",
                 AllowsBilling = true,

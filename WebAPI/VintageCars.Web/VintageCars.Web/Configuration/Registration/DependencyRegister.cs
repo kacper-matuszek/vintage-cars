@@ -17,6 +17,7 @@ using Nop.Data;
 using Nop.Service.Caching;
 using Nop.Service.Catalog;
 using Nop.Service.Common;
+using Nop.Service.Country;
 using Nop.Service.Customer;
 using Nop.Service.Discounts;
 using Nop.Service.Installation;
@@ -88,6 +89,8 @@ namespace VintageCars.Web.Configuration.Registration
             builder.RegisterType<ProductTagService>().As<IProductTagService>().InstancePerLifetimeScope();
             builder.RegisterType<ShippingService>().As<IShippingService>().InstancePerLifetimeScope();
             builder.RegisterType<AddressService>().As<IAddressService>().InstancePerLifetimeScope();
+            builder.RegisterType<CountryService>().As<ICountryService>().InstancePerLifetimeScope();
+            builder.RegisterType<StateProvinceService>().As<IStateProvinceService>().InstancePerLifetimeScope();
 
             builder.RegisterType<ActionContextAccessor>().As<IActionContextAccessor>().InstancePerLifetimeScope();
 
