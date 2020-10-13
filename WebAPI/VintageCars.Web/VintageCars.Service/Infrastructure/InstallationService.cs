@@ -1,4 +1,5 @@
 ﻿using Nop.Core.Domain.Customers;
+using Nop.Core.Domain.Directory;
 using Nop.Core.Domain.Localization;
 using Nop.Core.Domain.Messages;
 using Nop.Core.Domain.Stores;
@@ -16,6 +17,8 @@ namespace VintageCars.Service.Infrastructure
             IRepository<MessageTemplate> messageTemplateRepository,
             IRepository<EmailAccount> emailAccountRepository,
             IRepository<ScheduleTask> scheduleTaskRepository,
+            IRepository<Country> countryRepository,
+            IRepository<StateProvince> stateProvinceRepository,
             ISettingService settingService) 
             : base(storeRepository,
             customerRoleRepository,
@@ -23,6 +26,8 @@ namespace VintageCars.Service.Infrastructure
             messageTemplateRepository,
             emailAccountRepository,
             scheduleTaskRepository,
+            countryRepository,
+            stateProvinceRepository,
             settingService)
         {
         }

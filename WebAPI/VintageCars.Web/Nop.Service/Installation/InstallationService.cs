@@ -195,7 +195,7 @@ namespace Nop.Service.Installation
         protected virtual void InstallLocaleResources()
         {
             //'English' language
-            var language = _languageRepository.Table.Single(l => l.Name == "English");
+            var language = _languageRepository.Table.Single(l => l.Name == "Polish");
 
             //save resources
             var directoryPath = _fileProvider.MapPath(NopInstallationDefaults.LocalizationResourcesPath);
