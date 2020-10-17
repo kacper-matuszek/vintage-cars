@@ -1,4 +1,4 @@
-import { Button, Dialog, DialogActions, DialogContent, Tab, Tabs } from "@material-ui/core"
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogProps, Tab, Tabs } from "@material-ui/core"
 import { useStyles } from "./navigation-form-dialog-style"
 import TabPanel from "./tab-panel/TabPanelComponent"
 import React from "react";
@@ -12,13 +12,13 @@ export interface NavigationFormDialogProps {
     open: boolean,
     onClose: () => void,
     showSave: boolean,
-    onSave: () => void
+    onSave: () => void,
 }
 export const NavigationFormDialog = (props: NavigationFormDialogProps) => {
     const classes = useStyles();
     const [value, setValue] = React.useState(0);
-    const [title, setTitle] = React.useState(props.title);
-    
+    const [title, setTitle] = React.useState(!props.titleIsDynamic ? props.title : props.iconsWithContent[0].title);
+    const {iconsWithContent} = props;
     /*HANDLERS*/
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -31,32 +31,32 @@ export const NavigationFormDialog = (props: NavigationFormDialogProps) => {
 
     return (
         <div className={classes.root}>
-            <Dialog open={props.open}>
+            <Dialog open={props.open} fullWidth={true}>
                 <DialogTitle id={"navigation-form-dialog"} onClose={props.onClose}>{title}</DialogTitle>
-                <DialogContent dividers>
+                <DialogContent dividers className={classes.dialogContent}>
                     <div className={classes.contentTab}>
                         <Tabs
                             value={value}
                             variant="scrollable"
                             orientation="vertical"
                             onChange={handleChange}
-                            indicatorColor="secondary"
+                            indicatorColor="primary"
                             textColor="secondary"
-                            aria-label="icon label tabs example"
+                            aria-label="icon label tabs"
                             className={classes.tabs}>
-                            {props.iconsWithContent.map(icon => (
-                                <Tab icon={icon.icon} />
+                            {props.iconsWithContent.map((icon, index) => (
+                                <Tab icon={icon.icon} key={`${icon.title}-${index}`} className={classes.tab} fullWidth />
                             ))}
-                        </Tabs>
-                        {props.iconsWithContent.map((icWithCont, index) => (
-                            <TabPanel value={value} index={index}>
-                                {icWithCont}
+                        </Tabs> 
+                        {iconsWithContent.map((icWithCont, index) => (
+                            <TabPanel value={value} index={index} key={`Panel-${icWithCont.title}-${index}`}>
+                                {icWithCont.content}
                             </TabPanel>
                         ))}
                     </div>
                 </DialogContent>
                 <DialogActions>
-                    { props.showSave ? <Button onClick={props.onSave} color="primary">
+                    { props.showSave ? <Button onClick={props.onSave} color="primary" variant="contained">
                         Zapisz
                     </Button> : ''}
                 </DialogActions>
