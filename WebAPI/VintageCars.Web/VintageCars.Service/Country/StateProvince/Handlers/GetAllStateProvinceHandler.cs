@@ -2,12 +2,12 @@
 using System.Threading.Tasks;
 using MediatR;
 using Nop.Core;
-using Nop.Core.Infrastructure.Mapper;
 using Nop.Service.Country;
 using VintageCars.Domain.Country.StateProvince.Commands;
 using VintageCars.Domain.Country.StateProvince.Response;
+using VintageCars.Domain.Extensions;
 
-namespace VintageCars.Domain.Country.StateProvince.Handlers
+namespace VintageCars.Service.Country.StateProvince.Handlers
 {
     public class GetAllStateProvinceHandler : IRequestHandler<GetAllStateProvinceCommand, IPagedList<StateProvinceView>>
     {
@@ -22,8 +22,7 @@ namespace VintageCars.Domain.Country.StateProvince.Handlers
         {
             var pagedList = _stateProvinceService.GetAll(request.CountryId, pageIndex: request.Paged.PageIndex,
                 pageSize: request.Paged.PageSize);
-            return Task.FromResult(AutoMapperConfiguration.Mapper
-                .Map<IPagedList<Nop.Core.Domain.Directory.StateProvince>, IPagedList<StateProvinceView>>(pagedList));
+            return Task.FromResult(pagedList.ConvertPagedList<Nop.Core.Domain.Directory.StateProvince, StateProvinceView>());
         }
     }
 }

@@ -2,12 +2,12 @@
 using System.Threading.Tasks;
 using MediatR;
 using Nop.Core;
-using Nop.Core.Infrastructure.Mapper;
 using Nop.Service.Country;
 using VintageCars.Domain.Country.Commands;
 using VintageCars.Domain.Country.Response;
+using VintageCars.Domain.Extensions;
 
-namespace VintageCars.Domain.Country.Handlers
+namespace VintageCars.Service.Country.Handlers
 {
     public class GetAllHandler : IRequestHandler<GetAllCommand, IPagedList<CountryView>>
     {
@@ -21,9 +21,7 @@ namespace VintageCars.Domain.Country.Handlers
         public Task<IPagedList<CountryView>> Handle(GetAllCommand request, CancellationToken cancellationToken)
         {
             var pagedList = _countryService.GetAllCountries(request.Paged.PageIndex, request.Paged.PageSize);
-            return Task.FromResult(
-                AutoMapperConfiguration.Mapper
-                    .Map<IPagedList<Nop.Core.Domain.Directory.Country>, IPagedList<CountryView>>(pagedList));
+            return Task.FromResult(pagedList.ConvertPagedList<Nop.Core.Domain.Directory.Country,CountryView>());
         }
     }
 }

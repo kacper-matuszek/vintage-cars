@@ -17,7 +17,7 @@ namespace VintageCars.Service.Infrastructure
             IRepository<MessageTemplate> messageTemplateRepository,
             IRepository<EmailAccount> emailAccountRepository,
             IRepository<ScheduleTask> scheduleTaskRepository,
-            IRepository<Country> countryRepository,
+            IRepository<Nop.Core.Domain.Directory.Country> countryRepository,
             IRepository<StateProvince> stateProvinceRepository,
             ISettingService settingService) 
             : base(storeRepository,

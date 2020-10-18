@@ -24,7 +24,7 @@ namespace VintageCars.Web.Controllers
             => Single(await SendAsync(new GetAllCommand(pageInfo)));
 
         [HttpGet("state-province/all/{countryId:guid}")]
-        public async Task<ActionResult<IPagedList<StateProvinceView>>> GetAll([FromQuery] Guid countryId, [FromQuery] PagedRequest pageInfo)
+        public async Task<ActionResult<IPagedList<StateProvinceView>>> GetAll(Guid countryId, [FromQuery] PagedRequest pageInfo)
             => Single(await SendAsync(new GetAllStateProvinceCommand(countryId, pageInfo)));
 
     }

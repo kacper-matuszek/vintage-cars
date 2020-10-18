@@ -1,4 +1,6 @@
-﻿using AutoMapper;
+﻿using System.Collections.Generic;
+using AutoMapper;
+using Nop.Core;
 using Nop.Core.Infrastructure.Mapper;
 using VintageCars.Domain.Country.Response;
 
