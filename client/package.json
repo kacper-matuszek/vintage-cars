@@ -23,6 +23,7 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-google-recaptcha": "^2.1.0",
+    "react-virtuoso": "^0.20.0",
     "sass": "^1.26.11",
     "styled-components": "^5.2.0",
     "styled-jsx": "^3.3.0",
