@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Nop.Core;
+using VintageCars.Domain.Common;
 using VintageCars.Domain.Country.Commands;
 using VintageCars.Domain.Country.Response;
 using VintageCars.Domain.Country.StateProvince.Commands;
@@ -20,11 +20,11 @@ namespace VintageCars.Web.Controllers
         }
 
         [HttpGet("all")]
-        public async Task<ActionResult<IPagedList<CountryView>>> GetAll([FromQuery] PagedRequest pageInfo)
+        public async Task<ActionResult<PagedList<CountryView>>> GetAll([FromQuery] PagedRequest pageInfo)
             => Single(await SendAsync(new GetAllCommand(pageInfo)));
 
         [HttpGet("state-province/all/{countryId:guid}")]
-        public async Task<ActionResult<IPagedList<StateProvinceView>>> GetAll(Guid countryId, [FromQuery] PagedRequest pageInfo)
+        public async Task<ActionResult<PagedList<StateProvinceView>>> GetAll(Guid countryId, [FromQuery] PagedRequest pageInfo)
             => Single(await SendAsync(new GetAllStateProvinceCommand(countryId, pageInfo)));
 
     }
