@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useContext, useState} from "react";
 import RegisterForm from "../../../components/login/register-form/RegisterForm"
 import { CaptchaKeyResponse } from "../../../components/login/models/CaptchaKeyResponse";
 import BaseWebApiService from "../../../core/services/api-service/BaseWebApiService";
@@ -6,8 +6,10 @@ import { toCallback, postCallback } from "../../../core/services/api-service/Cal
 import RegisterValidator from "../../../components/login/models/validators/RegisterValidator";
 import { RegisterAccount } from "../../../components/login/models/RegisterAccount";
 import { useRouter } from "next/router";
+import NotificationContext from "../../../contexts/NotificationContext";
 
 const RegisterPage = (props) => {
+    const {showSuccessMessage, showErrorMessage, showWarningMessage} = useContext(NotificationContext);
     const apiService = new BaseWebApiService();
     const router = useRouter();
     /*state */
@@ -25,10 +27,10 @@ const RegisterPage = (props) => {
         if(validator.canContinue) {
             props.setLoading(true);
             apiService.postWithoutResponse("/v1/account/register", registerData, postCallback(
-                vErr => props.showWarning(vErr.message),
-                err => props.showError(err.message),
+                vErr => showWarningMessage(vErr.message),
+                err => showErrorMessage(err.message),
                 () => {
-                    props.showSuccess("Zarejestrowano pomyślnie. Przechodzenie do logowania...");
+                    showSuccessMessage("Zarejestrowano pomyślnie. Przechodzenie do logowania...");
                     router.push('/login')
                 }
             )).finally(() => props.setLoading(false));
