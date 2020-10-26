@@ -1,4 +1,4 @@
-import React, { useState} from "react";
+import React, { useContext, useState} from "react";
 import BaseWebApiService from "../../../core/services/api-service/BaseWebApiService";
 import { postCallback, toCallback } from "../../../core/services/api-service/Callback";
 import LoginForm from "../../../components/login/login-form/LoginForm";
@@ -10,8 +10,10 @@ import Cookie from 'universal-cookie';
 import RecoveryPassword from "../../../components/login/login-form/RecoveryPassword";
 import CookieDictionary from "../../../core/models/settings/cookieSettings/CookieDictionary";
 import { useRouter } from "next/router";
+import NotificationContext from "../../../contexts/NotificationContext";
 
 const LoginPage = (props) => {
+    const {showSuccessMessage, showErrorMessage, showWarningMessage} = useContext(NotificationContext);
     const apiService = new BaseWebApiService();
     const router = useRouter();
     /*state*/
@@ -58,7 +60,7 @@ const LoginPage = (props) => {
                         router.push('/');
                         return;
                     }
-                    props.showError("Nie udało się zalogować. Sprawdź poprawność email oraz hasła.");
+                    showErrorMessage("Nie udało się zalogować. Sprawdź poprawność email oraz hasła.");
                 },
                 vErr => props.showWarning(vErr.message),
                 err => props.showError(err.message),
@@ -69,8 +71,8 @@ const LoginPage = (props) => {
     const sendRecoveryPasswordHandle = (email) => {
         props.setLoading(true);
         apiService.postWithoutResponse("/v1/account/recovery-password", {email}, postCallback(
-            vErr => props.showWarning(vErr.message),
-            err => props.showError(err.message),
+            vErr => showWarningMessage(vErr.message),
+            err => showErrorMessage(err.message),
         )).finally(() => props.setLoading(false))
     }
     return (

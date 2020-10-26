@@ -6,6 +6,7 @@ import isEmpty from "../../core/models/utils/StringExtension";
 import CookieDictionary from "../../core/models/settings/cookieSettings/CookieDictionary";
 import Router from 'next/router';
 import Cookie from 'universal-cookie';
+import useLog from "../../hooks/fetch/pagedAPI/LogHook";
 
 export default function App({Component, pageProps, router}) {
     const [loading, setLoading] = useState(false);
@@ -19,56 +20,6 @@ export default function App({Component, pageProps, router}) {
     Router.onRouteChangeError = () => {
         setLoading(false);
     }
-    /*errors*/
-    const [showErrorResponse, setErrorResponse] = useState(false);
-    const [showErrorRespText, setErrorRespText] = useState("");
-    const [showValidationResponse, setValidationResponse] = useState(false);
-    const [showValidationRespText, setValidationRespText] =  useState("");
-    const [showSuccess, setSuccess] = useState(false);
-    const [showSuccessText, setSuccessText] = useState("");
-
-    const handleError = (event, reason) => {
-        if (reason === 'clickaway') {
-            return;
-          }
-        
-        if(showValidationResponse)
-        {
-            setValidationResponse(false);
-            setValidationRespText("");
-            return;
-        }
-        setErrorResponse(!showErrorResponse);
-        setErrorRespText("");
-    }
-
-    const handleShowError = (content) => {
-        if(!isEmpty(content)) {
-            setErrorRespText(content);
-            setErrorResponse(true);
-        }
-    }
-
-    const handleShowWarning = (content) => {
-        if(!isEmpty(content)) {
-            setValidationRespText(content);
-            setValidationResponse(true);
-        }
-    }
-    
-    const handleSuccess = (event, reason) => {
-        if(reason === 'clickway')
-            return;
-        setSuccess(false);
-        setSuccessText("");
-    }
-
-    const handleShowSuccess = (content) => {
-        if(!isEmpty(content)) {
-            setSuccessText(content);
-            setSuccess(true);
-        }
-    }
 
     const checkAuthorization = () => {
         const value = new Cookie().get(CookieDictionary.Token);
@@ -76,23 +27,14 @@ export default function App({Component, pageProps, router}) {
     }
 
     return (
-        <AppBase title={pageProps.title} loading={loading}
-        showError={showErrorResponse} errorMessage={showErrorRespText} handleError={handleError}
-        showValidation={showValidationResponse} validationMessage={showValidationRespText} handleSuccess={handleSuccess}
-        showSuccessMessage={showSuccess} successMessage={showSuccessText}>
+        <AppBase title={pageProps.title} loading={loading}>
             {router.pathname.startsWith('/login') || router.pathname.startsWith('/register') ? 
             <PictureContent>
                 <Component {...pageProps} 
-                setLoading={setLoading}
-                showError={handleShowError}
-                showWarning={handleShowWarning}
-                showSuccess={handleShowSuccess}/>
+                setLoading={setLoading}/>
             </PictureContent> : <MainLayout isAuthorized={checkAuthorization()}>
             <Component {...pageProps} 
-            setLoading={setLoading}
-            showError={handleShowError}
-            showWarning={handleShowWarning}
-            showSuccess={handleShowSuccess}/>
+            setLoading={setLoading}/>
             </MainLayout>
             }
         </AppBase>

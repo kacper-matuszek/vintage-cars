@@ -1,26 +1,25 @@
 import React, { ReactNode, ReactElement, useState, forwardRef, useImperativeHandle } from 'react'
 import Head from 'next/head'
-import { ThemeProvider, Container, Grid, CircularProgress, Backdrop, Snackbar } from '@material-ui/core'
+import { ThemeProvider, Container, Grid, CircularProgress, Backdrop, Snackbar, Slide } from '@material-ui/core'
 import { theme, useStyles, backdropStyle } from '../theme'
 import Alert from '@material-ui/lab/Alert'
+import useLog from '../../hooks/fetch/pagedAPI/LogHook'
+import NotificationContext from '../../contexts/NotificationContext'
+import { TransitionProps } from '@material-ui/core/transitions/transition'
 
 type Props = {
     children?: ReactNode
     title?: string,
     head?: ReactElement,
     loading?: boolean,
-    showError?: boolean,
-    errorMessage?: string,
-    handleError?: (event?: React.SyntheticEvent, reason?: string) => void,
-    showValidation?: boolean,
-    validationMessage?: string,
-    successMessage?:string,
-    showSuccessMessage?: boolean,
-    handleSuccess?: (event?: React.SyntheticEvent, reason?: string) => void,
 }
-const AppBase = ({children, title, head, loading, showError, errorMessage, handleError, showValidation, validationMessage, successMessage, showSuccessMessage, handleSuccess}: Props, ref) => {
+const AppBase = ({children, title, head, loading}: Props, ref) => {
     const classes = backdropStyle();
     const gridStyles = useStyles();
+    const [showSuccessMessage, successMessage, isShowSuccessMessage, successHandleClose, successOnClosed] = useLog();
+    const [showErrorMessage, errorMessage, isShowErrorMessage, errorHandleClose, errorOnClosed] = useLog();
+    const [showWarningMessage, warningMessage, isShowWarnigMessage, warnignHandleClose, warningOnClosed] = useLog();
+    const notificationContextValue = {showSuccessMessage, showErrorMessage, showWarningMessage};
     return(
         <div>
             <Head>
@@ -30,21 +29,23 @@ const AppBase = ({children, title, head, loading, showError, errorMessage, handl
                 {head}
             </Head>
             <ThemeProvider theme={theme}>
-                <Grid container className={gridStyles.root}>
-                    <Backdrop className={classes.backdrop} open={loading}>
-                        <CircularProgress style={{'color': 'white'}} />
-                    </Backdrop>
-                     {children}
-                </Grid>
-                <Snackbar open={showValidation} onClose={handleError} autoHideDuration={6000}>
-                    <Alert severity="warning" onClose={handleError} variant="filled">{validationMessage}</Alert>
-                </Snackbar>
-                <Snackbar open={showError} onClose={handleError}>
-                    <Alert severity="error" onClose={handleError} variant="filled">{errorMessage}</Alert>
-                </Snackbar>
-                <Snackbar open={showSuccessMessage} onClose={handleSuccess} autoHideDuration={6000}>
-                    <Alert severity="success" onClose={handleSuccess} variant="filled">{successMessage}</Alert>
-                </Snackbar>
+                <NotificationContext.Provider value={notificationContextValue}>
+                    <Grid container className={gridStyles.root}>
+                        <Backdrop className={classes.backdrop} open={loading}>
+                            <CircularProgress style={{'color': 'white'}} />
+                        </Backdrop>
+                         {children}
+                    </Grid>
+                    <Snackbar open={isShowWarnigMessage} onClose={warnignHandleClose} autoHideDuration={6000} onExited={warningOnClosed}>
+                        <Alert severity="warning" onClose={warnignHandleClose} variant="filled">{warningMessage}</Alert>
+                    </Snackbar>
+                    <Snackbar open={isShowErrorMessage} onClose={errorHandleClose} onExited={errorOnClosed}>
+                        <Alert severity="error" onClose={errorHandleClose} variant="filled">{errorMessage}</Alert>
+                    </Snackbar>
+                    <Snackbar open={isShowSuccessMessage} onClose={successHandleClose} autoHideDuration={6000} onExited={successOnClosed}>
+                        <Alert severity="success" onClose={successHandleClose} variant="filled">{successMessage}</Alert>
+                    </Snackbar>
+                </NotificationContext.Provider>
             </ThemeProvider>
         </div>
 )}
