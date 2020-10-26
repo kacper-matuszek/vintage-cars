@@ -1,40 +1,20 @@
-import { Container, FormControl, Grid, InputLabel, Paper, Select, TextField } from "@material-ui/core";
-import { useCallback, useEffect, useRef, useState } from "react";
-import { Virtuoso } from "react-virtuoso";
+import { Container, TextField } from "@material-ui/core";
+import { Guid } from "guid-typescript";
+import { useState } from "react";
+import Paged from "../../../core/models/paged/Paged";
+import usePagedListAPI from "../../../hooks/fetch/pagedAPI/PagedAPIHook";
+import SimpleInfiniteSelect from "../../base/select/simple-infinite-select/SimpleInfiniteSelectComponent";
+import CountryView from "../models/CountryView";
+import StateProvinceView from "../models/StateProvinceView";
 import { profileSectionStyle } from "./profile-section-style";
 
 const ProfileSection = (props) => {
     const classes = profileSectionStyle();
-    const [totalCountry, setTotalCountry] = useState(0);
-    const [totalStateProvince, setTotalStateProvince] = useState(0);
+    const [countryId, setCountryId] = useState(Guid.createEmpty());
+    const [stateProvinceId, setStateProvinceId] = useState(Guid.createEmpty());
+    const [fetchCountry, isLoadingCountry, responseCountry] = usePagedListAPI<CountryView>("/v1/country/all");
+    const [fetchStateProvince, isLoadingStateProvince, responseStateProvince] = usePagedListAPI<StateProvinceView>(`/v1/country/state-province/all/${countryId}`);
 
-    const countryItems = useRef([]);
-    const stateProvinceItems = useRef([]);
-
-    const countryLoading = useRef(false);
-    const stateProvinceLoading = useRef(false);
-
-    const loadMoreCountries = useCallback(() => {
-        if(countryLoading.current)
-            return;
-        countryLoading.current = true;
-        //get from api
-        countryLoading.current = false
-        setTotalCountry(countryItems.current.length);
-    }, []);
-    const loadMoreStateProvinces = useCallback(() => {
-        if(stateProvinceLoading.current)
-            return;
-        stateProvinceLoading.current = true;
-        //get from api
-        stateProvinceLoading.current = false;
-        setTotalStateProvince(stateProvinceItems.current.length);
-    }, [])
-
-    useEffect(() => {
-        loadMoreCountries();
-        loadMoreStateProvinces();
-    }, [])
     return (
         <Container>
             <form className={classes.form} noValidate method="POST">
@@ -79,40 +59,34 @@ const ProfileSection = (props) => {
                 label="Nazwa firmy"
                 name="company"
                 autoComplete="company" />
-                <FormControl variant="outlined">
-                    <InputLabel id="label-select-outlined-country">Country</InputLabel>
-                    <Select labelId="label-select-outlined-country"
-                    id="select-outlined-country"
-                    label="Country">
-                        <Virtuoso
-                        overscan={500}
-                        totalCount={totalCountry}
-                        footer={() => {
-                            return (
-                                <div style={{padding: '2rem', textAlign: 'center'}}>
-                                    Loading...
-                                </div>
-                            )
-                        }}
-                        />
-                    </Select>
-                </FormControl>
-                <TextField
-                variant="outlined"
-                margin="normal"
-                fullWidth
-                id="country"
-                label="Kraj"
-                name="country"
-                autoComplete="country" />
-                <TextField
-                variant="outlined"
-                margin="normal"
-                fullWidth
-                id="stateProvince"
-                label="Województwo"
-                name="stateProvince"
-                autoComplete="stateProvince" />
+                <SimpleInfiniteSelect
+                    id="country"
+                    label="Kraj"
+                    maxHeight="200px"
+                    fullWidth={true}
+                    pageSize={10}
+                    isLoading={isLoadingCountry}
+                    fetchData={fetchCountry}
+                    data={responseCountry?.source}
+                    onChangeValue={(value) => { 
+                        setCountryId(value);
+                        fetchStateProvince(new Paged(0, 10));
+                    }}
+                    totalCount={responseCountry?.totalCount}
+                /> 
+                <SimpleInfiniteSelect
+                    id="state-province"
+                    label="Województwo"
+                    maxHeight="200px"
+                    disabled={countryId.toString() === Guid.EMPTY}
+                    fullWidth={true}
+                    pageSize={10}
+                    isLoading={isLoadingStateProvince}
+                    fetchData={fetchStateProvince}
+                    data={responseStateProvince?.source}
+                    onChangeValue={(value) => setStateProvinceId(value)}
+                    totalCount={responseStateProvince?.totalCount}
+                />
                 <TextField
                 variant="outlined"
                 margin="normal"
