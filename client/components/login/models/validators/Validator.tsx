@@ -27,6 +27,10 @@ export class ValidatorManage {
                         if(value == null || value == undefined || value == ""){
                             validator.isValid = false;
                         }
+                    case ValidatorType.ZipCode:
+                        if(!(/^(?:[0-9]{2}-[0-9]{3})$/.test(value ))) {
+                            validator.isValid = false
+                        }
                         break;
                 }
 
@@ -65,7 +69,8 @@ export class Validator {
 }
 
 export enum ValidatorType {
-    NotEmpty = 1
+    NotEmpty = 1,
+    ZipCode = 2
 }
 
 export interface IValidatorDictionary extends IDictionary<Validator> {
