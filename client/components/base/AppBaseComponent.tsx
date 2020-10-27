@@ -1,6 +1,6 @@
 import React, { ReactNode, ReactElement, useState, forwardRef, useImperativeHandle } from 'react'
 import Head from 'next/head'
-import { ThemeProvider, Container, Grid, CircularProgress, Backdrop, Snackbar, Slide } from '@material-ui/core'
+import { ThemeProvider, Container, Grid, CircularProgress, Backdrop, Snackbar, Slide, CssBaseline } from '@material-ui/core'
 import { theme, useStyles, backdropStyle } from '../theme'
 import Alert from '@material-ui/lab/Alert'
 import useLog from '../../hooks/fetch/pagedAPI/LogHook'
@@ -29,6 +29,7 @@ const AppBase = ({children, title, head, loading}: Props, ref) => {
                 {head}
             </Head>
             <ThemeProvider theme={theme}>
+                <CssBaseline/>
                 <NotificationContext.Provider value={notificationContextValue}>
                     <Grid container className={gridStyles.root}>
                         <Backdrop className={classes.backdrop} open={loading}>

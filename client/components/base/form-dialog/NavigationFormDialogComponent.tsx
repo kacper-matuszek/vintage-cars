@@ -1,4 +1,4 @@
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogProps, Tab, Tabs } from "@material-ui/core"
+import { Box, Button, Container, CssBaseline, Dialog, DialogActions, DialogContent, DialogProps, Tab, Tabs } from "@material-ui/core"
 import { useStyles } from "./navigation-form-dialog-style"
 import TabPanel from "./tab-panel/TabPanelComponent"
 import React from "react";
@@ -12,7 +12,7 @@ export interface NavigationFormDialogProps {
     open: boolean,
     onClose: () => void,
     showSave: boolean,
-    onSave: () => void,
+    // onSave: () => void,
 }
 export const NavigationFormDialog = (props: NavigationFormDialogProps) => {
     const classes = useStyles();
@@ -34,7 +34,6 @@ export const NavigationFormDialog = (props: NavigationFormDialogProps) => {
             <Dialog open={props.open} fullWidth={true}>
                 <DialogTitle id={"navigation-form-dialog"} onClose={props.onClose}>{title}</DialogTitle>
                 <DialogContent dividers className={classes.dialogContent}>
-                    <div className={classes.contentTab}>
                         <Tabs
                             value={value}
                             variant="scrollable"
@@ -53,13 +52,8 @@ export const NavigationFormDialog = (props: NavigationFormDialogProps) => {
                                 {icWithCont.content}
                             </TabPanel>
                         ))}
-                    </div>
                 </DialogContent>
-                <DialogActions>
-                    { props.showSave ? <Button onClick={props.onSave} color="primary" variant="contained">
-                        Zapisz
-                    </Button> : ''}
-                </DialogActions>
+                <DialogTitle id={"navigation-form-dialog-footer"} onClose={() => {}}>{""}</DialogTitle>
             </Dialog>
         </div>
     )

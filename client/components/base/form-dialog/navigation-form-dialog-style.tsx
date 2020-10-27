@@ -7,13 +7,12 @@ export const useStyles = makeStyles((theme: Theme) => ({
       backgroundColor: theme.palette.background.paper,
       display: 'flex',
     },
-    contentTab: {
-        display: 'flex',
-        margin: '1vh',
-        marginLeft: '0px'
-    },
     dialogContent: {
-      paddingLeft: '0px'
+      display: 'flex',
+      position: 'relative',
+      paddingLeft: '0px',
+      paddingRight: '0px',
+      padding: '1vh',
     },
     tabs: {
       borderRight: `1px solid ${theme.palette.divider}`,
@@ -22,5 +21,5 @@ export const useStyles = makeStyles((theme: Theme) => ({
     tab: {
       minWidth: '90px',
       padding: '1vh'
-    }
+    },
   }));
