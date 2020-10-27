@@ -1,4 +1,4 @@
-import { Container, TextField } from "@material-ui/core";
+import { Box, Button, Container, Divider, TextField } from "@material-ui/core";
 import { Guid } from "guid-typescript";
 import { useState } from "react";
 import Paged from "../../../core/models/paged/Paged";
@@ -17,7 +17,7 @@ const ProfileSection = (props) => {
 
     return (
         <Container>
-            <form className={classes.form} noValidate method="POST">
+            <form className={classes.form} noValidate method="POST" onSubmit={props.onSubmit}>
                 <TextField
                 error={!!props.errors.firstName}
                 helperText={props.errors.firstName}
@@ -111,6 +111,15 @@ const ProfileSection = (props) => {
                 label="Kod pocztowy"
                 name="postalCode"
                 autoComplete="postalCode" />
+                <Box p={5}></Box>
+                <Box display="flex" justifyContent="flex-end" width="100%" m={2}>
+                    <Button
+                        type="submit"
+                        variant="contained"
+                        color="primary">
+                            Zapisz
+                    </Button>
+                </Box>
             </form>
         </Container>
     )
