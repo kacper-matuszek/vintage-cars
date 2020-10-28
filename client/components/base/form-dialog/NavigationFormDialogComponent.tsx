@@ -53,7 +53,7 @@ export const NavigationFormDialog = (props: NavigationFormDialogProps) => {
                             </TabPanel>
                         ))}
                 </DialogContent>
-                <DialogTitle id={"navigation-form-dialog-footer"} onClose={() => {}}>{""}</DialogTitle>
+                <DialogTitle id={"navigation-form-dialog-footer"} onClose={props.onClose}>{""}</DialogTitle>
             </Dialog>
         </div>
     )
