@@ -27,6 +27,7 @@ export class ValidatorManage {
                         if(value == null || value == undefined || value == ""){
                             validator.isValid = false;
                         }
+                        break;
                     case ValidatorType.ZipCode:
                         if(!(/^(?:[0-9]{2}-[0-9]{3})$/.test(value ))) {
                             validator.isValid = false
