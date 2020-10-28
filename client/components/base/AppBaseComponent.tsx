@@ -1,4 +1,4 @@
-import React, { ReactNode, ReactElement, useState, forwardRef, useImperativeHandle } from 'react'
+import React, { ReactNode, ReactElement, useState, forwardRef, useImperativeHandle, Dispatch, SetStateAction } from 'react'
 import Head from 'next/head'
 import { ThemeProvider, Container, Grid, CircularProgress, Backdrop, Snackbar, Slide, CssBaseline } from '@material-ui/core'
 import { theme, useStyles, backdropStyle } from '../theme'
@@ -6,20 +6,23 @@ import Alert from '@material-ui/lab/Alert'
 import useLog from '../../hooks/fetch/pagedAPI/LogHook'
 import NotificationContext from '../../contexts/NotificationContext'
 import { TransitionProps } from '@material-ui/core/transitions/transition'
+import LoadingContext from '../../contexts/LoadingContext'
 
 type Props = {
     children?: ReactNode
     title?: string,
     head?: ReactElement,
     loading?: boolean,
+    setLoading: Dispatch<SetStateAction<boolean>>
 }
-const AppBase = ({children, title, head, loading}: Props, ref) => {
+const AppBase = ({children, title, head, loading, setLoading}: Props, ref) => {
     const classes = backdropStyle();
     const gridStyles = useStyles();
     const [showSuccessMessage, successMessage, isShowSuccessMessage, successHandleClose, successOnClosed] = useLog();
     const [showErrorMessage, errorMessage, isShowErrorMessage, errorHandleClose, errorOnClosed] = useLog();
     const [showWarningMessage, warningMessage, isShowWarnigMessage, warnignHandleClose, warningOnClosed] = useLog();
     const notificationContextValue = {showSuccessMessage, showErrorMessage, showWarningMessage};
+    const loadingContextValue = {showLoading: () => setLoading(true), hideLoading: () => setLoading(false)};
     return(
         <div>
             <Head>
@@ -31,12 +34,14 @@ const AppBase = ({children, title, head, loading}: Props, ref) => {
             <ThemeProvider theme={theme}>
                 <CssBaseline/>
                 <NotificationContext.Provider value={notificationContextValue}>
-                    <Grid container className={gridStyles.root}>
-                        <Backdrop className={classes.backdrop} open={loading}>
-                            <CircularProgress style={{'color': 'white'}} />
-                        </Backdrop>
-                         {children}
-                    </Grid>
+                    <LoadingContext.Provider value={loadingContextValue}>
+                        <Grid container className={gridStyles.root}>
+                            <Backdrop className={classes.backdrop} open={loading}>
+                                <CircularProgress style={{'color': 'white'}} />
+                            </Backdrop>
+                             {children}
+                        </Grid>
+                    </LoadingContext.Provider>
                     <Snackbar open={isShowWarnigMessage} onClose={warnignHandleClose} autoHideDuration={6000} onExited={warningOnClosed}>
                         <Alert severity="warning" onClose={warnignHandleClose} variant="filled">{warningMessage}</Alert>
                     </Snackbar>

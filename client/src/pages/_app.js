@@ -27,7 +27,7 @@ export default function App({Component, pageProps, router}) {
     }
 
     return (
-        <AppBase title={pageProps.title} loading={loading}>
+        <AppBase title={pageProps.title} loading={loading} setLoading={setLoading}>
             {router.pathname.startsWith('/login') || router.pathname.startsWith('/register') ? 
             <PictureContent>
                 <Component {...pageProps} 
