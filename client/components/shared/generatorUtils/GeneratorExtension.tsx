@@ -4,6 +4,7 @@ import { NameWithNode, RouterWithElement } from '../../../core/models/base/NameW
 import { ListItemLink } from './ListItemLinkComponent';
 import Link from "next/link";
 import { generateUnique } from '../../../core/models/utils/Generator';
+import isEmpty from '../../../core/models/utils/StringExtension';
 
 export const generateMenuItems = (items: Array<NameWithNode>) => {
     return(
@@ -24,6 +25,7 @@ export const generateRouteMenuItems = (items: Array<RouterWithElement>) => {
     return(
         <div>
             {items.map((routerWithElement) => (
+                !isEmpty(routerWithElement.route) ?
                 <Link href={routerWithElement.route} key={generateUnique(routerWithElement.name)}>
                 <MenuItem key={generateUnique(routerWithElement.name)}>
                     <ListItemIcon>
@@ -31,7 +33,13 @@ export const generateRouteMenuItems = (items: Array<RouterWithElement>) => {
                     </ListItemIcon>
                 <Typography variant="inherit">{routerWithElement.name}</Typography>
                 </MenuItem>
-                </Link>
+                </Link> : 
+                <MenuItem key={generateUnique(routerWithElement.name)} onClick={routerWithElement.onClick}>
+                <ListItemIcon>
+                    {routerWithElement.children}
+                </ListItemIcon>
+                <Typography variant="inherit">{routerWithElement.name}</Typography>
+                </MenuItem> 
             ))}
         </div>
     )

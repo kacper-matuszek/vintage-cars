@@ -11,8 +11,6 @@ export interface NavigationFormDialogProps {
     iconsWithContent: Array<IconWithContent>,
     open: boolean,
     onClose: () => void,
-    showSave: boolean,
-    // onSave: () => void,
 }
 export const NavigationFormDialog = (props: NavigationFormDialogProps) => {
     const classes = useStyles();

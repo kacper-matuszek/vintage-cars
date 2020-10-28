@@ -9,15 +9,18 @@ import Footer from '../footer/FooterComponent'
 import { AppBar, Box, Fade, Paper, Typography } from '@material-ui/core'
 import { layoutStyle } from './main-layout-style'
 import FooterSection from '../footer/footer-section/FooterSectionComponent'
+import NavigationProfileDialog from '../../profile/NavigationProfileDialogComponent'
+import useOpenClose from '../../../hooks/utils/CloseHook'
 
 const MainLayout = (props) => {
     const classes = layoutStyle();
     const fontSize = "small";
+    const [isNavigationProfileOpen, setNavigationProfileOpen, closeNavigationProfile] = useOpenClose();
     const accountMenu: Array<RouterWithElement> = [
-        {name: "Profil", route: "/profile",children: <PersonIcon fontSize={fontSize}/>},
+        {name: "Profil", route: "", onClick: () => setNavigationProfileOpen(true),children: <PersonIcon fontSize={fontSize}/>},
     ]
     const sideBarItems: Array<RouterWithElement> = [
-        {name: "Lista samochodów", route: "/login", children: <DirectionsCarIcon fontSize={fontSize}/>}
+        {name: "Lista samochodów", route: "/login", onClick: () => {}, children: <DirectionsCarIcon fontSize={fontSize}/>}
     ]
     
     return (
@@ -32,6 +35,10 @@ const MainLayout = (props) => {
                     <Box className={classes.layoutContent}>
                         <Paper className={classes.paperBox} elevation={3}>
                             {props.children}
+                            <NavigationProfileDialog
+                             open={isNavigationProfileOpen}
+                             onClose={closeNavigationProfile}
+                            />
                         </Paper>
                     </Box>
                 </Box>

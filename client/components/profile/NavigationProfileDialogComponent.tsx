@@ -18,7 +18,6 @@ const NavigationProfileDialog = (props) => {
         iconsWithContent={navigation}
         open={props.open}
         onClose={props.onClose}
-        showSave={props.showSave}
         />
     )
 }
