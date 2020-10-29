@@ -11,7 +11,7 @@ namespace VintageCars.Domain.Commands.Base
     {
     }
 
-    public abstract class QueryPagedBase<TResult> : IRequest<TResult>
+    public abstract class QueryPagedBase<TResult> : QueryBase<TResult>
         where TResult : class
     {
         public PagedRequest Paged { get; set; }
@@ -23,5 +23,11 @@ namespace VintageCars.Domain.Commands.Base
         {
             Paged = paged;
         }
+    }
+
+    public abstract class AuthorizationQueryBase<TResult> : AuthorizationCommandBase<TResult>
+        where TResult : class
+    {
+
     }
 }
