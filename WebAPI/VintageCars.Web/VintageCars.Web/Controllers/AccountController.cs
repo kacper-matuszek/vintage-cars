@@ -3,6 +3,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using VintageCars.Domain.Customer.Address.Commands;
+using VintageCars.Domain.Customer.Address.Responses;
 using VintageCars.Domain.Customer.Commands;
 using VintageCars.Domain.Customer.Responses;
 
@@ -32,5 +33,10 @@ namespace VintageCars.Web.Controllers
         [HttpPost("details")]
         public async Task<ActionResult> AddressAccountDetails([FromBody] CreateUpdateAddressCommand command)
             => await ExecuteCommandWithoutResult(command);
+
+        [Authorize]
+        [HttpGet("details")]
+        public async Task<ActionResult<AddressDetailResponse>> GetAddressAccountDetails()
+            => Single(await SendAsync(new GetAddressDetailQuery()), true);
     }
 }
