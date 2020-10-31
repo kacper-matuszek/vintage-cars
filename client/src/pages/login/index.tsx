@@ -71,6 +71,7 @@ const LoginPage = (props) => {
     const sendRecoveryPasswordHandle = (email) => {
         props.setLoading(true);
         apiService.postWithoutResponse("/v1/account/recovery-password", {email}, postCallback(
+            () => () => {},
             vErr => showWarningMessage(vErr.message),
             err => showErrorMessage(err.message),
         )).finally(() => props.setLoading(false))
