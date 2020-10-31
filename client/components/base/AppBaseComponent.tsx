@@ -22,7 +22,7 @@ const AppBase = ({children, title, head, loading, setLoading}: Props, ref) => {
     const [showErrorMessage, errorMessage, isShowErrorMessage, errorHandleClose, errorOnClosed] = useLog();
     const [showWarningMessage, warningMessage, isShowWarnigMessage, warnignHandleClose, warningOnClosed] = useLog();
     const notificationContextValue = {showSuccessMessage, showErrorMessage, showWarningMessage};
-    const loadingContextValue = {showLoading: () => setLoading(true), hideLoading: () => setLoading(false)};
+    const loadingContextValue = {showLoading: () => setLoading(true), hideLoading: () => setLoading(false), useGlobal: false};
     return(
         <div>
             <Head>
