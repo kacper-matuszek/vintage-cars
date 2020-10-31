@@ -8,7 +8,7 @@ namespace VintageCars.Domain.Customer.Address.Validators
     {
         public CreateUpdateAddressValidator()
         {
-            RuleFor(r => r.FirsName)
+            RuleFor(r => r.FirstName)
                 .NotEmpty()
                 .WithMessage(GetMessageFromKey("Address.CreateUpdateAddressCommand.FirstNameNotProvided.Validation"));
             RuleFor(r => r.LastName)

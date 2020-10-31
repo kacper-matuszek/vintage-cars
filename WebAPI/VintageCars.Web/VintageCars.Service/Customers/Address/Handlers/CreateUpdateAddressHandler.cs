@@ -42,7 +42,7 @@ namespace VintageCars.Service.Customers.Address.Handlers
             try
             {
                 if (customerAddress is null)
-                    _customerService.InsertCustomerAddress(customer, customerAddress);
+                    _customerService.InsertCustomerAddress(customer, address);
             }
             catch (ArgumentNullException ex)
             {
