@@ -1,9 +1,11 @@
-import { Box, Button, Container, Divider, TextField } from "@material-ui/core";
+import { Box, Button, Container, Divider, TextField, CircularProgress, Backdrop, } from "@material-ui/core";
 import { Guid } from "guid-typescript";
-import { createRef, Dispatch, SetStateAction, useState } from "react";
+import { createRef, Dispatch, SetStateAction, useEffect, useState } from "react";
 import Paged from "../../../core/models/paged/Paged";
 import useExtractData from "../../../hooks/data/ExtracttDataHook";
 import usePagedListAPI from "../../../hooks/fetch/pagedAPI/PagedAPIHook";
+import useSendSubmitWithNotification from "../../../hooks/fetch/SendSubmitHook";
+import withLoading from "../../base/loading/LoadingComponent";
 import SimpleInfiniteSelect from "../../base/select/simple-infinite-select/SimpleInfiniteSelectComponent";
 import { ValidatorManage, ValidatorType } from "../../login/models/validators/Validator";
 import ContactProfile from "../models/ContactProfile";
@@ -11,7 +13,8 @@ import CountryView from "../models/CountryView";
 import StateProvinceView from "../models/StateProvinceView";
 import { profileSectionStyle } from "./profile-section-style";
 
-const ProfileSection = () => {
+const ProfileSection = (props) => {
+    const {showLoading, hideLoading} = props;
     const classes = profileSectionStyle();
      /*profile section errors*/
      const [errors, setErrors] = useState({
@@ -38,10 +41,10 @@ const ProfileSection = () => {
         ["phoneNumber"]: [{
             type: ValidatorType.NotEmpty,
             paramValue: null,
-            message: "Nr. telefnu jest wymagany.",
+            message: "Nr. telefonu jest wymagany.",
             isValid: true,
         }],
-        ["postalCode"]: [{
+        ["zipPostalCode"]: [{
             type: ValidatorType.ZipCode,
             paramValue: null,
             message: "Wprowadź poprawny kod pocztowy.",
@@ -49,16 +52,26 @@ const ProfileSection = () => {
         }]
     });
     const [model, extractData, extractDataFromDerivedValue] = useExtractData(new ContactProfile());
+    const [send] = useSendSubmitWithNotification("/v1/account/details", showLoading, hideLoading)
     
     const [countryId, setCountryId] = useState(Guid.createEmpty());
     const [fetchCountry, isLoadingCountry, responseCountry] = usePagedListAPI<CountryView>("/v1/country/all");
     const [fetchStateProvince, isLoadingStateProvince, responseStateProvince] = usePagedListAPI<StateProvinceView>(`/v1/country/state-province/all/${countryId}`);
-    const handleSubmit = (event) =>{
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        console.log(model);
+        profileSectionValidatorManager.isValid(model);
+        setErrors({...errors,
+             firstName: profileSectionValidatorManager.getMessageByKey("firstName"), 
+             lastName: profileSectionValidatorManager.getMessageByKey("lastName"),
+            phoneNumber: profileSectionValidatorManager.getMessageByKey("phoneNumber"),
+            postalCode: profileSectionValidatorManager.getMessageByKey("zipPostalCode"),
+        });
+        if(profileSectionValidatorManager.isAllValid())
+            await send(model);
     }
+
     return (
-        <Container>
+        <Box>
             <form className={classes.form} noValidate method="POST" onSubmit={handleSubmit}>
                 <TextField
                 error={!!errors.firstName}
@@ -173,7 +186,7 @@ const ProfileSection = () => {
                     </Button>
                 </Box>
             </form>
-        </Container>
+        </Box>
     )
 }
 
