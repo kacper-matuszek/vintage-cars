@@ -26,7 +26,7 @@ export function toCallback<T>(onSuccess: OnSuccess<T> = null, onValidationError:
     return callback;
 }
 
-export function postCallback(onValidationError: OnValidationError = null, onError: OnError = null, onSuccess: OnSuccessNoData = null) {
+export function postCallback(onSuccess: OnSuccessNoData = null, onValidationError: OnValidationError = null, onError: OnError = null)  {
     const callback: ICallbackBase = {
         OnSuccess: onSuccess,
         OnValidationError: onValidationError,
