@@ -15,13 +15,14 @@ const LoadingComponent = (props) => {
     });
     return (
         <LoadingContext.Provider value={loadingContextValue}>
-           {loading ? 
             <div className={classes.parent}>
+           {loading ? 
                 <Backdrop className={classes.backdrop} open={true}>
                   <CircularProgress className={classes.circular}/>
-                </Backdrop>
+                </Backdrop> : <></>
+                }
                 {childWithProps}
-            </div> : <>{childWithProps}</> }
+            </div>
         </LoadingContext.Provider>
     );
 }
