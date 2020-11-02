@@ -83,6 +83,11 @@ class BaseWebApiService {
     }
     private async withResult<T>(promise: Promise<any>, callback: ICallback<T>): Promise<T> {
         return await promise.then(response => {
+            if(response.status == 204)
+            {
+                if(callback.OnSuccess)
+                    return callback.OnSuccess(null);
+            }
             if(response.ok) {
                 if(callback.OnSuccess) {
                     return response.json().then(m => callback.OnSuccess(m));
@@ -99,7 +104,7 @@ class BaseWebApiService {
                     }
                 })
             }
-        }).catch(error => console.log(error));
+        });
     }
     private async withoutResult(promise: Promise<any>, callback: ICallbackBase): Promise<void> {
         return await promise.then(response => {
