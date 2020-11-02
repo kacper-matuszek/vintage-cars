@@ -69,7 +69,7 @@ namespace Nop.Service.Customer
                 return null;
 
             var key = _cacheKeyService.PrepareKeyForDefaultCache(NopCustomerDefaults.CustomerPublicCacheKey, id);
-            return _customerRepository.Table.ToCachedFirstOrDefault(key);
+            return _customerRepository.Table.Where(x => x.Id == id).ToCachedFirstOrDefault(key);
         }
 
         /// <summary>
