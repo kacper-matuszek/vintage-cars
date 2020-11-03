@@ -2,9 +2,12 @@ import { Box, Button, Container, Divider, TextField, CircularProgress, Backdrop,
 import { Guid } from "guid-typescript";
 import { createRef, Dispatch, SetStateAction, useEffect, useState } from "react";
 import Paged from "../../../core/models/paged/Paged";
+import isEmpty from "../../../core/models/utils/StringExtension";
 import useExtractData from "../../../hooks/data/ExtracttDataHook";
+import useGetData from "../../../hooks/fetch/GetDataHook";
 import usePagedListAPI from "../../../hooks/fetch/pagedAPI/PagedAPIHook";
 import useSendSubmitWithNotification from "../../../hooks/fetch/SendSubmitHook";
+import useLoading from "../../../hooks/utils/LoadingHook";
 import withLoading from "../../base/loading/LoadingComponent";
 import SimpleInfiniteSelect from "../../base/select/simple-infinite-select/SimpleInfiniteSelectComponent";
 import { ValidatorManage, ValidatorType } from "../../login/models/validators/Validator";
@@ -51,9 +54,9 @@ const ProfileSection = (props) => {
             isValid:  true,
         }]
     });
-    const [model, extractData, extractDataFromDerivedValue] = useExtractData(new ContactProfile());
+    const [receivedModel, isLoading] = useGetData<ContactProfile>("/v1/account/details");
+    const [injectData, model, extractData, extractDataFromDerivedValue] = useExtractData<ContactProfile>(receivedModel);
     const [send] = useSendSubmitWithNotification("/v1/account/details", showLoading, hideLoading)
-    
     const [countryId, setCountryId] = useState(Guid.createEmpty());
     const [fetchCountry, isLoadingCountry, responseCountry] = usePagedListAPI<CountryView>("/v1/country/all");
     const [fetchStateProvince, isLoadingStateProvince, responseStateProvince] = usePagedListAPI<StateProvinceView>(`/v1/country/state-province/all/${countryId}`);
@@ -70,12 +73,19 @@ const ProfileSection = (props) => {
             await send(model);
     }
 
+    useEffect(() => {
+        injectData(receivedModel);
+    }, [receivedModel]);
+    
+    useLoading([isLoading], showLoading, hideLoading);
     return (
         <Box>
             <form className={classes.form} noValidate method="POST" onSubmit={handleSubmit}>
                 <TextField
+                InputLabelProps={{shrink: !isEmpty(model?.firstName)}}
                 error={!!errors.firstName}
                 helperText={errors.firstName}
+                value={model?.firstName}
                 variant="outlined"
                 margin="normal"
                 required
@@ -86,8 +96,10 @@ const ProfileSection = (props) => {
                 autoComplete="firstName"
                 onChange={(firstName) => extractData("firstName", firstName)}/>
                 <TextField
+                InputLabelProps={{shrink: !isEmpty(model?.lastName)}}
                 error={!!errors.lastName}
                 helperText={errors.lastName}
+                value={model?.lastName}
                 variant="outlined"
                 margin="normal"
                 required
@@ -98,8 +110,10 @@ const ProfileSection = (props) => {
                 autoComplete="lastName" 
                 onChange={(lastName) => extractData("lastName", lastName)}/>
                 <TextField
+                InputLabelProps={{shrink: !isEmpty(model?.phoneNumber)}}
                 error={!!errors.phoneNumber}
                 helperText={errors.phoneNumber}
+                value={model?.phoneNumber}
                 variant="outlined"
                 margin="normal"
                 fullWidth
@@ -110,6 +124,8 @@ const ProfileSection = (props) => {
                 autoComplete="phoneNumber" 
                 onChange={(phoneNumber) => extractData("phoneNumber", phoneNumber)}/>
                 <TextField
+                InputLabelProps={{shrink: !isEmpty(model?.company)}}
+                value={model?.company}
                 variant="outlined"
                 margin="normal"
                 fullWidth
@@ -124,6 +140,7 @@ const ProfileSection = (props) => {
                     maxHeight="200px"
                     fullWidth={true}
                     pageSize={10}
+                    value={model?.countryId}
                     isLoading={isLoadingCountry}
                     fetchData={fetchCountry}
                     data={responseCountry?.source}
@@ -138,9 +155,10 @@ const ProfileSection = (props) => {
                     id="state-province"
                     label="Województwo"
                     maxHeight="200px"
-                    disabled={countryId.toString() === Guid.EMPTY}
+                    disabled={countryId?.toString() === Guid.EMPTY}
                     fullWidth={true}
                     pageSize={10}
+                    value={model?.stateProvinceId}
                     isLoading={isLoadingStateProvince}
                     fetchData={fetchStateProvince}
                     data={responseStateProvince?.source}
@@ -148,6 +166,8 @@ const ProfileSection = (props) => {
                     totalCount={responseStateProvince?.totalCount}
                 />
                 <TextField
+                InputLabelProps={{shrink: !isEmpty(model?.city)}}
+                value={model?.city}
                 variant="outlined"
                 margin="normal"
                 fullWidth
@@ -157,6 +177,8 @@ const ProfileSection = (props) => {
                 autoComplete="city"
                 onChange={(city) => extractData("city", city)} />
                 <TextField
+                InputLabelProps={{shrink: !isEmpty(model?.address1)}}
+                value={model?.address1}
                 variant="outlined"
                 margin="normal"
                 fullWidth
@@ -166,8 +188,10 @@ const ProfileSection = (props) => {
                 autoComplete="address"
                 onChange={(address) => extractData("address1", address)} />
                 <TextField
+                InputLabelProps={{shrink: !isEmpty(model?.zipPostalCode)}}
                 error={!!errors.postalCode}
                 helperText={errors.postalCode}
+                value={model?.zipPostalCode}
                 variant="outlined"
                 margin="normal"
                 fullWidth

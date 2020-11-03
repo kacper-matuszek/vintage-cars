@@ -11,6 +11,7 @@ interface SimpleInfiniteSelectProps {
     label: string,
     maxHeight: string,
     data: Array<ISelectable>,
+    value?: Guid,
     totalCount: number,
     pageSize: number,
     isLoading: boolean,
@@ -27,9 +28,9 @@ const useStyles = makeStyles(theme => ({
 }))
 const SimpleInfiniteSelect = (props: SimpleInfiniteSelectProps) => {
     const classes = useStyles();
-    const [selectValue, setSelectValue] = useState('');
     const paged = useRef(new Paged(-1, props.pageSize));
     const [open, setOpen] = useState(false);
+    const [defaultValue, setDefaultValue] = useState(null);
     const loadMoreItems = (e) => {
         const bottom = e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight;
         if(bottom)
@@ -42,39 +43,28 @@ const SimpleInfiniteSelect = (props: SimpleInfiniteSelectProps) => {
         paged.current.increment();
         props.fetchData(paged.current);
     };
-
+    const searchValue = () => {
+        if(defaultValue !== null || props.value === null || props.value === undefined || props.value.toString() === Guid.EMPTY || props.data.length === 0)
+            return;
+        
+        let foundedValue = props.data.find(x => x.id == props.value);
+        if(foundedValue !== null && foundedValue !== undefined)
+        {
+            setDefaultValue(foundedValue);
+            props.onChangeValue(foundedValue.id);
+            return;
+        } else
+            pingToGetData();
+        searchValue();
+    }
     useEffect(() => {
         pingToGetData();
     }, []);
+    useEffect(() => {
+        searchValue();
+    }, [props.value, props.data])
     return (
         <FormControl variant="outlined" fullWidth disabled={props.disabled} margin="normal">
-            {/* <InputLabel id={`infinite-select-label-${props.id}`}>{props.label}</InputLabel>
-            <Select
-                displayEmpty={props.displayEmpty}
-                fullWidth={props.fullWidth}
-                labelId={`infinite-select-label-${props.id}`}
-                label={props.label}
-                id={`infinite-select-${props.id}`}
-                value={selectValue}
-                onChange={(event, child) => {
-                    setSelectValue(event.target.value as string);
-                    props.onChangeValue(child.props.id);
-                }}
-                MenuProps={{
-                 onScroll: loadMoreItems,
-                 classes: {
-                     paper: classes.menuPaper
-                 }
-                }}
-            >
-            {props.data === undefined || props.data.length === 0 ? 
-                <MenuItem key={'menu-item-empty'} disabled>Brak</MenuItem>
-                : props.data.map((value, index) => {
-                    return(
-                        <MenuItem id={`${value?.id}`} key={`menu-item-${index}-${value?.id}`} value={value?.name}>{value?.name}</MenuItem>
-                    )
-                })}
-            </Select> */}
             <Autocomplete
                 id={`infinite-select-label-${props.id}`}
                 className={classes.menuPaper}
@@ -83,9 +73,17 @@ const SimpleInfiniteSelect = (props: SimpleInfiniteSelectProps) => {
                 open={open}
                 onOpen={() => setOpen(true)}
                 onClose={() => setOpen(false)}
-                onChange={(event, value) => props.onChangeValue(props.data.filter(v => v.id === (value as ISelectable).id)[0].id)}
-                getOptionSelected={(option, value) => option.id === value.id}
+                onChange={(event, value) => 
+                    {
+                        setDefaultValue(value);
+                        let id = props.data.filter(v => v.id === (value as ISelectable)?.id)[0]?.id;
+                        if(id === undefined || id === null)
+                            id = Guid.createEmpty();
+                        props.onChangeValue(id);
+                    }}
+                //getOptionSelected={(option, value) => option.id === value.id}
                 getOptionLabel={(option) => option.name}
+                value={defaultValue}
                 options={props.data}
                 noOptionsText="Brak"
                 loading={props.isLoading}
