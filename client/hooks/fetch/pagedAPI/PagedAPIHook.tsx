@@ -34,7 +34,7 @@ const usePagedListAPI = <T extends IModel>(url: string, onError?: (message: stri
             });
             return prevState;
         })
-    }, [response])
+    }, [response.source])
     async function getData() {
         setIsLoading(true);
         await apiService.get<PagedList<T>>(`${url}?pageIndex=${paged.pageIndex}&pageSize=${paged.pageSize}`, toCallback(
