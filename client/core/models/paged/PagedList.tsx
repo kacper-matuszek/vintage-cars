@@ -1,9 +1,9 @@
-export default class PagedList<T> {
+export default class PagedList<IModel> {
     constructor()
     {
-        this.source = new Array<T>();
+        this.source = new Array<IModel>();
     }
-    public source: Array<T>;
+    public source: Array<IModel>;
     public pageIndex: number;
     public pageSize: number;
     public totalCount: number;
