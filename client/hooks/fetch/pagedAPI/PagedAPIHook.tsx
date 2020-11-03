@@ -1,11 +1,12 @@
 import { Dispatch, SetStateAction, useCallback, useEffect, useState } from "react";
+import { IModel } from "../../../core/models/base/IModel";
 import { ErrorDetails } from "../../../core/models/errors/ErrorDetail";
 import Paged from "../../../core/models/paged/Paged";
 import PagedList from "../../../core/models/paged/PagedList";
 import BaseWebApiService from "../../../core/services/api-service/BaseWebApiService";
 import { toCallback } from "../../../core/services/api-service/Callback";
 
-const usePagedListAPI = <T extends object>(url: string, onError?: (message: string) => void): [Dispatch<SetStateAction<Paged>>, boolean, PagedList<T>] => {
+const usePagedListAPI = <T extends IModel>(url: string, onError?: (message: string) => void): [Dispatch<SetStateAction<Paged>>, boolean, PagedList<T>] => {
     const [isLoading, setIsLoading] = useState(false);
     const [response, setResponse] = useState(new PagedList<T>());
     const [paged, setPaged] = useState<Paged>(null);
@@ -17,7 +18,20 @@ const usePagedListAPI = <T extends object>(url: string, onError?: (message: stri
             if(prevState.source.length > 0)
                 list.push(...prevState.source);
             list.push(...data.source);
-            prevState.source = list;
+            let map = new Map();
+            prevState.source = list.filter(el => {
+                const val = map.get(el.id);
+                if(val) {
+                    if(el.id === val) {
+                        map.delete(el.id);
+                        map.set(el.id, el);
+                        return true;
+                    } else 
+                        return false;
+                }
+                map.set(el.id, el);
+                return true;
+            });
             return prevState;
         })
     }, [response])
