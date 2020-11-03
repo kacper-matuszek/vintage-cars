@@ -4,9 +4,8 @@ const useStyles = makeStyles({
     parent: {
       position: "relative",
       display: 'flex',
-      height: '100%',
-      width: '100%',
       zIndex: 0,
+      overflow: 'auto',
     },
     backdrop: {
       position: "absolute",

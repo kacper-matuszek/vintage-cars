@@ -6,7 +6,7 @@ export const useStyles = makeStyles((theme: Theme) => ({
       flexGrow: 1,
       display: 'flex',
       position: 'relative',
-      overflow: 'auto',
+      maxHeight: '100%',
     },
     box: {
       display: 'flex',

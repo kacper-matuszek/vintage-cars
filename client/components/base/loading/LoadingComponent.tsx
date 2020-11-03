@@ -21,7 +21,7 @@ const LoadingComponent = (props) => {
                   <CircularProgress className={classes.circular}/>
                 </Backdrop> : <></>
                 }
-                {childWithProps}
+            {childWithProps}
             </div>
         </LoadingContext.Provider>
     );
