@@ -19,5 +19,6 @@ namespace Nop.Core.Domain.Catalog
         /// Gets or sets the product attribute identifier
         /// </summary>
         public Guid ProductAttributeId { get; set; }
+        public int DisplayOrder { get; set; }
     }
 }

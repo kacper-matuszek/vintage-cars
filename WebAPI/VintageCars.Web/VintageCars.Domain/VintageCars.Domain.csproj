@@ -15,6 +15,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Products\Commands\" />
+    <Folder Include="Products\Mappings\" />
+    <Folder Include="Products\Response\" />
     <Folder Include="Settings\Models\" />
   </ItemGroup>
 

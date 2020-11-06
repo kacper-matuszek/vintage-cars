@@ -91,6 +91,7 @@ namespace VintageCars.Web.Configuration.Registration
             builder.RegisterType<AddressService>().As<IAddressService>().InstancePerLifetimeScope();
             builder.RegisterType<CountryService>().As<ICountryService>().InstancePerLifetimeScope();
             builder.RegisterType<StateProvinceService>().As<IStateProvinceService>().InstancePerLifetimeScope();
+            builder.RegisterType<ProductAttributeService>().As<IProductAttributeService>().InstancePerLifetimeScope();
 
             builder.RegisterType<ActionContextAccessor>().As<IActionContextAccessor>().InstancePerLifetimeScope();
 
