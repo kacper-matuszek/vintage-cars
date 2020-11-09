@@ -30,7 +30,7 @@ namespace VintageCars.Service.Infrastructure
             {
                 new Claim(JwtRegisteredClaimNames.Sub, customer.Id.ToString()),
                 new Claim(JwtRegisteredClaimNames.Email, customer.Email),
-                new Claim(ClaimTypes.Role, string.Join("|", customerRole.Select(cr => cr.Name))),
+                new Claim(ClaimTypes.Role, string.Join("|", customerRole.Select(cr => cr.SystemName))),
             };
 
             var expiration = DateTime.Now.AddDays(1);
