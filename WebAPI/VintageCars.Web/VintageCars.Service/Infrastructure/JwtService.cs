@@ -26,12 +26,12 @@ namespace VintageCars.Service.Infrastructure
             var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config.SecretKey));
             var credentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
 
-            var claims = new[]
+            var claims = new List<Claim>()
             {
                 new Claim(JwtRegisteredClaimNames.Sub, customer.Id.ToString()),
                 new Claim(JwtRegisteredClaimNames.Email, customer.Email),
-                new Claim(ClaimTypes.Role, string.Join("|", customerRole.Select(cr => cr.SystemName))),
             };
+            claims.AddRange(customerRole.Select(role => new Claim(ClaimTypes.Role, role.SystemName)));
 
             var expiration = DateTime.Now.AddDays(1);
 
