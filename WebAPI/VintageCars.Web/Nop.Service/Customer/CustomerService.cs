@@ -83,6 +83,16 @@ namespace Nop.Service.Customer
             return IsInCustomerRole(customer, NopCustomerDefaults.RegisteredRoleName, onlyActiveCustomerRoles);
         }
 
+        public virtual bool IsAdmin(Guid customerId, bool onlyActiveCustomerRoles = true)
+        {
+            if(customerId == default(Guid))
+                throw new ArgumentNullException(nameof(customerId));
+
+            var customerRoles = GetCustomerRoles(customerId, !onlyActiveCustomerRoles);
+
+            return customerRoles?.Any(cr => cr.SystemName == NopCustomerDefaults.AdministratorsRoleName) ?? false;
+        }
+
         /// <summary>
         /// Gets a value indicating whether customer is in a certain customer role
         /// </summary>
@@ -115,13 +125,20 @@ namespace Nop.Service.Customer
             if (customer == null)
                 throw new ArgumentNullException(nameof(customer));
 
-            var query = from cr in _customerRoleRepository.Table
-                join crm in _customerCustomerRoleMappingRepository.Table on cr.Id equals crm.CustomerRoleId
-                where crm.CustomerId == customer.Id &&
-                      (showHidden || cr.Active)
-                select cr;
+            var query = GetCustomerRolesBase(customer.Id, showHidden);
 
             var key = _cacheKeyService.PrepareKeyForShortTermCache(NopCustomerServicesDefaults.CustomerRolesCacheKey, customer, showHidden);
+
+            return _staticCacheManager.Get(key, () => query.ToList());
+        }
+
+        public virtual IList<CustomerRole> GetCustomerRoles(Guid customerId, bool showHidden = false)
+        {
+            if(customerId == default(Guid))
+                throw new ArgumentNullException(nameof(customerId));
+
+            var query = GetCustomerRolesBase(customerId, showHidden);
+            var key = _cacheKeyService.PrepareKeyForShortTermCache(NopCustomerServicesDefaults.CustomerRoleIdsCacheKey, customerId, showHidden);
 
             return _staticCacheManager.Get(key, () => query.ToList());
         }
@@ -315,6 +332,13 @@ namespace Nop.Service.Customer
 
             return _staticCacheManager.Get(key, () => query.ToArray());
         }
+
+        protected virtual IEnumerable<CustomerRole> GetCustomerRolesBase(Guid customerId, bool showHidden)
+            => from cr in _customerRoleRepository.Table
+                join crm in _customerCustomerRoleMappingRepository.Table on cr.Id equals crm.CustomerRoleId
+                where crm.CustomerId == customerId &&
+                      (showHidden || cr.Active)
+                select cr;
 
         #region Customer address mapping
 

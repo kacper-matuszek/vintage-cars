@@ -24,6 +24,8 @@ namespace Nop.Service.Customer
         /// <returns>Result</returns>
         bool IsRegistered(Core.Domain.Customers.Customer customer, bool onlyActiveCustomerRoles = true);
 
+        bool IsAdmin(Guid customerId, bool onlyActiveCustomerRoles = true);
+
         /// <summary>
         /// Gets a value indicating whether customer is in a certain customer role
         /// </summary>
@@ -41,6 +43,8 @@ namespace Nop.Service.Customer
         /// <param name="showHidden">A value indicating whether to load hidden records</param>
         /// <returns>Result</returns>
         IList<CustomerRole> GetCustomerRoles(Core.Domain.Customers.Customer customer, bool showHidden = false);
+
+        IList<CustomerRole> GetCustomerRoles(Guid customerId, bool showHidden = false);
 
         /// <summary>
         /// Insert a customer password
