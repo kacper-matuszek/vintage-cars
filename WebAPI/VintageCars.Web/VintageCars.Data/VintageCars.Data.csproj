@@ -1,7 +1,17 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Framework\Nop.Data\Nop.Data.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="FluentMigrator">
+      <HintPath>C:\Users\kacpe\.nuget\packages\fluentmigrator\3.2.6\lib\netstandard2.0\FluentMigrator.dll</HintPath>
+    </Reference>
+  </ItemGroup>
 
 </Project>
