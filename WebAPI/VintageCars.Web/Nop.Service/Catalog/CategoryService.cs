@@ -23,7 +23,7 @@ namespace Nop.Service.Catalog
         private readonly IRepository<DiscountCategoryMapping> _discountCategoryMappingRepository;
         private readonly IRepository<Product> _productRepository;
         private readonly IRepository<ProductCategory> _productCategoryRepository;
-        private readonly ICacheKeyService _cacheKeyService;
+        protected readonly ICacheKeyService _cacheKeyService;
         private readonly IStaticCacheManager _staticCacheManager;
         private readonly ICustomerService _customerService;
 

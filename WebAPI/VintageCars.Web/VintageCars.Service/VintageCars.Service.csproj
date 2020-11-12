@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Nop.Service\Nop.Service.csproj" />
+    <ProjectReference Include="..\VintageCars.Data\VintageCars.Data.csproj" />
     <ProjectReference Include="..\VintageCars.Domain\VintageCars.Domain.csproj" />
   </ItemGroup>
 
