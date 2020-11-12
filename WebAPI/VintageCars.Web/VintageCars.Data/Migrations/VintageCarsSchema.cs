@@ -18,9 +18,8 @@ namespace VintageCars.Data.Migrations
         public override void Up()
         {
             _migrationManager.BuildTable<CategoryAttribute>(Create);
-            _migrationManager.BuildTable<CategoryAttributeValue>(Create);
             _migrationManager.BuildTable<CategoryAttributeMapping>(Create);
-
+            _migrationManager.BuildTable<CategoryAttributeValue>(Create);
         }
     }
 }
