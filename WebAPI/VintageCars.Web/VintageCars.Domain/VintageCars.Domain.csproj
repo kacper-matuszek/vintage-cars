@@ -16,7 +16,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Catalog\Validators\" />
     <Folder Include="Catalog\Response\" />
     <Folder Include="Products\Commands\" />
     <Folder Include="Products\Mappings\" />
