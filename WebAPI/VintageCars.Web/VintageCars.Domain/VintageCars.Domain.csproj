@@ -12,10 +12,10 @@
   <ItemGroup>
     <ProjectReference Include="..\Framework\Nop.Core\Nop.Core.csproj" />
     <ProjectReference Include="..\Nop.Service\Nop.Service.csproj" />
+    <ProjectReference Include="..\VintageCars.Data\VintageCars.Data.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Catalog\Mappings\" />
     <Folder Include="Catalog\Validators\" />
     <Folder Include="Catalog\Response\" />
     <Folder Include="Products\Commands\" />
