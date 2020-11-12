@@ -10,6 +10,7 @@ namespace VintageCars.Service.Catalog.Services
         void DeleteCategoryAttribute(CategoryAttribute categoryAttribute);
         void DeleteCategoryAttribute(Guid categoryAttributeId);
         IList<CategoryAttribute> GetAllCategoryAttributes();
+        CategoryAttribute GetCategoryAttribute(Guid categoryAttributeId)
         void InsertCategoryAttribute(CategoryAttribute categoryAttribute);
         void UpdateCategoryAttribute(CategoryAttribute categoryAttribute);
         void DeleteCategoryMapping(CategoryAttributeMapping categoryAttributeMapping);

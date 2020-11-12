@@ -94,6 +94,16 @@ namespace VintageCars.Service.Catalog.Services
             return query.ToList();
         }
 
+        public virtual CategoryAttribute GetCategoryAttribute(Guid categoryAttributeId)
+        {
+            if(categoryAttributeId == default(Guid))
+                throw new ArgumentNullException(nameof(categoryAttributeId));
+
+            return (from ca in _categoryAttributeRepository.Table
+                    where ca.Id == categoryAttributeId
+                    select ca).FirstOrDefault();
+        }
+
         public virtual void InsertCategoryAttribute(CategoryAttribute categoryAttribute)
         {
             if(categoryAttribute == null)
