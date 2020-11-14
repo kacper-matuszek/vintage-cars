@@ -1,9 +1,10 @@
 ﻿using System;
+using VintageCars.Domain.Base;
 using VintageCars.Domain.Commands.Base;
 
 namespace VintageCars.Domain.Customer.Address.Commands
 {
-    public class CreateUpdateAddressCommand : AuthorizationCommandBase
+    public class CreateUpdateAddressCommand : AuthorizationCommandBase, IBusinessEntity
     {
         public Guid? Id { get; set; }
         public string FirstName { get; set; }
