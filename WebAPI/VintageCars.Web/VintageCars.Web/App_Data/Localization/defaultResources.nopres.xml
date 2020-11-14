@@ -51,4 +51,7 @@
   <LocalResource Name="Address.CreateUpdateAddressCommand.LastNameNotProvided.Validation">
     <Value>Nazwisko jest wymagane.</Value>
   </LocalResource>
+  <LocalResource Name="CategoryAttribute.CreateCategoryAttribute.NameEmpty.Validation">
+    <Value>Nazwa kategorii jest wymagana.</Value>
+  </LocalResource>
 </Language>
