@@ -11,7 +11,7 @@ namespace VintageCars.Domain.Catalog.Mappings
     {
         public CategoryProfile()
         {
-            CreateMap<CreateCategoryCommand, Category>()
+            CreateMap<CreateUpdateCategoryCommand, Category>()
                 .GenerateId()
                 .ForMember(c => c.CreatedOnUtc,
                     opt =>

@@ -4,7 +4,7 @@ using VintageCars.Domain.Catalog.Commands;
 
 namespace VintageCars.Domain.Catalog.Validators
 {
-    public class CreateCategoryAttributeValidator : BaseValidator<CreateCategoryAttributeCommand>
+    public class CreateCategoryAttributeValidator : BaseValidator<CreateUpdateCategoryAttributeCommand>
     {
         public CreateCategoryAttributeValidator()
         {

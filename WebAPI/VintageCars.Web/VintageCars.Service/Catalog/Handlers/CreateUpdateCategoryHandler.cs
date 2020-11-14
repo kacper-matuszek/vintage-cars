@@ -8,16 +8,16 @@ using VintageCars.Domain.Catalog.Commands;
 
 namespace VintageCars.Service.Catalog.Handlers
 {
-    public class CreateCategoryHandler : IRequestHandler<CreateCategoryCommand, Unit>
+    public class CreateUpdateCategoryHandler : IRequestHandler<CreateUpdateCategoryCommand, Unit>
     {
         private readonly ICategoryService _categoryService;
 
-        public CreateCategoryHandler(ICategoryService categoryService)
+        public CreateUpdateCategoryHandler(ICategoryService categoryService)
         {
             _categoryService = categoryService;
         }
 
-        public Task<Unit> Handle(CreateCategoryCommand request, CancellationToken cancellationToken)
+        public Task<Unit> Handle(CreateUpdateCategoryCommand request, CancellationToken cancellationToken)
         {
             if (!request.Id.HasValue)
             {

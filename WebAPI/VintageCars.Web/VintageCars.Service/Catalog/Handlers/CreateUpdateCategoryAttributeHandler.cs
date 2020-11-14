@@ -8,22 +8,22 @@ using VintageCars.Service.Catalog.Services;
 
 namespace VintageCars.Service.Catalog.Handlers
 {
-    public class CreateCategoryAttributeHandler : IRequestHandler<CreateCategoryAttributeCommand, Unit>
+    public class CreateUpdateCategoryAttributeHandler : IRequestHandler<CreateUpdateCategoryAttributeCommand, Unit>
     {
         private readonly IExtendedCategoryService _extendedCategoryService;
 
-        public CreateCategoryAttributeHandler(IExtendedCategoryService extendedCategoryService)
+        public CreateUpdateCategoryAttributeHandler(IExtendedCategoryService extendedCategoryService)
         {
             _extendedCategoryService = extendedCategoryService;
         }
 
-        public Task<Unit> Handle(CreateCategoryAttributeCommand request, CancellationToken cancellationToken)
+        public Task<Unit> Handle(CreateUpdateCategoryAttributeCommand request, CancellationToken cancellationToken)
         {
             CategoryAttribute categoryAttribute;
             if (request.Id.HasValue)
             {
                 categoryAttribute = _extendedCategoryService.GetCategoryAttribute(request.Id.Value);
-                categoryAttribute = AutoMapperConfiguration.Mapper.Map<CreateCategoryAttributeCommand, CategoryAttribute>(request, categoryAttribute);
+                categoryAttribute = AutoMapperConfiguration.Mapper.Map<CreateUpdateCategoryAttributeCommand, CategoryAttribute>(request, categoryAttribute);
                 _extendedCategoryService.UpdateCategoryAttribute(categoryAttribute);
                 
                 return Unit.Task;
