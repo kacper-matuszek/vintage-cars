@@ -25,7 +25,7 @@ namespace Nop.Data.Mapping.Builders.Catalog
                 .WithColumn(nameof(Category.MetaTitle)).AsString(400).Nullable()
                 .WithColumn(nameof(Category.PriceRanges)).AsString(400).Nullable()
                 .WithColumn(nameof(Category.PageSizeOptions)).AsString(200).Nullable()
-                .WithColumn(nameof(Category.PictureId)).AsGuid().ForeignKey<Picture>();
+                .WithColumn(nameof(Category.PictureId)).AsGuid().ForeignKey<Picture>().Nullable();
         }
 
         #endregion
