@@ -2,6 +2,7 @@
 using Nop.Core.Infrastructure.Mapper;
 using VintageCars.Data.Models;
 using VintageCars.Domain.Catalog.Commands;
+using VintageCars.Domain.Extensions;
 
 namespace VintageCars.Domain.Catalog.Mappings
 {
@@ -9,7 +10,8 @@ namespace VintageCars.Domain.Catalog.Mappings
     {
         public CategoryAttributeProfile()
         {
-            CreateMap<CreateCategoryAttributeCommand, CategoryAttribute>();
+            CreateMap<CreateCategoryAttributeCommand, CategoryAttribute>()
+                .GenerateId();
         }
         public int Order => 5;
     }
