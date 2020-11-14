@@ -45,7 +45,7 @@ namespace Nop.Core.Domain.Catalog
         /// <summary>
         /// Gets or sets the picture identifier
         /// </summary>
-        public Guid PictureId { get; set; }
+        public Guid? PictureId { get; set; }
 
         /// <summary>
         /// Gets or sets the page size
