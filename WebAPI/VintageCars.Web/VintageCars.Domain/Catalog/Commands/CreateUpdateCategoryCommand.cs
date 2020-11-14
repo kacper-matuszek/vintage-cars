@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using VintageCars.Domain.Base;
 using VintageCars.Domain.Commands.Base;
 
@@ -9,5 +10,6 @@ namespace VintageCars.Domain.Catalog.Commands
         public Guid? Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+        public IEnumerable<CreateUpdateCategoryAttributeMappingCommand> AttributeMappings { get; set; }
     }
 }

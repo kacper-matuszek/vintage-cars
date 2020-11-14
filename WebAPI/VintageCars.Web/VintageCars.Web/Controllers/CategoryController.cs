@@ -16,12 +16,12 @@ namespace VintageCars.Web.Controllers
 
         [Authorize(Roles = "Administrators")]
         [HttpPost]
-        public async Task<ActionResult> CreateOrUpdate([FromBody] CreateCategoryCommand categoryCommand)
-            => await ExecuteCommandWithoutResult(categoryCommand);
+        public async Task<ActionResult> CreateOrUpdate([FromBody] CreateUpdateCategoryCommand updateCategoryCommand)
+            => await ExecuteCommandWithoutResult(updateCategoryCommand);
 
         [Authorize(Roles = "Administrators")]
         [HttpPost("attribute")]
-        public async Task<ActionResult> CreateOrUpdateAttribute([FromBody] CreateCategoryAttributeCommand categoryAttributeCommand)
-            => await ExecuteCommandWithoutResult(categoryAttributeCommand);
+        public async Task<ActionResult> CreateOrUpdateAttribute([FromBody] CreateUpdateCategoryAttributeCommand updateCategoryAttributeCommand)
+            => await ExecuteCommandWithoutResult(updateCategoryAttributeCommand);
     }
 }

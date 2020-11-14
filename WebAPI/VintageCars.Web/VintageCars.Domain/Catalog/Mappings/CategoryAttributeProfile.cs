@@ -12,6 +12,9 @@ namespace VintageCars.Domain.Catalog.Mappings
         {
             CreateMap<CreateUpdateCategoryAttributeCommand, CategoryAttribute>()
                 .GenerateId();
+
+            CreateMap<CreateUpdateCategoryAttributeMappingCommand, CategoryAttributeMapping>()
+                .GenerateId();
         }
         public int Order => 5;
     }
