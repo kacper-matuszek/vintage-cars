@@ -57,6 +57,14 @@ const LoginPage = (props) => {
                                         new Date().getHours(),
                                         new Date().getMinutes())
                         });
+                        new Cookie().set(CookieDictionary.Roles, success.roles.join(","), {
+                            expires: new Date(
+                                new Date().getFullYear(),
+                                new Date().getMonth(),
+                                new Date().getDate() + 1,
+                                new Date().getHours(),
+                                new Date().getMinutes())
+                        });
                         router.push('/');
                         return;
                     }
