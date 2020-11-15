@@ -23,5 +23,10 @@ namespace VintageCars.Web.Controllers
         [HttpPost("attribute")]
         public async Task<ActionResult> CreateOrUpdateAttribute([FromBody] CreateUpdateCategoryAttributeCommand updateCategoryAttributeCommand)
             => await ExecuteCommandWithoutResult(updateCategoryAttributeCommand);
+
+        [Authorize(Roles = "Administrators")]
+        [HttpPost("attribute-value/link")]
+        public async Task<ActionResult> LinkCategoryAttributeValue([FromBody] LinkCategoryAttributeValueCommand linkCategoryAttributeValueCommand)
+            => await ExecuteCommandWithoutResult(linkCategoryAttributeValueCommand);
     }
 }

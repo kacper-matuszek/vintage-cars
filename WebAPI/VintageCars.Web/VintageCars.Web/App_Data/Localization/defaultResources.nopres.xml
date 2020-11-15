@@ -60,4 +60,19 @@
   <LocaleResource Name="CategoryAttributeMapping.Attribute.Validation">
     <Value>Tylko jeden ten sam atrybut może być połączony z daną kategorią.</Value>
   </LocaleResource>
+  <LocaleResource Name="LinkCategoryAttributeValue.CategoryAttributeNotLinkedWithCategory.Validation">
+    <Value>Atrybut {0} nie należy do kategorii.</Value>
+  </LocaleResource>
+  <LocaleResource Name="LinkCategoryAttributeValue.CategoryAttributeValue.NameEmpty.Validation">
+    <Value>Wartość atrybutu jest wymagana.</Value>
+  </LocaleResource>
+  <LocaleResource Name="LinkCategoryAttributeValue.CategoryIdEmpty.Validation">
+    <Value>Kategoria musi zostać wskazana.</Value>
+  </LocaleResource>
+  <LocaleResource Name="LinkCategoryAttributeValue.CategoryAttributeValue.CategoryAttributeIdEmpty.Validation">
+    <Value>Atrybut kategorii musi zostać wskazany.</Value>
+  </LocaleResource>
+  <LocaleResource Name="LinkCategoryAttributeValue.CategoryAttributeValue.PreselectedDuplication.Validation">
+    <Value>Tylko jedna wartość atrybutu może być wstępnie wybrana.</Value>
+  </LocaleResource>
 </Language>
