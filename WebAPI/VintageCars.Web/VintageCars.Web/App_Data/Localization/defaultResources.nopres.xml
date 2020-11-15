@@ -75,4 +75,10 @@
   <LocaleResource Name="LinkCategoryAttributeValue.CategoryAttributeValue.PreselectedDuplication.Validation">
     <Value>Tylko jedna wartość atrybutu może być wstępnie wybrana.</Value>
   </LocaleResource>
+  <LocaleResource Name="DeleteCategoryAttributeValue.IdNotEmpty.Validation">
+    <Value>Identyfikator wartości atrybutu jest wymagany.</Value>
+  </LocaleResource>
+  <LocaleResource Name="DeleteCategoryAttributeValue.NotExists.Validation">
+    <Value>Identyfikator wartości atrybutu jest niepoprawny.</Value>
+  </LocaleResource>
 </Language>

@@ -28,5 +28,10 @@ namespace VintageCars.Web.Controllers
         [HttpPost("attribute-value/link")]
         public async Task<ActionResult> LinkCategoryAttributeValue([FromBody] LinkCategoryAttributeValueCommand linkCategoryAttributeValueCommand)
             => await ExecuteCommandWithoutResult(linkCategoryAttributeValueCommand);
+
+        [Authorize(Roles = "Administrators")]
+        [HttpPost("attribute-value/delete")]
+        public async Task<ActionResult> DeleteCategoryAttributevalue([FromBody] DeleteCategoryAttributeValueCommand deleteCategoryCommand)
+            => await ExecuteCommandWithoutResult(deleteCategoryCommand);
     }
 }
