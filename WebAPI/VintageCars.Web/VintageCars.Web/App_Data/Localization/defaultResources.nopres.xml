@@ -39,19 +39,25 @@
   <LocaleResource Name="Customer.RegisterCustomer.PasswordAlphanumeric.Validation">
     <Value>Hasło musi posiadać przynajmniej jeden znak specjalny.</Value>
   </LocaleResource>
-  <LocalResource Name="Account.Register.Errors.UsernameIsNotProvided.Validation">
+  <LocaleResource Name="Account.Register.Errors.UsernameIsNotProvided.Validation">
     <Value>Login jest wymagany.</Value>
-  </LocalResource>
-  <LocalResource Name="Account.Register.Errors.UsernameAlreadyExists.Validation">
+  </LocaleResource>
+  <LocaleResource Name="Account.Register.Errors.UsernameAlreadyExists.Validation">
     <Value>Podany login już istnieje.</Value>
-  </LocalResource>
-  <LocalResource Name="Address.CreateUpdateAddressCommand.FirstNameNotProvided.Validation">
+  </LocaleResource>
+  <LocaleResource Name="Address.CreateUpdateAddressCommand.FirstNameNotProvided.Validation">
     <Value>Imię jest wymagane.</Value>
-  </LocalResource>
-  <LocalResource Name="Address.CreateUpdateAddressCommand.LastNameNotProvided.Validation">
+  </LocaleResource>
+  <LocaleResource Name="Address.CreateUpdateAddressCommand.LastNameNotProvided.Validation">
     <Value>Nazwisko jest wymagane.</Value>
-  </LocalResource>
-  <LocalResource Name="CategoryAttribute.CreateCategoryAttribute.NameEmpty.Validation">
+  </LocaleResource>
+  <LocaleResource Name="Category.CreateUpdateCategory.NameEmpty.Validation">
     <Value>Nazwa kategorii jest wymagana.</Value>
-  </LocalResource>
+  </LocaleResource>
+  <LocaleResource Name="CategoryAttribute.CreateCategoryAttribute.NameEmpty.Validation">
+    <Value>Nazwa atrybutu kategorii jest wymagana.</Value>
+  </LocaleResource>
+  <LocaleResource Name="CategoryAttributeMapping.Attribute.Validation">
+    <Value>Tylko jeden ten sam atrybut może być połączony z daną kategorią.</Value>
+  </LocaleResource>
 </Language>
