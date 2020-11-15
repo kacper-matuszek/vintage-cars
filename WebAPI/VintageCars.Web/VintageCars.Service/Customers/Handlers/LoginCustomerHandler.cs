@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
@@ -41,6 +38,7 @@ namespace VintageCars.Service.Customers.Handlers
                 var customer = isUserName ? _customerService.GetCustomerByUsername(request.Username) : _customerService.GetCustomerByEmail(request.Email);
                 var customerRoles = _customerService.GetCustomerRoles(customer).Where(cr => cr.Active);
                 response.Token = _jwtService.GenerateToken(customer, customerRoles);
+                response.Roles.AddRange(customerRoles.Select(x => x.SystemName));
             }
 
             return Task.FromResult(response);
