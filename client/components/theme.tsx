@@ -4,17 +4,19 @@ import { Theme } from "@material-ui/core"
 export const theme = createMuiTheme({
     palette: {
         primary: {
-            main: "#927b59"
+            main: "#927b59",
+            contrastText: '#FFF',
         },
         secondary: {
-            main: "#6a563b"
+            main: "#6a563b",
+            contrastText: '#FFF',
         }
     },
     overrides: {
         MuiCssBaseline: {
             '@global': {
                 '*::-webkit-scrollbar': {
-                    width: '0.7em'
+                    width: '0.7em',
                   },
                   '*::-webkit-scrollbar-track': {
                     '-webkit-box-shadow': 'inset 0 0 6px rgba(255,255,255,0.9)'
