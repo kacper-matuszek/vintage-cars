@@ -9,7 +9,6 @@ createStyles({
        flexDirection: 'row',
        flexWrap: "wrap",
        width: '100%',
-       marginTop: '1vh',
        height: '30vh',
     }
     ,
