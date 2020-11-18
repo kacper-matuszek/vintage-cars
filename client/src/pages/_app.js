@@ -7,9 +7,11 @@ import CookieDictionary from "../../core/models/settings/cookieSettings/CookieDi
 import Router from 'next/router';
 import Cookie from 'universal-cookie';
 import useLog from "../../hooks/fetch/pagedAPI/LogHook";
+import useIsAdmin from "../../hooks/authorization/IsAdminHook";
 
 export default function App({Component, pageProps, router}) {
     const [loading, setLoading] = useState(false);
+    const isAdmin = useIsAdmin();
     /*router*/
     Router.onRouteChangeStart = () => {
         setLoading(true);
@@ -28,11 +30,15 @@ export default function App({Component, pageProps, router}) {
 
     return (
         <AppBase title={pageProps.title} loading={loading} setLoading={setLoading}>
-            {router.pathname.startsWith('/login') || router.pathname.startsWith('/register') ? 
+            {router.pathname.startsWith('/admin') && isAdmin() ? 
+            <Component {...pageProps}/>
+            :
+            router.pathname.startsWith('/login') || router.pathname.startsWith('/register') ? 
             <PictureContent>
                 <Component {...pageProps} 
                 setLoading={setLoading}/>
-            </PictureContent> : <MainLayout isAuthorized={checkAuthorization()}>
+            </PictureContent> 
+            : <MainLayout isAuthorized={checkAuthorization()}>
             <Component {...pageProps} 
             setLoading={setLoading}/>
             </MainLayout>
