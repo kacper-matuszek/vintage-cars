@@ -35,6 +35,9 @@ const useStyles = makeStyles((theme: Theme) =>
         left: '0',
         margin: '0',
     },
+    appBarAdmin: {
+      top: '50px',
+    },
     appBarShift: {
         width: `calc(100% - ${drawerWidth}px)`,
         marginLeft: drawerWidth,

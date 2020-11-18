@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import React, { ReactNode, useEffect, useState } from "react";
 import useStyles from "./menu-app-bar-style";
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -14,12 +14,15 @@ import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
 import { useTheme } from '@material-ui/core/styles';
 import clsx from 'clsx';
-import { Box, Button, ListItemIcon, MenuItem } from "@material-ui/core";
+import { Box, Button, Grid, ListItemIcon, MenuItem, Paper } from "@material-ui/core";
 import { ExtendedBox } from "../../shared/helperComponents/box-component";
 import { ExitToApp } from "@material-ui/icons";
 import Cookie from 'universal-cookie';
 import CookieDictionary from "../../../core/models/settings/cookieSettings/CookieDictionary";
 import { useRouter } from "next/router";
+import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
+import AdminNavigationBar from "../../admin/navigation-bar/AdminNavigationBar";
+import useIsAdmin from "../../../hooks/authorization/IsAdminHook";
 
 type Props = {
     isAuthorized?:boolean
@@ -28,6 +31,7 @@ type Props = {
 }
 const MenuAppBar = ({isAuthorized, accountMenuChildren, listMenu}: Props) => {
     const classes = useStyles();
+    const isAdmin = useIsAdmin();
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
     const [leftOpen, setLeftOpen] = React.useState(false);
@@ -52,13 +56,17 @@ const MenuAppBar = ({isAuthorized, accountMenuChildren, listMenu}: Props) => {
     const handleLogout = e => {
         e.preventDefault();
         new Cookie().remove(CookieDictionary.Token);
+        new Cookie().remove(CookieDictionary.Roles);
         router.push('/');
-    }
+    };
+
     return (
       <React.Fragment>
-      <AppBar position="fixed"
+      {isAdmin() ? <AdminNavigationBar></AdminNavigationBar> : <></>}
+      <AppBar 
         className={clsx(classes.appBar, {
-          [classes.appBarShift]: leftOpen
+          [classes.appBarShift]: leftOpen,
+          [classes.appBarAdmin]: isAdmin()
         })} id="app-bar">
         <Toolbar>
           <IconButton edge="start" className={clsx(classes.menuButton, leftOpen && classes.hide)} color="inherit" aria-label="menu"
