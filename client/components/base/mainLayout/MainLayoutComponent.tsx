@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import MenuAppBar from "../menu-bar/MenuAppBarComponent"
 import PersonIcon from '@material-ui/icons/Person'
 import ExitToAppIcon from '@material-ui/icons/ExitToApp'
@@ -11,10 +11,14 @@ import { layoutStyle } from './main-layout-style'
 import FooterSection from '../footer/footer-section/FooterSectionComponent'
 import NavigationProfileDialog from '../../profile/NavigationProfileDialogComponent'
 import useOpenClose from '../../../hooks/utils/CloseHook'
+import useIsAdmin from '../../../hooks/authorization/IsAdminHook'
+import { FormatColorTextSharp } from '@material-ui/icons'
+import clsx from 'clsx';
 
 const MainLayout = (props) => {
     const classes = layoutStyle();
     const fontSize = "small";
+    const isAdmin = useIsAdmin();
     const [isNavigationProfileOpen, setNavigationProfileOpen, closeNavigationProfile] = useOpenClose();
     const accountMenu: Array<RouterWithElement> = [
         {name: "Profil", route: "", onClick: () => setNavigationProfileOpen(true),children: <PersonIcon fontSize={fontSize}/>},
@@ -22,7 +26,7 @@ const MainLayout = (props) => {
     const sideBarItems: Array<RouterWithElement> = [
         {name: "Lista samochodów", route: "/login", onClick: () => {}, children: <DirectionsCarIcon fontSize={fontSize}/>}
     ]
-    
+
     return (
         <React.Fragment>
             <MenuAppBar
@@ -30,7 +34,9 @@ const MainLayout = (props) => {
                 listMenu={generateLinkMenuItems(sideBarItems)}
                 isAuthorized={props.isAuthorized}
             ></MenuAppBar>
-            <Box className={classes.layoutContainer}>
+            <Box className={clsx(classes.layoutContainer, {
+                [classes.layoutContainerAdmin]: isAdmin()
+            })}>
                 <Box className={classes.shadowBox}>
                     <Box className={classes.layoutContent}>
                         <Paper className={classes.paperBox} elevation={3}>
