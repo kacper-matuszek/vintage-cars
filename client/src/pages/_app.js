@@ -8,6 +8,7 @@ import Router from 'next/router';
 import Cookie from 'universal-cookie';
 import useLog from "../../hooks/fetch/pagedAPI/LogHook";
 import useIsAdmin from "../../hooks/authorization/IsAdminHook";
+import AdminLayout from "../../components/admin/admin-layout/AdminLayoutComponent";
 
 export default function App({Component, pageProps, router}) {
     const [loading, setLoading] = useState(false);
@@ -31,7 +32,9 @@ export default function App({Component, pageProps, router}) {
     return (
         <AppBase title={pageProps.title} loading={loading} setLoading={setLoading}>
             {router.pathname.startsWith('/admin') && isAdmin() ? 
-            <Component {...pageProps}/>
+                <AdminLayout isAuthorized={checkAuthorization()}>
+                    <Component {...pageProps}/>
+                </AdminLayout>
             :
             router.pathname.startsWith('/login') || router.pathname.startsWith('/register') ? 
             <PictureContent>
