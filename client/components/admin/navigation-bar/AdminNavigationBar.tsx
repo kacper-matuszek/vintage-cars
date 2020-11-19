@@ -1,25 +1,33 @@
 import { Button, Grid, Paper } from "@material-ui/core"
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
-import { useEffect } from "react";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import useStyles from "./admin-navigation-bar-style";
 
 const AdminNavigationBar = () => {
     const classes = useStyles();
+    const [isAdmin, setIsAdmin] = useState(false);
+    const router = useRouter();
+
+    useEffect(() => {
+      setIsAdmin(window.location.href.includes('/admin'));
+    }, []);
+
     return (
       <Grid container xs={12} className={classes.adminBarRoot}>
         <Grid container className={classes.adminBar}>
           <Grid item container className={classes.adminContainer}>
             <Paper className={classes.adminLabel}>
-                {window.location.href.includes('/admin') ? 
+                {isAdmin ? 
                 "Strefa administracyjna" : 
                 "Strefa użytkownika"}
             </Paper>
             <Grid item direction="row"  alignItems="center">
-                {window.location.href.includes('/admin') ? 
-                <Button className={classes.goToButton} startIcon={<ArrowForwardIcon/>} href="/">
+                {isAdmin ? 
+                <Button className={classes.goToButton} startIcon={<ArrowForwardIcon/>} onClick={() => router.push('/')}>
                     Przejdź do strefy użytkownika
                 </Button> :
-                <Button className={classes.goToButton} startIcon={<ArrowForwardIcon/>} href="/admin">
+                <Button className={classes.goToButton} startIcon={<ArrowForwardIcon/>} onClick={() => router.push('/admin')}>
                     Przejdź do strefy administracyjnej
                 </Button>
                 }
