@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
+using Nop.Core;
 using Nop.Core.Caching;
 using Nop.Core.Domain.Catalog;
 using Nop.Core.Domain.Discounts;
@@ -87,11 +88,7 @@ namespace VintageCars.Service.Catalog.Services
 
         public virtual IList<CategoryAttribute> GetAllCategoryAttributes()
         {
-            var query = from ca in _categoryAttributeRepository.Table
-                        orderby ca.Name
-                        select ca;
-
-            return query.ToList();
+            return GetBaseAllCategoryAttributes().ToList();
         }
 
         public virtual CategoryAttribute GetCategoryAttribute(Guid categoryAttributeId)
@@ -118,6 +115,20 @@ namespace VintageCars.Service.Catalog.Services
                 throw new ArgumentNullException(nameof(categoryAttribute));
 
             _categoryAttributeRepository.Update(categoryAttribute);
+        }
+
+        public virtual IPagedList<CategoryAttribute> GetPagedCategoryAttributes(int pageIndex = 0,
+            int pageSize = Int32.MaxValue)
+        {
+            var baseList = GetBaseAllCategoryAttributes();
+            return new Nop.Core.PagedList<CategoryAttribute>(baseList, pageIndex, pageSize);
+        }
+
+        private IQueryable<CategoryAttribute> GetBaseAllCategoryAttributes()
+        {
+            return from ca in _categoryAttributeRepository.Table
+                   orderby ca.Name
+                   select ca;
         }
 
         #endregion

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Nop.Core;
 using Nop.Service.Catalog;
 using VintageCars.Data.Models;
 
@@ -10,6 +11,9 @@ namespace VintageCars.Service.Catalog.Services
         void DeleteCategoryAttribute(CategoryAttribute categoryAttribute);
         void DeleteCategoryAttribute(Guid categoryAttributeId);
         IList<CategoryAttribute> GetAllCategoryAttributes();
+
+        IPagedList<CategoryAttribute> GetPagedCategoryAttributes(int pageIndex = 0,
+            int pageSize = Int32.MaxValue);
         CategoryAttribute GetCategoryAttribute(Guid categoryAttributeId);
         void InsertCategoryAttribute(CategoryAttribute categoryAttribute);
         void UpdateCategoryAttribute(CategoryAttribute categoryAttribute);
