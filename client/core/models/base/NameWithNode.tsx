@@ -6,7 +6,8 @@ export interface NameWithNode extends BaseProps {
 }
 
 export interface RouterWithElement extends NameWithNode {
-    route: string,
-    onClick: () => void,
+    route?: string,
+    onClick?: () => void,
     children: React.ReactElement,
+    collapseElements?: Array<RouterWithElement> 
 }
