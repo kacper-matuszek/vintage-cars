@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { ListItem, ListItemIcon, ListItemText, MenuItem, Typography } from "@material-ui/core"
 import { NameWithNode, RouterWithElement } from '../../../core/models/base/NameWithNode'
 import { ListItemLink } from './ListItemLinkComponent';
 import Link from "next/link";
 import { generateUnique } from '../../../core/models/utils/Generator';
 import isEmpty from '../../../core/models/utils/StringExtension';
+import useIsCurrentPage from '../../../hooks/utils/RouteIsCurrentPage';
 
 export const generateMenuItems = (items: Array<NameWithNode>) => {
     return(
@@ -49,7 +50,8 @@ export const generateRouteMenuItems = (items: Array<RouterWithElement>) => {
      return (
          <React.Fragment>
              {items.map((router) => (
-                 <ListItemLink to={router.route} primary={router.name} icon={router.children} key={generateUnique(router.name)} />
+                 <ListItemLink to={router.route} primary={router.name} icon={router.children} key={generateUnique(router.name)}
+                    collapseElements={router.collapseElements} />
              ))}
          </React.Fragment>
      )
