@@ -25,6 +25,13 @@ export const theme = createMuiTheme({
                     backgroundColor: 'rgba(146,123,89,1)',
                   }
             }
+        },
+        MuiListItem: {
+            root: {
+                "&$selected": {
+                  backgroundColor: "#c3aa86"
+                }
+            }
         }
     }
 });
