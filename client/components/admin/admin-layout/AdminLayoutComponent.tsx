@@ -7,16 +7,22 @@ import PersonIcon from '@material-ui/icons/Person'
 import { RouterWithElement } from "../../../core/models/base/NameWithNode";
 import { generateLinkMenuItems, generateRouteMenuItems } from "../../shared/generatorUtils/GeneratorExtension";
 import NavigationProfileDialog from "../../profile/NavigationProfileDialogComponent";
+import { useRouter } from "next/router";
+import CategoryIcon from '@material-ui/icons/Category';
+import ViewModuleIcon from '@material-ui/icons/ViewModule';
 
 const AdminLayout = (props) => {
     const classes = layoutStyle();
     const fontSize = "small";
     const [isNavigationProfileOpen, setNavigationProfileOpen, closeNavigationProfile] = useOpenClose();
+    const router = useRouter();
     const accountMenu: Array<RouterWithElement> = [
         {name: "Profil", route: "", onClick: () => setNavigationProfileOpen(true), children: <PersonIcon fontSize={fontSize}/>}
     ]
     const sideBarItems: Array<RouterWithElement> = [
-        {name: "Test", route: "/", onClick: () => {}, children: <PersonIcon fontSize={fontSize}/>}
+        {name: "Kategorie", children: <CategoryIcon fontSize={fontSize}/>, collapseElements: [
+            {name: "Atrybuty", route: "/admin/categories/attributes" ,children: <ViewModuleIcon fontSize={fontSize}/>}
+        ]}
     ]
     return(
         <React.Fragment>
