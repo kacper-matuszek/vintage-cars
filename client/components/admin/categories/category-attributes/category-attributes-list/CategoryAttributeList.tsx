@@ -24,7 +24,7 @@ const CategoryAttributeList = () => {
         >
             {headers.map(obj => {
                 return (
-                    <TableContent name={obj.id} headerName="nazwa"/>
+                    <TableContent name={obj.id} headerName={obj.label}/>
                 )
             })}
         </ExtendedTable>
