@@ -35,7 +35,7 @@ const ExtendedTableHead = <T extends object>(props: ExtendedTableProps<T>) => {
                 {headers.map((headCell, index) => (
                     <TableCell
                     key={headCell.id as string}
-                    align={index === 0 ? 'right' : 'left'}
+                    align={index === 0 ? 'left' : 'right'}
                     padding='default'
                     sortDirection={orderBy === headCell.id ? order : false}
                     >
