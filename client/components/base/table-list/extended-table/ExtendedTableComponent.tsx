@@ -24,7 +24,7 @@ const ExtendedTable = <T extends ISelectable>(props: ExtendedTableProps<T>) => {
     const [selected, setSelected] = useState<string[]>([]);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
-    const headers = useToHeadCell(children);
+    const headers = useToHeadCell<T>(children);
 
     const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof T) => {
         const isAsc = orderBy === property && order === 'asc';
