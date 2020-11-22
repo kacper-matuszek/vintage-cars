@@ -4,12 +4,13 @@ import clsx from "clsx";
 import DeleteIcon from '@material-ui/icons/Delete';
 
 interface TableToolbarProps {
-    numSelected: number
+    numSelected: number,
+    title: string,
 }
 
 const TableToolbar = (props: TableToolbarProps) => {
     const classes = useStyles();
-    const { numSelected }  = props;
+    const { numSelected, title }  = props;
 
     return (
         <Toolbar
@@ -19,11 +20,11 @@ const TableToolbar = (props: TableToolbarProps) => {
     >
       {numSelected > 0 ? (
         <Typography className={classes.title} color="inherit" variant="subtitle1" component="div">
-          {numSelected} selected
+          {numSelected} wybrano
         </Typography>
       ) : (
         <Typography className={classes.title} variant="h6" id="tableTitle" component="div">
-          Nutrition
+          {title}
         </Typography>
       )}
       {numSelected > 0 ? (
