@@ -1,10 +1,10 @@
 interface TableContentProps {
-    headerName: string,
-    cellValue: any
+    name: string;
+    headerName: string;
 }
 
 const TableContent = (props: TableContentProps) => {
-    const {headerName, cellValue} = props;
+    const {name, headerName} = props;
 
     return <></>
 }
