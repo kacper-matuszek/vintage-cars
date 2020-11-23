@@ -15,6 +15,10 @@ const useStyles = makeStyles((theme: Theme) =>
             position: 'absolute',
             top: 20,
             width: 1,
+        },
+        header: {
+            fontWeight: 'bold',
+            textTransform: 'capitalize'
         }
     })
 )
