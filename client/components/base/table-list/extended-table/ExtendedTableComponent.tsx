@@ -118,7 +118,7 @@ const ExtendedTable = <T extends ISelectable>(props: ExtendedTableProps<T>) => {
                           </TableCell>
                           {headers.map(header => {
                             return(
-                              <TableCell component="th" id={labelId} scope="row" padding="none">
+                              <TableCell component="th" id={labelId} scope="row" padding="default">
                                 {row[header.id]}
                               </TableCell>
                             )
