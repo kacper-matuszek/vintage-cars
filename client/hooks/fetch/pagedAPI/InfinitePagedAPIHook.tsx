@@ -6,7 +6,7 @@ import PagedList from "../../../core/models/paged/PagedList";
 import BaseWebApiService from "../../../core/services/api-service/BaseWebApiService";
 import { toCallback } from "../../../core/services/api-service/Callback";
 
-const usePagedListAPI = <T extends IModel>(url: string, onError?: (message: string) => void): [Dispatch<SetStateAction<Paged>>, boolean, PagedList<T>] => {
+const useInfinitePagedListAPI = <T extends IModel>(url: string, onError?: (message: string) => void): [Dispatch<SetStateAction<Paged>>, boolean, PagedList<T>] => {
     const [isLoading, setIsLoading] = useState(false);
     const [response, setResponse] = useState(new PagedList<T>());
     const [paged, setPaged] = useState<Paged>(null);
@@ -57,4 +57,4 @@ const usePagedListAPI = <T extends IModel>(url: string, onError?: (message: stri
     return [setPaged, isLoading, response];
 };
 
-export default usePagedListAPI;
+export default useInfinitePagedListAPI;
