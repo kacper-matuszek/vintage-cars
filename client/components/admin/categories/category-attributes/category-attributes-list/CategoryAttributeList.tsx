@@ -1,9 +1,9 @@
 import ExtendedTable from "../../../../base/table-list/extended-table/ExtendedTableComponent"
 import CategoryAttributeView from "../models/CategoryAttributeView"
-import ReactElement from "react"
 import TableContent from "../../../../base/table-list/table-content/TableContentComponent";
 import { HeadCell } from "../../../../base/table-list/table-head/HeadCell";
 import { Guid } from "guid-typescript";
+import useAuhtorizationPagedList from "../../../../../hooks/fetch/pagedAPI/AuthorizedPagedAPIHook";
 
 const rows: Array<CategoryAttributeView> = [
     {id: Guid.create(), name: "tst", description: "desc"},
@@ -24,9 +24,11 @@ const headers: HeadCell<CategoryAttributeView>[] = [
     
 ]
 const CategoryAttributeList = () => {
+    const [fetchCategoryAttributes, isLoading, categoryAttributes] = useAuhtorizationPagedList<CategoryAttributeView>('/v1/category/attribute/list');
     return (
         <ExtendedTable<CategoryAttributeView>
-            rows={rows}
+            fetchData={fetchCategoryAttributes}
+            rows={categoryAttributes}
             title="Atrybuty Kategorii"
         >
             {headers.map((obj, index) => {
