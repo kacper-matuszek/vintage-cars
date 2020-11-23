@@ -10,6 +10,7 @@ import useStyles from "./extended-table-style"
 import TableContent from "../table-content/TableContentComponent";
 import React from "react";
 import useToHeadCell from "../../../../hooks/utils/ToHeadCellHook";
+import { Guid } from "guid-typescript";
 
 interface ExtendedTableProps<T extends ISelectable> {
     rows: Array<T>,
@@ -21,7 +22,7 @@ const ExtendedTable = <T extends ISelectable>(props: ExtendedTableProps<T>) => {
     const { rows, children, title } = props;
     const [orderBy, setOrderBy] = useState<keyof T>('name');
     const [order, setOrder] = useState<Order>('asc');
-    const [selected, setSelected] = useState<string[]>([]);
+    const [selected, setSelected] = useState<Guid[]>([]);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
     const headers = useToHeadCell<T>(children);
@@ -34,19 +35,19 @@ const ExtendedTable = <T extends ISelectable>(props: ExtendedTableProps<T>) => {
 
     const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.checked) {
-          const newSelecteds = rows.map((n) => n.name);
+          const newSelecteds = rows.map((n) => n.id);
           setSelected(newSelecteds);
           return;
         }
         setSelected([]);
     };
 
-    const handleClick = (event: React.MouseEvent<unknown>, name: string) => {
-        const selectedIndex = selected.indexOf(name);
-        let newSelected: string[] = [];
-    
+    const handleClick = (event: React.MouseEvent<unknown>, id: Guid) => {
+        const selectedIndex = selected.indexOf(id);
+        let newSelected: Guid[] = [];
+        
         if (selectedIndex === -1) {
-          newSelected = newSelected.concat(selected, name);
+          newSelected = newSelected.concat(selected, id);
         } else if (selectedIndex === 0) {
           newSelected = newSelected.concat(selected.slice(1));
         } else if (selectedIndex === selected.length - 1) {
@@ -62,7 +63,6 @@ const ExtendedTable = <T extends ISelectable>(props: ExtendedTableProps<T>) => {
     };
 
     const handleChangePage = (event: unknown, newPage: number) => {
-      console.log('hext page');
         setPage(newPage);
     };
 
@@ -71,7 +71,7 @@ const ExtendedTable = <T extends ISelectable>(props: ExtendedTableProps<T>) => {
         setPage(0);
     };
 
-    const isSelected = (name: string) => selected.indexOf(name) !== -1;
+    const isSelected = (id: Guid) => selected.indexOf(id) !== -1;
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
     return (
@@ -98,13 +98,13 @@ const ExtendedTable = <T extends ISelectable>(props: ExtendedTableProps<T>) => {
                   {stableSort(rows, getComparator(order, orderBy))
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((row, index) => {
-                      const isItemSelected = isSelected(row.name);
+                      const isItemSelected = isSelected(row.id);
                       const labelId = `enhanced-table-checkbox-${index}`;
     
                       return (
                         <TableRow
                           hover
-                          onClick={(event) => handleClick(event, row.name)}
+                          onClick={(event) => handleClick(event, row.id)}
                           role="checkbox"
                           aria-checked={isItemSelected}
                           tabIndex={-1}
