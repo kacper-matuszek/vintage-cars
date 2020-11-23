@@ -107,7 +107,7 @@ const ExtendedTable = <T extends ISelectable>(props: ExtendedTableProps<T>) => {
                           role="checkbox"
                           aria-checked={isItemSelected}
                           tabIndex={-1}
-                          key={row.name}
+                          key={row.id}
                           selected={isItemSelected}
                         >
                           <TableCell padding="checkbox">
@@ -126,17 +126,26 @@ const ExtendedTable = <T extends ISelectable>(props: ExtendedTableProps<T>) => {
                         </TableRow>
                       );
                     })}
+                    {emptyRows > 0 && (
+                      <TableRow style={{ height: 33 * emptyRows }}>
+                        <TableCell colSpan={6} />
+                      </TableRow>
+                    )}
                 </TableBody>
               </Table>
             </TableContainer>
             <TablePagination
-              rowsPerPageOptions={[5, 10, 25]}
+              rowsPerPageOptions={[5, 10, 25, 50, 100]}
               component="div"
               count={rows.length}
               rowsPerPage={rowsPerPage}
               page={page}
               onChangePage={handleChangePage}
               onChangeRowsPerPage={handleChangeRowsPerPage}
+              labelRowsPerPage="Wierszy na stronę:"
+              labelDisplayedRows={({from, to, count}) => `${from}-${to} z ${count}`}
+              nextIconButtonText='Następna strona'
+              backIconButtonText='Poprzednia strona'
             />
           </Paper>
         </div>
