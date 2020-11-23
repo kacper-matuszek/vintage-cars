@@ -5,7 +5,7 @@ import Paged from "../../../core/models/paged/Paged";
 import isEmpty from "../../../core/models/utils/StringExtension";
 import useExtractData from "../../../hooks/data/ExtracttDataHook";
 import useGetData from "../../../hooks/fetch/GetDataHook";
-import usePagedListAPI from "../../../hooks/fetch/pagedAPI/PagedAPIHook";
+import useInfinitePagedListAPI from "../../../hooks/fetch/pagedAPI/InfinitePagedAPIHook";
 import useSendSubmitWithNotification from "../../../hooks/fetch/SendSubmitHook";
 import useLoading from "../../../hooks/utils/LoadingHook";
 import withLoading from "../../base/loading/LoadingComponent";
@@ -58,8 +58,8 @@ const ProfileSection = (props) => {
     const [injectData, model, extractData, extractDataFromDerivedValue] = useExtractData<ContactProfile>(receivedModel);
     const [send] = useSendSubmitWithNotification("/v1/account/details", showLoading, hideLoading)
     const [countryId, setCountryId] = useState(Guid.createEmpty());
-    const [fetchCountry, isLoadingCountry, responseCountry] = usePagedListAPI<CountryView>("/v1/country/all");
-    const [fetchStateProvince, isLoadingStateProvince, responseStateProvince] = usePagedListAPI<StateProvinceView>(`/v1/country/state-province/all/${countryId}`);
+    const [fetchCountry, isLoadingCountry, responseCountry] = useInfinitePagedListAPI<CountryView>("/v1/country/all");
+    const [fetchStateProvince, isLoadingStateProvince, responseStateProvince] = useInfinitePagedListAPI<StateProvinceView>(`/v1/country/state-province/all/${countryId}`);
     const handleSubmit = async (event) => {
         event.preventDefault();
         profileSectionValidatorManager.isValid(model);
