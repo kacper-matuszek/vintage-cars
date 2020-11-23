@@ -6,7 +6,7 @@ import PagedList from "../../../core/models/paged/PagedList";
 import BaseWebApiService from "../../../core/services/api-service/BaseWebApiService";
 import { toCallback } from "../../../core/services/api-service/Callback";
 
-const usePagedList = <T extends IModel>(url: string, onError?: (message: string) => void): [Dispatch<SetStateAction<Paged>>, boolean, PagedList<T>] => {
+const useAuhtorizationPagedList = <T extends IModel>(url: string, onError?: (message: string) => void): [Dispatch<SetStateAction<Paged>>, boolean, PagedList<T>] => {
     const [isLoading, setIsLoading] = useState(false);
     const [response, setResponse] = useState(new PagedList<T>());
     const [paged, setPaged] = useState<Paged>(null);
@@ -14,11 +14,13 @@ const usePagedList = <T extends IModel>(url: string, onError?: (message: string)
 
     async function getData() {
         setIsLoading(true);
-        await apiService.get<PagedList<T>>(`${url}?pageIndex=${paged.pageIndex}&pageSize=${paged.pageSize}`, toCallback(
+        alert(`${paged.pageIndex} ${paged.pageSize}`)
+        await apiService.getAuthorized<PagedList<T>>(`${url}?pageIndex=${paged.pageIndex}&pageSize=${paged.pageSize}`, toCallback(
             (data) => setResponse(data),
             (validError) => handleError(validError),
             (error) => handleError(error)
-        ))
+        ));
+        setIsLoading(false);
     }
     const handleError = (error: ErrorDetails) => {
         if(onError) {
@@ -33,4 +35,4 @@ const usePagedList = <T extends IModel>(url: string, onError?: (message: string)
 
     return [setPaged, isLoading, response];
 }
-export default usePagedList;
+export default useAuhtorizationPagedList;
