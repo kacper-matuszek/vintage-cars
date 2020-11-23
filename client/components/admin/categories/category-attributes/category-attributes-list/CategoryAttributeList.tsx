@@ -8,7 +8,14 @@ import { Guid } from "guid-typescript";
 const rows: Array<CategoryAttributeView> = [
     {id: Guid.create(), name: "tst", description: "desc"},
     {id: Guid.create(), name: "tst2", description: "desc2"},
-    {id: Guid.create(), name: "tst3", description: "desc3"}
+    {id: Guid.create(), name: "tst3", description: "desc3"},
+    {id: Guid.create(), name: "tst3", description: "desc3"},
+    {id: Guid.create(), name: "tst3", description: "desc3"},
+    {id: Guid.create(), name: "tst3", description: "desc3"},
+    {id: Guid.create(), name: "tst3", description: "desc3"},
+    {id: Guid.create(), name: "tst3", description: "desc3"},
+    {id: Guid.create(), name: "tst3", description: "desc3"},
+    {id: Guid.create(), name: "tst3", description: "desc3"},
 
 ]
 const headers: HeadCell<CategoryAttributeView>[] = [
@@ -22,9 +29,9 @@ const CategoryAttributeList = () => {
             rows={rows}
             title="Atrybuty Kategorii"
         >
-            {headers.map(obj => {
+            {headers.map((obj, index) => {
                 return (
-                    <TableContent name={obj.id} headerName={obj.label}/>
+                    <TableContent key={index} name={obj.id} headerName={obj.label}/>
                 )
             })}
         </ExtendedTable>

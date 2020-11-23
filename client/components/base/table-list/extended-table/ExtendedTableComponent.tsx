@@ -62,6 +62,7 @@ const ExtendedTable = <T extends ISelectable>(props: ExtendedTableProps<T>) => {
     };
 
     const handleChangePage = (event: unknown, newPage: number) => {
+      console.log('hext page');
         setPage(newPage);
     };
 
@@ -116,9 +117,9 @@ const ExtendedTable = <T extends ISelectable>(props: ExtendedTableProps<T>) => {
                               inputProps={{ 'aria-labelledby': labelId }}
                             />
                           </TableCell>
-                          {headers.map(header => {
+                          {headers.map((header, index) => {
                             return(
-                              <TableCell component="th" id={labelId} scope="row" padding="default">
+                              <TableCell component="th" id={`${labelId}-${index}`} key={`${labelId}-${index}`} scope="row" padding="default">
                                 {row[header.id]}
                               </TableCell>
                             )
