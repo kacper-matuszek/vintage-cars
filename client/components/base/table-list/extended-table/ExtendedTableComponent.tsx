@@ -1,25 +1,26 @@
 import { Checkbox, Paper, Table, TableBody, TableCell, TableContainer, TablePagination, TableRow } from "@material-ui/core";
-import { ReactElement, ReactNode, useState } from "react";
+import { useEffect, useState } from "react";
 import ISelectable from "../../../../core/models/base/ISelectable";
 import getComparator from "../../../../core/models/utils/Comparator";
 import stableSort from "../../../../core/models/utils/StableSort";
-import { HeadCell } from "../table-head/HeadCell";
 import ExtendedTableHead, { Order } from "../table-head/TableHeadComponent";
 import TableToolbar from "../table-toolbar/TableToolbarComponent";
 import useStyles from "./extended-table-style"
-import TableContent from "../table-content/TableContentComponent";
 import React from "react";
 import useToHeadCell from "../../../../hooks/utils/ToHeadCellHook";
 import { Guid } from "guid-typescript";
+import PagedList from "../../../../core/models/paged/PagedList";
+import Paged from "../../../../core/models/paged/Paged";
 
 interface ExtendedTableProps<T extends ISelectable> {
-    rows: Array<T>,
+    rows: PagedList<T>,
+    fetchData: (paged: Paged) => void,
     title: string,
     children: JSX.Element[]
 }
 const ExtendedTable = <T extends ISelectable>(props: ExtendedTableProps<T>) => {
     const classes = useStyles();
-    const { rows, children, title } = props;
+    const { rows, children, title, fetchData } = props;
     const [orderBy, setOrderBy] = useState<keyof T>('name');
     const [order, setOrder] = useState<Order>('asc');
     const [selected, setSelected] = useState<Guid[]>([]);
@@ -35,7 +36,7 @@ const ExtendedTable = <T extends ISelectable>(props: ExtendedTableProps<T>) => {
 
     const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.checked) {
-          const newSelecteds = rows.map((n) => n.id);
+          const newSelecteds = rows.source.map((n) => n.id);
           setSelected(newSelecteds);
           return;
         }
@@ -45,7 +46,7 @@ const ExtendedTable = <T extends ISelectable>(props: ExtendedTableProps<T>) => {
     const handleClick = (event: React.MouseEvent<unknown>, id: Guid) => {
         const selectedIndex = selected.indexOf(id);
         let newSelected: Guid[] = [];
-        
+
         if (selectedIndex === -1) {
           newSelected = newSelected.concat(selected, id);
         } else if (selectedIndex === 0) {
@@ -72,8 +73,10 @@ const ExtendedTable = <T extends ISelectable>(props: ExtendedTableProps<T>) => {
     };
 
     const isSelected = (id: Guid) => selected.indexOf(id) !== -1;
-    const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
-
+    const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.source.length - page * rowsPerPage);
+    useEffect(() => {
+      fetchData(new Paged(page, rowsPerPage));
+    }, [page, rowsPerPage]);
     return (
         <div className={classes.root}>
           <Paper className={classes.paper}>
@@ -92,10 +95,10 @@ const ExtendedTable = <T extends ISelectable>(props: ExtendedTableProps<T>) => {
                   orderBy={orderBy as string}
                   onSelectAllClick={handleSelectAllClick}
                   onRequestSort={handleRequestSort}
-                  rowCount={rows.length}
+                  rowCount={rows.source.length}
                 />
                 <TableBody>
-                  {stableSort(rows, getComparator(order, orderBy))
+                  {stableSort(rows.source, getComparator(order, orderBy))
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((row, index) => {
                       const isItemSelected = isSelected(row.id);
@@ -138,7 +141,7 @@ const ExtendedTable = <T extends ISelectable>(props: ExtendedTableProps<T>) => {
             <TablePagination
               rowsPerPageOptions={[5, 10, 25, 50, 100]}
               component="div"
-              count={rows.length}
+              count={rows.totalCount}
               rowsPerPage={rowsPerPage}
               page={page}
               onChangePage={handleChangePage}
