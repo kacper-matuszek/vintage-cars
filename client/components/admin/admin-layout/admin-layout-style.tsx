@@ -30,7 +30,8 @@ export const layoutStyle = makeStyles((theme: Theme) =>
             flexFlow: 'column',
             padding: '2vh',
             width: '100%',
-            height: '100vh',
+            height: '100%',
+            minHeight: '100vh',
             margin: '5vh 0vh',
             zIndex: 1,
         }
