@@ -6,12 +6,13 @@ import { BaseProps } from "../../core/models/base/BaseProps";
 interface Props extends BaseProps {
     showLink?: boolean,
     caption: string,
+    variantCaption?: 'text' | 'outlined' | 'contained',
     title: string,
     actions?: ReactNode,
     showCancel?: boolean
 }
 
-const FormDialog = forwardRef(({children, showLink, caption, title, actions, showCancel = true}: Props,ref) => {
+const FormDialog = forwardRef(({children, showLink, caption, title, actions, showCancel = true, variantCaption = 'outlined'}: Props,ref) => {
     const [open, setOpen] = useState(false);
 
     const handleClickOpen = () => {
@@ -34,7 +35,7 @@ const FormDialog = forwardRef(({children, showLink, caption, title, actions, sho
                 <Link component="button" variant="body2" color="primary" onClick={handleClickOpen}>
                     {caption}
                 </Link> :
-                <Button variant="outlined" color="primary" onClick={handleClickOpen}>
+                <Button variant={variantCaption} color="primary" onClick={handleClickOpen}>
                     {caption}
                 </Button> }
             <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title" fullWidth={true}>
