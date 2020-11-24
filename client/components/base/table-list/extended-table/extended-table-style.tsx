@@ -5,6 +5,7 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       width: '100%',
+      position: 'relative',
     },
     paper: {
       width: '100%',
