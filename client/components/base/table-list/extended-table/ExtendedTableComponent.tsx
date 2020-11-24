@@ -16,11 +16,12 @@ interface ExtendedTableProps<T extends ISelectable> {
     rows: PagedList<T>,
     fetchData: (paged: Paged) => void,
     title: string,
-    children: JSX.Element[]
+    children: JSX.Element[],
+    onDeleteClick: (selectedItems: Guid[]) => void
 }
 const ExtendedTable = <T extends ISelectable>(props: ExtendedTableProps<T>) => {
     const classes = useStyles();
-    const { rows, children, title, fetchData } = props;
+    const { rows, children, title, fetchData, onDeleteClick} = props;
     const [orderBy, setOrderBy] = useState<keyof T>('name');
     const [order, setOrder] = useState<Order>('asc');
     const [selected, setSelected] = useState<Guid[]>([]);
@@ -72,6 +73,8 @@ const ExtendedTable = <T extends ISelectable>(props: ExtendedTableProps<T>) => {
         setPage(0);
     };
 
+    const handleDeleteClick = () => onDeleteClick(selected);
+
     const isSelected = (id: Guid) => selected.indexOf(id) !== -1;
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.source.length - page * rowsPerPage);
     useEffect(() => {
@@ -80,7 +83,7 @@ const ExtendedTable = <T extends ISelectable>(props: ExtendedTableProps<T>) => {
     return (
         <div className={classes.root}>
           <Paper className={classes.paper}>
-            <TableToolbar numSelected={selected.length} title={title} />
+            <TableToolbar numSelected={selected.length} title={title} onDeleteClick={handleDeleteClick} />
             <TableContainer>
               <Table
                 className={classes.table}
