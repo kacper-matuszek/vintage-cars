@@ -1,4 +1,4 @@
-import { Checkbox, Paper, Table, TableBody, TableCell, TableContainer, TablePagination, TableRow } from "@material-ui/core";
+import { Checkbox, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TablePagination, TableRow, Tooltip } from "@material-ui/core";
 import { useEffect, useState } from "react";
 import ISelectable from "../../../../core/models/base/ISelectable";
 import getComparator from "../../../../core/models/utils/Comparator";
@@ -11,17 +11,19 @@ import useToHeadCell from "../../../../hooks/utils/ToHeadCellHook";
 import { Guid } from "guid-typescript";
 import PagedList from "../../../../core/models/paged/PagedList";
 import Paged from "../../../../core/models/paged/Paged";
+import EditIcon from '@material-ui/icons/Edit';
 
 interface ExtendedTableProps<T extends ISelectable> {
     rows: PagedList<T>,
     fetchData: (paged: Paged) => void,
     title: string,
     children: JSX.Element[],
-    onDeleteClick: (selectedItems: Guid[]) => void
+    onDeleteClick: (selectedItems: Guid[]) => void,
+    onEditClick: (id: Guid) => void
 }
 const ExtendedTable = <T extends ISelectable>(props: ExtendedTableProps<T>) => {
     const classes = useStyles();
-    const { rows, children, title, fetchData, onDeleteClick} = props;
+    const { rows, children, title, fetchData, onDeleteClick, onEditClick} = props;
     const [orderBy, setOrderBy] = useState<keyof T>('name');
     const [order, setOrder] = useState<Order>('asc');
     const [selected, setSelected] = useState<Guid[]>([]);
@@ -74,6 +76,7 @@ const ExtendedTable = <T extends ISelectable>(props: ExtendedTableProps<T>) => {
     };
 
     const handleDeleteClick = () => onDeleteClick(selected);
+    const handleEditClick = (event: React.MouseEvent<unknown>, id: Guid) => onEditClick(id);
 
     const isSelected = (id: Guid) => selected.indexOf(id) !== -1;
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.source.length - page * rowsPerPage);
@@ -130,6 +133,13 @@ const ExtendedTable = <T extends ISelectable>(props: ExtendedTableProps<T>) => {
                               </TableCell>
                             )
                           })}
+                          <TableCell component="th" scope="row" padding="default">
+                            <Tooltip title="Edytuj">
+                              <IconButton aria-label="edytuj" onClick={(event) => handleEditClick(event, row.id)}>
+                                  <EditIcon/>
+                              </IconButton>
+                            </Tooltip>
+                          </TableCell>
                         </TableRow>
                       );
                     })}
