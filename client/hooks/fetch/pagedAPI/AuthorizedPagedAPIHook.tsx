@@ -12,11 +12,40 @@ const useAuhtorizationPagedList = <T extends IModel>(url: string, onError?: (mes
     const [paged, setPaged] = useState<Paged>(null);
     const apiService = new BaseWebApiService();
 
+    const callback = useCallback((data: PagedList<T>) => {
+        setResponse(prevState => {
+            const list = new Array<T>();
+            if(prevState.source.length > 0)
+                list.push(...prevState.source);
+            list.push(...data.source);
+            let map = new Map();
+            prevState.source = list.filter(el => {
+                const val = map.get(el.id);
+                if(val) {
+                    if(el.id === val) {
+                        map.delete(el.id);
+                        map.set(el.id, el);
+                        return true;
+                    } else 
+                        return false;
+                }
+                map.set(el.id, el);
+                return true;
+            });
+            prevState.hasNextPage = data.hasNextPage;
+            prevState.hasPreviousPage = data.hasPreviousPage;
+            prevState.totalCount = data.totalCount;
+            prevState.totalPages = data.totalPages;
+            prevState.pageIndex = data.pageIndex;
+            prevState.pageSize =  data.pageSize;
+            return prevState;
+        })
+    }, [response.source])
+
     async function getData() {
         setIsLoading(true);
-        alert(`${paged.pageIndex} ${paged.pageSize}`)
         await apiService.getAuthorized<PagedList<T>>(`${url}?pageIndex=${paged.pageIndex}&pageSize=${paged.pageSize}`, toCallback(
-            (data) => setResponse(data),
+            (data) => callback(data),
             (validError) => handleError(validError),
             (error) => handleError(error)
         ));
