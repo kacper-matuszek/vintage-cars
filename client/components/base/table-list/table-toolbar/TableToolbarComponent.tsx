@@ -6,11 +6,17 @@ import DeleteIcon from '@material-ui/icons/Delete';
 interface TableToolbarProps {
     numSelected: number,
     title: string,
+    onDeleteClick: () => void
 }
 
 const TableToolbar = (props: TableToolbarProps) => {
     const classes = useStyles();
-    const { numSelected, title }  = props;
+    const { numSelected, title, onDeleteClick }  = props;
+
+    const handleDeleteClick = (e) => {
+        e.preventDefault();
+        onDeleteClick();
+    }
 
     return (
         <Toolbar
@@ -29,7 +35,7 @@ const TableToolbar = (props: TableToolbarProps) => {
       )}
       {numSelected > 0 ? (
         <Tooltip title="Delete">
-          <IconButton aria-label="delete">
+          <IconButton aria-label="delete" onClick={handleDeleteClick}>
             <DeleteIcon />
           </IconButton>
         </Tooltip>
