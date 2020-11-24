@@ -34,7 +34,7 @@ const TableToolbar = (props: TableToolbarProps) => {
         </Typography>
       )}
       {numSelected > 0 ? (
-        <Tooltip title="Delete">
+        <Tooltip title="Usuń">
           <IconButton aria-label="delete" onClick={handleDeleteClick}>
             <DeleteIcon />
           </IconButton>
