@@ -19,17 +19,21 @@ interface ExtendedTableProps<T extends ISelectable> {
     title: string,
     children: JSX.Element[],
     onDeleteClick: (selectedItems: Guid[]) => void,
-    onEditClick: (id: Guid) => void
+    onAddClick: () => void,
+    onEditClick: (model: T) => void
 }
 const ExtendedTable = <T extends ISelectable>(props: ExtendedTableProps<T>) => {
     const classes = useStyles();
-    const { rows, children, title, fetchData, onDeleteClick, onEditClick} = props;
+    const { rows, children, title, fetchData, onDeleteClick, onAddClick, onEditClick} = props;
     const [orderBy, setOrderBy] = useState<keyof T>('name');
     const [order, setOrder] = useState<Order>('asc');
     const [selected, setSelected] = useState<Guid[]>([]);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
     const headers = useToHeadCell<T>(children);
+    const additionalHeaders = [{
+      label: "Edytuj", visible: false, width: "50px"
+    }]
 
     const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof T) => {
         const isAsc = orderBy === property && order === 'asc';
@@ -76,7 +80,11 @@ const ExtendedTable = <T extends ISelectable>(props: ExtendedTableProps<T>) => {
     };
 
     const handleDeleteClick = () => onDeleteClick(selected);
-    const handleEditClick = (event: React.MouseEvent<unknown>, id: Guid) => onEditClick(id);
+    const handleAddClick = () => onAddClick();
+    const handleEditClick = (event: React.MouseEvent<unknown>, id: Guid) => {
+      const rowObject = rows.source.find(n => n.id === id);
+      onEditClick(rowObject);
+    }
 
     const isSelected = (id: Guid) => selected.indexOf(id) !== -1;
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.source.length - page * rowsPerPage);
@@ -86,7 +94,11 @@ const ExtendedTable = <T extends ISelectable>(props: ExtendedTableProps<T>) => {
     return (
         <div className={classes.root}>
           <Paper className={classes.paper}>
-            <TableToolbar numSelected={selected.length} title={title} onDeleteClick={handleDeleteClick} />
+            <TableToolbar 
+              numSelected={selected.length} 
+              title={title} 
+              onDeleteClick={handleDeleteClick}
+              onAddClick={handleAddClick} />
             <TableContainer>
               <Table
                 className={classes.table}
@@ -96,6 +108,7 @@ const ExtendedTable = <T extends ISelectable>(props: ExtendedTableProps<T>) => {
               >
                 <ExtendedTableHead<T>
                   headers={headers}
+                  additionalHeaders={additionalHeaders}
                   numSelected={selected.length}
                   order={order}
                   orderBy={orderBy as string}
@@ -133,10 +146,10 @@ const ExtendedTable = <T extends ISelectable>(props: ExtendedTableProps<T>) => {
                               </TableCell>
                             )
                           })}
-                          <TableCell component="th" scope="row" padding="default">
+                          <TableCell component="th" scope="row" padding="default" align="right" width="50px">
                             <Tooltip title="Edytuj">
                               <IconButton aria-label="edytuj" onClick={(event) => handleEditClick(event, row.id)}>
-                                  <EditIcon/>
+                                  <EditIcon color="primary"/>
                               </IconButton>
                             </Tooltip>
                           </TableCell>

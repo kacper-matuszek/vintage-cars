@@ -2,22 +2,28 @@ import { IconButton, Toolbar, Tooltip, Typography } from "@material-ui/core";
 import useStyles from "./table-toolbar-style";
 import clsx from "clsx";
 import DeleteIcon from '@material-ui/icons/Delete';
+import AddCircleIcon from '@material-ui/icons/AddCircle';
 
 interface TableToolbarProps {
     numSelected: number,
     title: string,
-    onDeleteClick: () => void
+    onDeleteClick: () => void,
+    onAddClick: () => void
 }
 
 const TableToolbar = (props: TableToolbarProps) => {
     const classes = useStyles();
-    const { numSelected, title, onDeleteClick }  = props;
+    const { numSelected, title, onDeleteClick, onAddClick }  = props;
 
     const handleDeleteClick = (e) => {
         e.preventDefault();
         onDeleteClick();
     }
 
+    const handleAddClick = (e) => {
+      e.preventDefault();
+      onAddClick();
+    }
     return (
         <Toolbar
       className={clsx(classes.root, {
@@ -39,7 +45,11 @@ const TableToolbar = (props: TableToolbarProps) => {
             <DeleteIcon />
           </IconButton>
         </Tooltip>
-      ) : ( <></> )}
+      ) : ( <Tooltip title="Dodaj">
+              <IconButton aria-label="add" onClick={handleAddClick}>
+                <AddCircleIcon color="primary" fontSize="large" />
+              </IconButton>
+            </Tooltip> )}
     </Toolbar>
     );
 };
