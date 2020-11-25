@@ -9,10 +9,11 @@ interface Props extends BaseProps {
     variantCaption?: 'text' | 'outlined' | 'contained',
     title: string,
     actions?: ReactNode,
-    showCancel?: boolean
+    showCancel?: boolean,
+    forceOpen?: boolean
 }
 
-const FormDialog = forwardRef(({children, showLink, caption, title, actions, showCancel = true, variantCaption = 'outlined'}: Props,ref) => {
+const FormDialog = forwardRef(({children, showLink, caption, title, actions, showCancel = true, variantCaption = 'outlined', forceOpen = false}: Props,ref) => {
     const [open, setOpen] = useState(false);
 
     const handleClickOpen = () => {
@@ -26,6 +27,9 @@ const FormDialog = forwardRef(({children, showLink, caption, title, actions, sho
     useImperativeHandle(ref, () => ({
         closeForm() {
             handleClose();
+        },
+        openForm() {
+            handleClickOpen();
         }
     }));
 
