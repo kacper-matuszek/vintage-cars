@@ -1,12 +1,14 @@
 import { TableCell, TableHead, TableRow, TableSortLabel } from "@material-ui/core"
 import Checkbox from '@material-ui/core/Checkbox';
-import { HeadCell } from "./HeadCell";
+import isEmpty from "../../../../core/models/utils/StringExtension";
+import { HeadCell, SimpleHeadCell } from "./HeadCell";
 import useStyles from "./table-head-style";
 
 export type Order = 'asc' | 'desc';
 
 interface ExtendedTableProps<T> {
     headers: HeadCell<T>[],
+    additionalHeaders?: SimpleHeadCell[],
     numSelected: number,
     onRequestSort: (event: React.MouseEvent<unknown>, property: keyof T) => void;
     onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -17,7 +19,7 @@ interface ExtendedTableProps<T> {
 
 const ExtendedTableHead = <T extends object>(props: ExtendedTableProps<T>) => {
     const classes = useStyles();
-    const { headers, onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } = props;
+    const { headers, additionalHeaders, onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } = props;
     const createSortHandler = (property: keyof T) => (event: React.MouseEvent<unknown>) => {
         onRequestSort(event, property);
     };
@@ -54,6 +56,18 @@ const ExtendedTableHead = <T extends object>(props: ExtendedTableProps<T>) => {
                     </TableSortLabel>
                   </TableCell>
                 ))}
+                {additionalHeaders !== null ? 
+                  additionalHeaders.map((simpleHeader, index) => (
+                    <TableCell 
+                      className={classes.header}
+                      width={isEmpty(simpleHeader.width) ? "auto" : simpleHeader.width}
+                      key={`${simpleHeader.label}-${index}`}
+                      padding="default"
+                      align="right">
+                      {simpleHeader.visible ? simpleHeader.label : null}
+                    </TableCell>
+                  ))
+                : null}
             </TableRow>
         </TableHead>
     )
