@@ -157,7 +157,7 @@ const ExtendedTable = <T extends ISelectable>(props: ExtendedTableProps<T>) => {
                       );
                     })}
                     {emptyRows > 0 && (
-                      <TableRow style={{ height: 33 * emptyRows }}>
+                      <TableRow style={{ height: 53 * emptyRows }}>
                         <TableCell colSpan={6} />
                       </TableRow>
                     )}
