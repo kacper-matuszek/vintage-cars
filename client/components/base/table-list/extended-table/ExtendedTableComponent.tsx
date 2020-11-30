@@ -1,5 +1,5 @@
 import { Checkbox, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TablePagination, TableRow, Tooltip } from "@material-ui/core";
-import { useEffect, useState } from "react";
+import { forwardRef, Ref, useEffect, useImperativeHandle, useState } from "react";
 import ISelectable from "../../../../core/models/base/ISelectable";
 import getComparator from "../../../../core/models/utils/Comparator";
 import stableSort from "../../../../core/models/utils/StableSort";
@@ -42,7 +42,7 @@ const ExtendedTable = <T extends ISelectable>(props: ExtendedTableProps<T>) => {
     };
 
     const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
-        if (event.target.checked) {
+      if (event.target.checked) {
           const newSelecteds = rows.source.map((n) => n.id);
           setSelected(newSelecteds);
           return;
@@ -79,7 +79,11 @@ const ExtendedTable = <T extends ISelectable>(props: ExtendedTableProps<T>) => {
         setPage(0);
     };
 
-    const handleDeleteClick = () => onDeleteClick(selected);
+    const handleDeleteClick = () => {
+      const selectedAttributes = [...selected];
+      setSelected([]);
+      onDeleteClick(selectedAttributes);
+    }
     const handleAddClick = () => onAddClick();
     const handleEditClick = (event: React.MouseEvent<unknown>, id: Guid) => {
       const rowObject = rows.source.find(n => n.id === id);
@@ -87,7 +91,7 @@ const ExtendedTable = <T extends ISelectable>(props: ExtendedTableProps<T>) => {
     }
 
     const isSelected = (id: Guid) => selected.indexOf(id) !== -1;
-    const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.source.length - page * rowsPerPage);
+
     useEffect(() => {
       fetchData(new Paged(page, rowsPerPage));
     }, [page, rowsPerPage]);
@@ -99,8 +103,8 @@ const ExtendedTable = <T extends ISelectable>(props: ExtendedTableProps<T>) => {
               title={title} 
               onDeleteClick={handleDeleteClick}
               onAddClick={handleAddClick} />
-            <TableContainer>
-              <Table
+            <TableContainer className={classes.tableContainer}>
+              <Table stickyHeader
                 className={classes.table}
                 aria-labelledby="tableTitle"
                 size="medium"
@@ -156,11 +160,6 @@ const ExtendedTable = <T extends ISelectable>(props: ExtendedTableProps<T>) => {
                         </TableRow>
                       );
                     })}
-                    {emptyRows > 0 && (
-                      <TableRow style={{ height: 53 * emptyRows }}>
-                        <TableCell colSpan={6} />
-                      </TableRow>
-                    )}
                 </TableBody>
               </Table>
             </TableContainer>

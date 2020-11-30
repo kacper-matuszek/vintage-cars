@@ -14,6 +14,9 @@ const useStyles = makeStyles((theme: Theme) =>
     table: {
       minWidth: 750,
     },
+    tableContainer: {
+      height: 475,
+    },
     visuallyHidden: {
       border: 0,
       clip: 'rect(0 0 0 0)',
