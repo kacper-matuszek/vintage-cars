@@ -14,25 +14,13 @@ import isEmpty from "../../../../../core/models/utils/StringExtension";
 import useSendSubmitWithNotification from "../../../../../hooks/fetch/SendSubmitHook";
 import LoadingContext from "../../../../../contexts/LoadingContext";
 
-const rows: Array<CategoryAttributeView> = [
-    {id: Guid.create(), name: "tst", description: "desc"},
-    {id: Guid.create(), name: "tst2", description: "desc2"},
-    {id: Guid.create(), name: "tst3", description: "desc3"},
-    {id: Guid.create(), name: "tst3", description: "desc3"},
-    {id: Guid.create(), name: "tst3", description: "desc3"},
-    {id: Guid.create(), name: "tst3", description: "desc3"},
-    {id: Guid.create(), name: "tst3", description: "desc3"},
-    {id: Guid.create(), name: "tst3", description: "desc3"},
-    {id: Guid.create(), name: "tst3", description: "desc3"},
-    {id: Guid.create(), name: "tst3", description: "desc3"},
-
-]
 const headers: HeadCell<CategoryAttributeView>[] = [
     {id: 'name', label: 'nazwa'},
     {id: 'description', label: 'Opis'},
 ]
 const CategoryAttributeList = () => {
     const formDialogRef = useRef(null);
+    const extendedTableRef = useRef(null);
     const modelValidator = new ValidatorManage();
     modelValidator.setValidators({
         ["name"]: [{
@@ -47,7 +35,7 @@ const CategoryAttributeList = () => {
     });
 
     const {showLoading, hideLoading} = useContext(LoadingContext);
-    const [fetchCategoryAttributes, isLoading, categoryAttributes] = useAuhtorizationPagedList<CategoryAttributeView>('/v1/category/attribute/list');
+    const [fetchCategoryAttributes, isLoading, categoryAttributes, refresh] = useAuhtorizationPagedList<CategoryAttributeView>('/v1/category/attribute/list');
     const [send] = useSendSubmitWithNotification("/v1/category/attribute", showLoading, hideLoading);
     const [sendDelete] = useSendSubmitWithNotification("/v1/category/attribute/delete", showLoading, hideLoading, "Usunięto pomyślnie.");
     const [injectData, model, extractData]  = useExtractData<CategoryAttribute>(new CategoryAttribute());
@@ -69,7 +57,7 @@ const CategoryAttributeList = () => {
         modelValidator.isValid(model);
         setModelErrors({...modelErrors, name: modelValidator.getMessageByKey("name")});
         if(modelValidator.isAllValid()) {
-            await send(model);
+            await send(model).finally(() => refresh());
             injectData(new CategoryAttribute());
             formDialogRef.current.closeForm();
         }
@@ -79,10 +67,14 @@ const CategoryAttributeList = () => {
         formDialogRef.current.openForm();
     }
     const handleDelete = async (ids: Guid[]) => {
-        ids.forEach(id => {
+        (async () => ids.forEach(id => {
             (async () => {
-                await sendDelete({id: id})
-            })()
+                await sendDelete({id: id});
+            })();
+        }))().finally(() => 
+        {   
+            categoryAttributes.source = []; 
+            refresh()
         });
     }
     return (
