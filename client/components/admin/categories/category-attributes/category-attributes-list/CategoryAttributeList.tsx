@@ -49,7 +49,7 @@ const CategoryAttributeList = () => {
     const {showLoading, hideLoading} = useContext(LoadingContext);
     const [fetchCategoryAttributes, isLoading, categoryAttributes] = useAuhtorizationPagedList<CategoryAttributeView>('/v1/category/attribute/list');
     const [send] = useSendSubmitWithNotification("/v1/category/attribute", showLoading, hideLoading);
-    const [sendDelete] = useSendSubmitWithNotification("url", showLoading, hideLoading, "Usunięto pomyślnie."); //ADD Correct url
+    const [sendDelete] = useSendSubmitWithNotification("/v1/category/attribute/delete", showLoading, hideLoading, "Usunięto pomyślnie.");
     const [injectData, model, extractData]  = useExtractData<CategoryAttribute>(new CategoryAttribute());
     
     const addActions = () => {
