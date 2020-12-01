@@ -15,25 +15,26 @@ interface ExtendedTableProps<T> {
     order: Order;
     orderBy: string;
     rowCount: number;
+    showSelectAll: boolean;
 }
 
 const ExtendedTableHead = <T extends object>(props: ExtendedTableProps<T>) => {
     const classes = useStyles();
-    const { headers, additionalHeaders, onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } = props;
+    const { headers, additionalHeaders, onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort, showSelectAll } = props;
     const createSortHandler = (property: keyof T) => (event: React.MouseEvent<unknown>) => {
         onRequestSort(event, property);
     };
     return (
         <TableHead>
             <TableRow>
-                <TableCell padding="checkbox">
+                { showSelectAll ? (<TableCell padding="checkbox">
                     <Checkbox
                         indeterminate={numSelected > 0 && numSelected < rowCount}
                         checked={rowCount > 0 && numSelected === rowCount}
                         onChange={onSelectAllClick}
                         inputProps={{'aria-label': 'select all'}}
                     />
-                </TableCell>
+                </TableCell>) : (<></>)}
                 {headers.map((headCell, index) => (
                     <TableCell
                     className={classes.header}

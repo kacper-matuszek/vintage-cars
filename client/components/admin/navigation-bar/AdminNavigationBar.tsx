@@ -3,6 +3,7 @@ import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import useStyles from "./admin-navigation-bar-style";
+import Box from '@material-ui/core/Box';
 
 const AdminNavigationBar = () => {
     const classes = useStyles();
@@ -22,7 +23,7 @@ const AdminNavigationBar = () => {
                 "Strefa administracyjna" : 
                 "Strefa użytkownika"}
             </Paper>
-            <Grid item direction="row"  alignItems="center">
+            <Box display="flex" flexDirection="row"  alignItems="center">
                 {isAdmin ? 
                 <Button className={classes.goToButton} startIcon={<ArrowForwardIcon/>} onClick={() => router.push('/')}>
                     Przejdź do strefy użytkownika
@@ -31,7 +32,7 @@ const AdminNavigationBar = () => {
                     Przejdź do strefy administracyjnej
                 </Button>
                 }
-            </Grid>
+            </Box>
           </Grid>
         </Grid>
       </Grid>

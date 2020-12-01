@@ -18,13 +18,15 @@ interface ExtendedTableProps<T extends ISelectable> {
     fetchData: (paged: Paged) => void,
     title: string,
     children: JSX.Element[],
-    onDeleteClick: (selectedItems: Guid[]) => void,
-    onAddClick: () => void,
-    onEditClick: (model: T) => void
+    onDeleteClick?: (selectedItems: Guid[]) => void,
+    onAddClick?: () => void,
+    onEditClick?: (model: T) => void,
+    showSelection?: boolean,
+    onSelected?: (selectedItems: Guid[]) => void
 }
 const ExtendedTable = <T extends ISelectable>(props: ExtendedTableProps<T>) => {
     const classes = useStyles();
-    const { rows, children, title, fetchData, onDeleteClick, onAddClick, onEditClick} = props;
+    const { rows, children, title, fetchData, onDeleteClick, onAddClick, onEditClick, showSelection, onSelected} = props;
     const [orderBy, setOrderBy] = useState<keyof T>('name');
     const [order, setOrder] = useState<Order>('asc');
     const [selected, setSelected] = useState<Guid[]>([]);
@@ -95,14 +97,19 @@ const ExtendedTable = <T extends ISelectable>(props: ExtendedTableProps<T>) => {
     useEffect(() => {
       fetchData(new Paged(page, rowsPerPage));
     }, [page, rowsPerPage]);
+    useEffect(() => {
+      if(onSelected !== undefined && onSelected !== null) {
+        onSelected(selected);
+      }
+    }, [selected])
     return (
         <div className={classes.root}>
           <Paper className={classes.paper}>
             <TableToolbar 
               numSelected={selected.length} 
               title={title} 
-              onDeleteClick={handleDeleteClick}
-              onAddClick={handleAddClick} />
+              onDeleteClick={ onDeleteClick !== undefined ? handleDeleteClick : undefined}
+              onAddClick={ onAddClick !== undefined ? handleAddClick : undefined} />
             <TableContainer className={classes.tableContainer}>
               <Table stickyHeader
                 className={classes.table}
@@ -119,6 +126,7 @@ const ExtendedTable = <T extends ISelectable>(props: ExtendedTableProps<T>) => {
                   onSelectAllClick={handleSelectAllClick}
                   onRequestSort={handleRequestSort}
                   rowCount={rows.source.length}
+                  showSelectAll={showSelection === undefined ? false : showSelection}
                 />
                 <TableBody>
                   {stableSort(rows.source, getComparator(order, orderBy))
@@ -137,26 +145,31 @@ const ExtendedTable = <T extends ISelectable>(props: ExtendedTableProps<T>) => {
                           key={row.id}
                           selected={isItemSelected}
                         >
-                          <TableCell padding="checkbox">
+                          { showSelection !== undefined && showSelection ? (<TableCell padding="checkbox">
                             <Checkbox
                               checked={isItemSelected}
                               inputProps={{ 'aria-labelledby': labelId }}
                             />
-                          </TableCell>
+                          </TableCell>) : (<></>)}
                           {headers.map((header, index) => {
                             return(
                               <TableCell component="th" id={`${labelId}-${index}`} key={`${labelId}-${index}`} scope="row" padding="default">
-                                {row[header.id]}
+                                {typeof row[header.id] === "boolean" ? 
+                                  (
+                                    <Checkbox
+                                      checked={row[header.id]}
+                                    />
+                                  ) : (row[header.id])}
                               </TableCell>
                             )
                           })}
-                          <TableCell component="th" scope="row" padding="default" align="right" width="50px">
+                          { onEditClick !== undefined ? <TableCell component="th" scope="row" padding="default" align="right" width="50px">
                             <Tooltip title="Edytuj">
                               <IconButton aria-label="edytuj" onClick={(event) => handleEditClick(event, row.id)}>
                                   <EditIcon color="primary"/>
                               </IconButton>
                             </Tooltip>
-                          </TableCell>
+                          </TableCell> : <></>}
                         </TableRow>
                       );
                     })}
@@ -166,7 +179,7 @@ const ExtendedTable = <T extends ISelectable>(props: ExtendedTableProps<T>) => {
             <TablePagination
               rowsPerPageOptions={[5, 10, 25, 50, 100]}
               component="div"
-              count={rows.totalCount}
+              count={rows.totalCount !== undefined ? rows.totalCount : 0}
               rowsPerPage={rowsPerPage}
               page={page}
               onChangePage={handleChangePage}

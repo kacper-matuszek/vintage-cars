@@ -20,7 +20,6 @@ const headers: HeadCell<CategoryAttributeView>[] = [
 ]
 const CategoryAttributeList = () => {
     const formDialogRef = useRef(null);
-    const extendedTableRef = useRef(null);
     const modelValidator = new ValidatorManage();
     modelValidator.setValidators({
         ["name"]: [{
@@ -86,6 +85,7 @@ const CategoryAttributeList = () => {
             onDeleteClick={(items) => handleDelete(items)}
             onEditClick={(obj) => handleEdit(obj)}
             onAddClick={openForm}
+            showSelection={true}
         >
             {headers.map((obj, index) => {
                 return (

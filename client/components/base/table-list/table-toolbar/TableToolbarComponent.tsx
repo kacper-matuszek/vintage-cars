@@ -7,8 +7,8 @@ import AddCircleIcon from '@material-ui/icons/AddCircle';
 interface TableToolbarProps {
     numSelected: number,
     title: string,
-    onDeleteClick: () => void,
-    onAddClick: () => void
+    onDeleteClick?: () => void,
+    onAddClick?: () => void
 }
 
 const TableToolbar = (props: TableToolbarProps) => {
@@ -39,17 +39,18 @@ const TableToolbar = (props: TableToolbarProps) => {
           {title}
         </Typography>
       )}
-      {numSelected > 0 ? (
-        <Tooltip title="Usuń">
+      {numSelected > 0 ? 
+        onDeleteClick !== undefined ? 
+        (<Tooltip title="Usuń">
           <IconButton aria-label="delete" onClick={handleDeleteClick}>
             <DeleteIcon />
           </IconButton>
-        </Tooltip>
-      ) : ( <Tooltip title="Dodaj">
+        </Tooltip>) : (<></>)
+       : onAddClick ? ( <Tooltip title="Dodaj">
               <IconButton aria-label="add" onClick={handleAddClick}>
                 <AddCircleIcon color="primary" fontSize="large" />
               </IconButton>
-            </Tooltip> )}
+            </Tooltip> ) : (<></>)}
     </Toolbar>
     );
 };

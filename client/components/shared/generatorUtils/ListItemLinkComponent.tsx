@@ -35,7 +35,7 @@ export const ListItemLink = (props: ListItemLinkProps) => {
       setIsCurrent(false);
     }, []);
     return (
-        <li>
+        <>
           {!hasCollapseItems() ? 
             <Link href={to}>
               <ListItem button selected={isCurrent}>
@@ -56,6 +56,6 @@ export const ListItemLink = (props: ListItemLinkProps) => {
             </Collapse>
             </>
           }
-        </li>
+        </>
     );
 }
