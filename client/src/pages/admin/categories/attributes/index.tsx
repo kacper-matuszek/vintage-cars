@@ -8,4 +8,11 @@ const Attributes = (props) => {
         <CategoryAttributeList/>
     )
 }
+export async function getStaticProps() {
+    return {
+        props: {
+            title: "Atrybuty Kategorii",
+        }
+    }
+}
 export default Attributes;
