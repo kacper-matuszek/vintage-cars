@@ -5,12 +5,12 @@ using VintageCars.Domain.Utils;
 
 namespace VintageCars.Domain.Catalog.Queries
 {
-    public class GetCategoryQuery : QueryPagedBase<PagedList<CategoryView>>
+    public class GetCategoriesQuery : QueryPagedBase<PagedList<CategoryView>>
     {
-        public GetCategoryQuery()
+        public GetCategoriesQuery()
         {
         }
-        public GetCategoryQuery(PagedRequest paged) : base(paged)
+        public GetCategoriesQuery(PagedRequest paged) : base(paged)
         {
         }
     }

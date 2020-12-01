@@ -3,6 +3,7 @@ using AutoMapper;
 using Nop.Core.Domain.Catalog;
 using Nop.Core.Infrastructure.Mapper;
 using VintageCars.Domain.Catalog.Commands;
+using VintageCars.Domain.Catalog.Response;
 using VintageCars.Domain.Extensions;
 
 namespace VintageCars.Domain.Catalog.Mappings
@@ -21,6 +22,11 @@ namespace VintageCars.Domain.Catalog.Mappings
                     })
                 .ForMember(c => c.UpdatedOnUtc,
                     opt => opt.MapFrom(cat => DateTime.UtcNow));
+
+            CreateMap<Category, CategoryView>()
+                .ForMember(x => x.IsPublished, opt => opt.MapFrom(src => src.Published))
+                .ForMember(x => x.IsArchival, opt => opt.MapFrom(src => src.Deleted))
+                .ForMember(x => x.Attributes, opt => opt.Ignore());
         }
         public int Order => 6;
     }

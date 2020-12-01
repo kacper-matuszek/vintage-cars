@@ -23,6 +23,10 @@ namespace VintageCars.Web.Controllers.Admin
         public async Task<ActionResult> CreateOrUpdate([FromBody] CreateUpdateCategoryCommand updateCategoryCommand)
             => await ExecuteCommandWithoutResult(updateCategoryCommand);
 
+        [HttpGet("list")]
+        public async Task<ActionResult<PagedList<CategoryView>>> Categories([FromQuery] PagedRequest pagedRequest)
+            => Single(await SendAsync(new GetCategoriesQuery(pagedRequest)));
+
         [HttpPost("attribute")]
         public async Task<ActionResult> CreateOrUpdateAttribute([FromBody] CreateUpdateCategoryAttributeCommand updateCategoryAttributeCommand)
             => await ExecuteCommandWithoutResult(updateCategoryAttributeCommand);
