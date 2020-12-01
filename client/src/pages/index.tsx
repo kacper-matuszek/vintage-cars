@@ -1,4 +1,4 @@
-import { Box, Button, createStyles, Dialog, DialogContent, DialogTitle, Drawer, List, ListItem, ListItemIcon, ListItemText, MenuItem, Tab, Tabs, Theme } from "@material-ui/core"
+import { Box, Button, createStyles, Dialog, DialogContent, CircularProgress, Backdrop, DialogTitle, Drawer, List, ListItem, ListItemIcon, ListItemText, MenuItem, Tab, Tabs, Theme } from "@material-ui/core"
 import MenuAppBar from "../../components/base/menu-bar/MenuAppBarComponent"
 import { NameWithNode } from "../../core/models/base/NameWithNode"
 import InboxIcon from '@material-ui/icons/MoveToInbox';
@@ -14,16 +14,31 @@ import { NavigationFormDialog } from "../../components/base/form-dialog/Navigati
 import { IconWithContent } from "../../core/models/base/IconWithContent";
 import NavigationProfileDialog from "../../components/profile/NavigationProfileDialogComponent";
 import NotificationContext from "../../contexts/NotificationContext";
+import LoadingContext from "../../contexts/LoadingContext";
+import CategoryAttributeList from "../../components/admin/categories/category-attributes/category-attributes-list/CategoryAttributeList";
 
-
+const useStyles = makeStyles({
+  parent: {
+    position: "relative",
+    width: 200,
+    height: 200,
+    backgroundColor: "red",
+    zIndex: 0
+  },
+  backdrop: {
+    position: "absolute"
+  }
+});
 
 const Home = (props) => {
+    const classes = useStyles();
     const router = useRouter();
     const [value, setValue] = React.useState(0);
     const [title, setTitle] = React.useState("Title");
     const [open, setOpen] = React.useState(false);
     const [showSave, setShowSave] = React.useState(true);
-    const { showSuccessMessage } = useContext(NotificationContext);
+    const [loading, setLoading] = useState(false);
+    const loadingContextValue = {showLoading: () => setLoading(true), hideLoading: () => setLoading(false)};
     const accountChildren = () => {
         return (
             <MenuItem>
@@ -49,13 +64,25 @@ const Home = (props) => {
 
     return (
         <div>
-            <Button onClick={() => showSuccessMessage("hej")}>HEJ</Button>
+            {/* <LoadingContext.Provider value={loadingContextValue}>
+                { loading ? <div className={classes.parent}>
+                              <Backdrop className={classes.backdrop} open={true}>
+                                <CircularProgress color="inherit" />
+                              </Backdrop>
+                            </div> : <></>}
+                <LoadingContext.Consumer>
+                    {({showLoading, hideLoading}) => (
+            <><Button onClick={() => { 
+                showLoading();
+            }}>HEJ</Button>
            <NavigationProfileDialog
             open={open}
             onClose={handleClose}
             showSave={showSave}
             onSave={handleSave}
-           />
+           /></>)}
+           </LoadingContext.Consumer>
+           </LoadingContext.Provider> */}
         </div>
     )
 }
