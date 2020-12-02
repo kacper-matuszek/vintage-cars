@@ -5,5 +5,6 @@ export interface HeadCell<T> {
 export interface SimpleHeadCell {
     label: string,
     visible: boolean,
-    width?: string, //width in px
+    width?: string, //width in px,
+    add: boolean
 }
