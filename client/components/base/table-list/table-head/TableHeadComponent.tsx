@@ -59,14 +59,15 @@ const ExtendedTableHead = <T extends object>(props: ExtendedTableProps<T>) => {
                 ))}
                 {additionalHeaders !== null ? 
                   additionalHeaders.map((simpleHeader, index) => (
-                    <TableCell 
+                    simpleHeader.add ? 
+                    (<TableCell 
                       className={classes.header}
                       width={isEmpty(simpleHeader.width) ? "auto" : simpleHeader.width}
                       key={`${simpleHeader.label}-${index}`}
                       padding="default"
                       align="right">
                       {simpleHeader.visible ? simpleHeader.label : null}
-                    </TableCell>
+                    </TableCell>) : null
                   ))
                 : null}
             </TableRow>
