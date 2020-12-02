@@ -39,7 +39,6 @@ const ExtendedTableHead = <T extends object>(props: ExtendedTableProps<T>) => {
                     <TableCell
                     className={classes.header}
                     key={headCell.id as string}
-                    //align={index === 0 ? 'left' : 'right'}
                     padding='default'
                     sortDirection={orderBy === headCell.id ? order : false}
                     >
