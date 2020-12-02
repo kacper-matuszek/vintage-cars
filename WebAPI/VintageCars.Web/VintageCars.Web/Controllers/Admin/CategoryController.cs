@@ -27,6 +27,10 @@ namespace VintageCars.Web.Controllers.Admin
         public async Task<ActionResult<PagedList<CategoryView>>> Categories([FromQuery] PagedRequest pagedRequest)
             => Single(await SendAsync(new GetCategoriesQuery(pagedRequest)));
 
+        [HttpPost("delete")]
+        public async Task<ActionResult> DeleteCategory([FromBody] DeleteCategoryCommand deleteCategoryCommand)
+            => await ExecuteCommandWithoutResult(deleteCategoryCommand);
+
         [HttpPost("attribute")]
         public async Task<ActionResult> CreateOrUpdateAttribute([FromBody] CreateUpdateCategoryAttributeCommand updateCategoryAttributeCommand)
             => await ExecuteCommandWithoutResult(updateCategoryAttributeCommand);
