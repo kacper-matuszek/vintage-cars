@@ -34,7 +34,7 @@ const ExtendedTable = <T extends ISelectable>(props: ExtendedTableProps<T>) => {
     const [rowsPerPage, setRowsPerPage] = useState(5);
     const headers = useToHeadCell<T>(children);
     const additionalHeaders = [{
-      label: "Edytuj", visible: false, width: "50px"
+      label: "Edytuj", visible: false, width: "50px", add: onEditClick !== undefined
     }]
 
     const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof T) => {
