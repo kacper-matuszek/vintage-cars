@@ -20,8 +20,9 @@ const AdminLayout = (props) => {
         {name: "Profil", route: "", onClick: () => setNavigationProfileOpen(true), children: <PersonIcon fontSize={fontSize}/>}
     ]
     const sideBarItems: Array<RouterWithElement> = [
-        {name: "Kategorie", children: <CategoryIcon fontSize={fontSize}/>, collapseElements: [
-            {name: "Atrybuty", route: "/admin/categories/attributes" ,children: <ViewModuleIcon fontSize={fontSize}/>}
+        {name: "Katalog", children: <CategoryIcon fontSize={fontSize}/>, collapseElements: [
+            {name: "Atrybuty", route: "/admin/categories/attributes" ,children: <ViewModuleIcon fontSize={fontSize}/>},
+            {name: "Kategorie", route: "/admin/categories", children: <CategoryIcon fontSize={fontSize}/>}
         ]}
     ]
     return(
