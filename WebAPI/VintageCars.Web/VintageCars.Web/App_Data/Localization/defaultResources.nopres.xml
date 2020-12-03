@@ -87,4 +87,7 @@
   <LocaleResource Name="DeleteCategoryAttribute.NotExists.Validation">
     <Value>Identyfikator wartości atrybutu jest niepoprawny.</Value>
   </LocaleResource>
+  <LocaleResource Name="DeleteCategory.NotExists.Validation">
+    <Value>Identyfikator kategorii jest niepoprawny.</Value>
+  </LocaleResource>
 </Language>
