@@ -57,7 +57,10 @@ const useAuhtorizationPagedList = <T extends IModel>(url: string, onError?: (mes
         }
     }
     
-    const refresh = () => getData();
+    const refresh = () => {
+        setResponse(new PagedList<T>());
+        return getData();
+    }
 
     useEffect(() => {
         if(paged === null) return;
