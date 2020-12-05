@@ -1,8 +1,10 @@
+import CategoryAttributeMappingView from "../../../components/admin/categories/categories-list/models/CategoryAttributeMappingView";
 import CategoryView from "../../../components/admin/categories/categories-list/models/CategoryView";
+import CategoryAttributeView from "../../../components/admin/categories/category-attributes/models/CategoryAttributeView";
 import Category from "../../../components/admin/categories/category-form/models/Category";
 import IMapper from "../../models/utils/IMapper";
 
-export default class CategoryMapping implements IMapper<CategoryView, Category> {
+export default class CategoryMapper implements IMapper<CategoryView, Category>{
     toDestination(source: CategoryView): Category {
         const category = new Category();
         category.id = source.id;

@@ -15,7 +15,7 @@ import EditIcon from '@material-ui/icons/Edit';
 
 interface ExtendedTableProps<T extends ISelectable> {
     rows: PagedList<T>,
-    fetchData: (paged: Paged) => void,
+    fetchData?: (paged: Paged) => void,
     title: string,
     children: JSX.Element[],
     onDeleteClick?: (selectedItems: Guid[]) => void,
@@ -95,7 +95,8 @@ const ExtendedTable = <T extends ISelectable>(props: ExtendedTableProps<T>) => {
     const isSelected = (id: Guid) => selected.indexOf(id) !== -1;
 
     useEffect(() => {
-      fetchData(new Paged(page, rowsPerPage));
+      if(fetchData !== undefined && fetchData !== null)
+        fetchData(new Paged(page, rowsPerPage));
     }, [page, rowsPerPage]);
     useEffect(() => {
       if(onSelected !== undefined && onSelected !== null) {

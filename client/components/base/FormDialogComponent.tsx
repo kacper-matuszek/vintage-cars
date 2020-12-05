@@ -10,10 +10,14 @@ interface Props extends BaseProps {
     title: string,
     actions?: ReactNode,
     showCancel?: boolean,
-    disableOpenButton?: boolean
+    disableOpenButton?: boolean,
+    fullScreen?: boolean,
+    maxWidth?: 'lg' | 'md' | 'sm' | 'xl'| 'xs',
+    onCancel?: () => void
 }
 
-const FormDialog = forwardRef(({children, showLink, caption, title, actions, showCancel = true, variantCaption = 'outlined', disableOpenButton = false}: Props,ref) => {
+const FormDialog = forwardRef(({children, showLink, caption, title, actions, showCancel = true, variantCaption = 'outlined', disableOpenButton = false, 
+    fullScreen = false, maxWidth = 'sm', onCancel}: Props,ref) => {
     const [open, setOpen] = useState(false);
 
     const handleClickOpen = () => {
@@ -22,6 +26,8 @@ const FormDialog = forwardRef(({children, showLink, caption, title, actions, sho
 
     const handleClose = () => {
         setOpen(false);
+        if(onCancel !== undefined)
+            onCancel();
     }
 
     useImperativeHandle(ref, () => ({
@@ -42,7 +48,7 @@ const FormDialog = forwardRef(({children, showLink, caption, title, actions, sho
                 <Button variant={variantCaption} color="primary" onClick={handleClickOpen}>
                     {caption}
                 </Button> ) : <></>}
-            <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title" fullWidth={true}>
+            <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title" fullWidth={true} maxWidth={maxWidth} fullScreen={fullScreen}>
                 <DialogTitle id="form-dialog-title">{title}</DialogTitle>
                 <DialogContent>
                     {children}
