@@ -20,6 +20,9 @@ interface SimpleInfiniteSelectProps {
     fullWidth?: boolean,
     displayEmpty?: boolean,
     disabled?: boolean,
+    required?: boolean,
+    error?: boolean,
+    errorText?: string
 }
 const useStyles = makeStyles(theme => ({
     menuPaper: {
@@ -97,6 +100,9 @@ const SimpleInfiniteSelect = (props: SimpleInfiniteSelectProps) => {
                     <TextField
                     {...params}
                     label={props.label}
+                    required={props.required}
+                    error={props.error}
+                    helperText={props.errorText}
                     variant="outlined"
                     InputProps={{
                       ...params.InputProps,
