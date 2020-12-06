@@ -8,3 +8,7 @@ export interface SimpleHeadCell {
     width?: string, //width in px,
     add: boolean
 }
+export interface CellContent {
+    id: string,
+    content: (data: any) => JSX.Element,
+}
