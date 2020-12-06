@@ -42,7 +42,7 @@ const SimpleInfiniteSelect = (props: SimpleInfiniteSelectProps) => {
         }
     };
     const pingToGetData = () => {
-        if(props.data.length === props.totalCount) return;
+        if(props.data.length > 0 && props.data.length === props.totalCount) return;
         paged.current.increment();
         props.fetchData(paged.current);
     };
