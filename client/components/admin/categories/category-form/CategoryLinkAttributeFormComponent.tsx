@@ -1,5 +1,5 @@
-import { Button, FormControl, InputLabel, MenuItem, Select, TextField } from "@material-ui/core";
-import { useRef, useState } from "react";
+import { Button, FormControl, FormHelperText, InputLabel, MenuItem, OutlinedInput, Select, TextField } from "@material-ui/core";
+import { useEffect, useRef, useState } from "react";
 import { AttributeControlType } from "../../../../core/models/enums/AttributeControlType";
 import useExtractData from "../../../../hooks/data/ExtracttDataHook";
 import useAuhtorizationPagedList from "../../../../hooks/fetch/pagedAPI/AuthorizedPagedAPIHook";
@@ -22,6 +22,13 @@ const CategoryLinkAttribute = (props: CategoryLinkAttributeProps) => {
         attributeControlType: "",
         categoryAttributeId: "",
     });
+    const clearErrors = () => {
+        setErrors(state => {
+            state.attributeControlType = "";
+            state.categoryAttributeId = "";
+            return state
+        });
+    }
     const categoryAttributeValidator = new ValidatorManage();
     categoryAttributeValidator.setValidators({
         ["categoryAttributeId"]: [{
@@ -55,16 +62,24 @@ const CategoryLinkAttribute = (props: CategoryLinkAttributeProps) => {
 
             props.onSubmit(categoryView);
             formRef.current.closeForm();
+            injectData(new CategoryAttributeMapping());
+            clearErrors();
         }
+    }
+    const handleCancel = () => {
+        injectData(new CategoryAttributeMapping());
+        clearErrors();
     }
     const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
         extractData("attributeControlType", event);
     };
+
     return (
         <FormDialog
             title="Łączenie atrybutu z kategorią"
             caption="Połącz atrybut"
             variantCaption="contained"
+            onCancel={handleCancel}
             showCancel={true}
             showLink={false}
             ref={formRef}
@@ -79,6 +94,9 @@ const CategoryLinkAttribute = (props: CategoryLinkAttributeProps) => {
                 label="Atrybut"
                 maxHeight="200px"
                 fullWidth={true}
+                required
+                error={!!errors.categoryAttributeId}
+                errorText={errors.categoryAttributeId}
                 pageSize={10}
                 isLoading={isLoading}
                 fetchData={fetchCategoryAttribute}
@@ -86,13 +104,18 @@ const CategoryLinkAttribute = (props: CategoryLinkAttributeProps) => {
                 totalCount={categoryAttribtue?.totalCount}
                 onChangeValue={(value) => extractDataFromDerivedValue("categoryAttributeId", value)}
             />
-            <FormControl fullWidth variant="outlined">
-                <InputLabel id="attribute-control">Kontrolka</InputLabel>
+            <FormControl fullWidth required>
+                <InputLabel 
+                    id="attribute-control"
+                    htmlFor="attribute-control"
+                    error={!!errors.attributeControlType}>
+                        Kontrolka
+                </InputLabel>
                 <Select
-                    labelId="attribute-control"
                     id="select-attribute-control"
                     value={model?.attributeControlType}
                     onChange={handleChange}
+                    error={!!errors.attributeControlType}
                     fullWidth
                 >
                     {Object.keys(AttributeControlType).map(obj => {
@@ -104,6 +127,7 @@ const CategoryLinkAttribute = (props: CategoryLinkAttributeProps) => {
                             )}
                     })}
                 </Select>
+                <FormHelperText error={!!errors.attributeControlType}>{errors.attributeControlType}</FormHelperText>
             </FormControl>
         </FormDialog>
     )
