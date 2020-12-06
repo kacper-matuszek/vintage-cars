@@ -1,10 +1,14 @@
 import { Box, Button, Checkbox, Divider, FormControlLabel, TextField } from "@material-ui/core"
 import { Label } from "@material-ui/icons";
-import { forwardRef, useImperativeHandle, useRef, useState } from "react";
+import { forwardRef, useContext, useImperativeHandle, useRef, useState } from "react";
+import LoadingContext from "../../../../contexts/LoadingContext";
+import NotificationContext from "../../../../contexts/NotificationContext";
+import { AttributeControlType } from "../../../../core/models/enums/AttributeControlType";
 import PagedList from "../../../../core/models/paged/PagedList";
 import isEmpty from "../../../../core/models/utils/StringExtension";
 import useExtractData from "../../../../hooks/data/ExtracttDataHook";
 import useAuhtorizationPagedList from "../../../../hooks/fetch/pagedAPI/AuthorizedPagedAPIHook";
+import useSendSubmitWithNotification from "../../../../hooks/fetch/SendSubmitHook";
 import FormDialog from "../../../base/FormDialogComponent"
 import ExtendedTable from "../../../base/table-list/extended-table/ExtendedTableComponent";
 import TableContent from "../../../base/table-list/table-content/TableContentComponent";
@@ -15,14 +19,11 @@ import CategoryAttributeView from "../category-attributes/models/CategoryAttribu
 import useStyles from "./category-dialog-style";
 import CategoryLinkAttribute from "./CategoryLinkAttributeFormComponent";
 import Category from "./models/Category";
+import CategoryAttributeMapping from "./models/CategoryAttributeMapping";
 
-const categoryAttributeHeaders: HeadCell<CategoryAttributeMappingView>[] = [
-    {id: 'name', label: 'nazwa'},
-    {id: 'description', label: 'Opis'},
-    {id: 'attributeControlType', label: 'Kontrolka'}
-]
 const CategoryDialogForm = forwardRef((props, ref) => {
     const classes = useStyles();
+    const notification = useContext(NotificationContext);
     const formDialogRef = useRef(null);
     const [categoryAttributeMapping, setCategoryAttributeMapping]= useState(new PagedList<CategoryAttributeMappingView>())
     const modelValidator = new ValidatorManage();
@@ -38,6 +39,8 @@ const CategoryDialogForm = forwardRef((props, ref) => {
         name: ""
     });
 
+    const {showLoading, hideLoading} = useContext(LoadingContext);
+    const [send] = useSendSubmitWithNotification("/v1/category", showLoading, hideLoading);
     const [injectData, model, extractData] = useExtractData<Category>(new Category())
     const addActions = () => {
         return (
@@ -52,7 +55,24 @@ const CategoryDialogForm = forwardRef((props, ref) => {
         formDialogRef.current.openForm();
     }
     const handleSubmit = async (event) => {
-        //TODO
+        event.preventDefault();
+        categoryAttributeMapping.source.forEach((cam, index) => {
+            const categoryAttributeMapp = new CategoryAttributeMapping();
+            categoryAttributeMapp.categoryAttributeId = cam.id;
+            categoryAttributeMapp.attributeControlType = cam.attributeControlType;
+            categoryAttributeMapp.displayOrder = index + 1;
+            model.attributeMappings.push(categoryAttributeMapp);
+        })
+        modelValidator.isValid(model);
+        setModelErrors({...modelErrors, name: modelValidator.getMessageByKey("name")});
+        if(modelValidator.isAllValid()){
+            console.log(model);
+            await send(model).finally(() => 
+            {
+                injectData(new Category());
+
+            });
+        }
     }
 
     useImperativeHandle(ref, () => ({
@@ -69,11 +89,12 @@ const CategoryDialogForm = forwardRef((props, ref) => {
        <>
             <FormDialog
                 title="Dodawanie kategorii"
+                showChangeScreen
                 showCancel={true}
                 showLink={false}
                 disableOpenButton={true}
                 actions={addActions()}
-                onCancel={() => setCategoryAttributeMapping(null)}
+                onCancel={() => setCategoryAttributeMapping(new PagedList<CategoryAttributeMappingView>())}
                 ref={formDialogRef}
                 maxWidth="md"
             >
@@ -118,11 +139,17 @@ const CategoryDialogForm = forwardRef((props, ref) => {
                 <CategoryLinkAttribute
                     onSubmit={(attrMapping) => 
                         setCategoryAttributeMapping(prevState => {
+                            const attrIsExist = prevState.source.some(x => x.id === attrMapping.id);
+                            if(attrIsExist) {
+                                notification.showWarningMessage("Dany atrybut już istnieje. Jeśli chcesz go zastąpić usuń aktualny.");
+                                return prevState;
+                            }
                             const list = new PagedList<CategoryAttributeMappingView>();
                             if(prevState.source !== undefined)
                                 list.source.push(...prevState.source);
                             list.source.push(attrMapping);
                             list.totalCount = prevState.totalCount + 1;
+                            console.log(list.totalCount);
                             return list;
                         })
                     }
@@ -130,13 +157,24 @@ const CategoryDialogForm = forwardRef((props, ref) => {
             </Box>
             <ExtendedTable<CategoryAttributeMappingView>
                 rows={categoryAttributeMapping}
+                onDeleteClick={(items) => {
+                    setCategoryAttributeMapping(prevState => {
+                        prevState.source = prevState.source.filter(i => !items.includes(i.id));
+                        prevState.totalCount -= items.length;
+                        return prevState; 
+                    })
+                }}
                 title="Atrybuty Kategorii"
                 >
-                    {categoryAttributeHeaders.map((obj, index) => {
-                        return (
-                            <TableContent key={index} name={obj.id} headerName={obj.label}/>
-                        )
-                    })}
+                    <TableContent key="category-attribute-mapping-name" name={'name'} headerName="Nazwa"/>
+                    <TableContent key="category-attribute-mapping-description" name={'description'} headerName="Opis"/>
+                    <TableContent 
+                        key="category-attribute-mapping-attributeControl" name={'attributeControlType'} 
+                        headerName="Kontrolka"
+                        content={(model) => {
+                            const isValue = parseInt(model, 10) >= 0
+                            return isValue ?  (<>{AttributeControlType[model]}</>) : (<>{model}</>)
+                        }}/>
             </ExtendedTable>
             </FormDialog>
         </>
