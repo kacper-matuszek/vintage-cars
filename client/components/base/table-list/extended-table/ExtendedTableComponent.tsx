@@ -12,6 +12,7 @@ import { Guid } from "guid-typescript";
 import PagedList from "../../../../core/models/paged/PagedList";
 import Paged from "../../../../core/models/paged/Paged";
 import EditIcon from '@material-ui/icons/Edit';
+import useToCellContent from "../../../../hooks/utils/ToCellContent";
 
 interface ExtendedTableProps<T extends ISelectable> {
     rows: PagedList<T>,
@@ -33,6 +34,7 @@ const ExtendedTable = <T extends ISelectable>(props: ExtendedTableProps<T>) => {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
     const headers = useToHeadCell<T>(children);
+    const cellContents = useToCellContent(children);
     const additionalHeaders = [{
       label: "Edytuj", visible: false, width: "50px", add: onEditClick !== undefined
     }]
@@ -152,15 +154,19 @@ const ExtendedTable = <T extends ISelectable>(props: ExtendedTableProps<T>) => {
                               inputProps={{ 'aria-labelledby': labelId }}
                             />
                           </TableCell>) : (<></>)}
-                          {headers.map((header, index) => {
+                          {cellContents.map((cell, index) => {
                             return(
                               <TableCell component="th" id={`${labelId}-${index}`} key={`${labelId}-${index}`} scope="row" padding="default">
-                                {typeof row[header.id] === "boolean" ? 
+                                { cell.content !== undefined && cell.content !== null ?
+                                  (
+                                    cell.content(row[cell.id])
+                                  ) :
+                                (typeof row[cell.id] === "boolean" ? 
                                   (
                                     <Checkbox
-                                      checked={row[header.id]}
+                                      checked={row[cell.id]}
                                     />
-                                  ) : (row[header.id])}
+                                  ) : (row[cell.id]))}
                               </TableCell>
                             )
                           })}
