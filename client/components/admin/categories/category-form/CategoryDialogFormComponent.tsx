@@ -21,7 +21,10 @@ import CategoryLinkAttribute from "./CategoryLinkAttributeFormComponent";
 import Category from "./models/Category";
 import CategoryAttributeMapping from "./models/CategoryAttributeMapping";
 
-const CategoryDialogForm = forwardRef((props, ref) => {
+interface CategoryDialogProps {
+    onSubmit?: () => void,
+}
+const CategoryDialogForm = forwardRef((props: CategoryDialogProps, ref) => {
     const classes = useStyles();
     const notification = useContext(NotificationContext);
     const formDialogRef = useRef(null);
@@ -66,11 +69,12 @@ const CategoryDialogForm = forwardRef((props, ref) => {
         modelValidator.isValid(model);
         setModelErrors({...modelErrors, name: modelValidator.getMessageByKey("name")});
         if(modelValidator.isAllValid()){
-            console.log(model);
             await send(model).finally(() => 
             {
                 injectData(new Category());
-
+                if(props.onSubmit !== undefined && props.onSubmit !== null)
+                    props.onSubmit();
+                formDialogRef.current.closeForm();
             });
         }
     }
@@ -82,7 +86,7 @@ const CategoryDialogForm = forwardRef((props, ref) => {
         openFormWithEditModel(model: Category) {
             injectData(model);
             formDialogRef.current.openForm();
-        }
+        },
     }));
 
     return (

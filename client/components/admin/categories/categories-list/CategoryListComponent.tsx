@@ -56,7 +56,7 @@ const CategoryList = () => {
                     )
                 })}
             </ExtendedTable>
-            <CategoryDialogForm ref={categoryForm}/>
+            <CategoryDialogForm ref={categoryForm} onSubmit={refresh}/>
         </>
     )
 }
