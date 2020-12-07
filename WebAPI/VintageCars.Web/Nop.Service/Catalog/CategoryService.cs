@@ -149,7 +149,9 @@ namespace Nop.Service.Catalog
 
             if (storeId != default || !showHidden)
             {
-                query = query.Distinct().OrderBy(c => c.ParentCategoryId).ThenBy(c => c.DisplayOrder).ThenBy(c => c.Id);
+                query = query.Distinct().OrderBy(c => c.ParentCategoryId)
+                    .ThenBy(c => c.DisplayOrder)
+                    .ThenBy(c => c.Name);
             }
 
             var unsortedCategories = query.ToList();
