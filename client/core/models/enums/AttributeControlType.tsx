@@ -1,5 +1,5 @@
 export enum AttributeControlType {
-    DropdownList,
+    DropdownList = 1,
     Checkboxes = 3,
     TextBox = 4
 }
