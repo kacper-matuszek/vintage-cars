@@ -24,6 +24,9 @@ namespace VintageCars.Service.Catalog.Handlers
             var categoryAttribute = _extendedCategoryService.GetCategoryAttribute(request.Id)
                                     ?? throw new ValidationException(
                                         _localizationService.GetResource("DeleteCategoryAttribute.NotExists.Validation"));
+            if(_extendedCategoryService.HasAnyMappings(categoryAttribute.Id))
+                throw new ValidationException(_localizationService.GetResource("DeleteCategoryAttribute.IsLinkedWithCategory.Validation"));
+
             _extendedCategoryService.DeleteCategoryAttribute(categoryAttribute);
             return Unit.Task;
         }

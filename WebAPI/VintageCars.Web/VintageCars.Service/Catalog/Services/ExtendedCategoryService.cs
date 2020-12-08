@@ -189,6 +189,13 @@ namespace VintageCars.Service.Catalog.Services
             _categoryAttributeMappingRepository.Update(categoryAttributeMapping);
         }
 
+        public virtual bool HasAnyMappings(Guid categoryAttributeId)
+        {
+            if (categoryAttributeId == default(Guid)) return false;
+
+            return _categoryAttributeMappingRepository.Table.Any(x => x.CategoryAttributeId == categoryAttributeId);
+        }
+
         #endregion
 
         #region Category Attributes Values

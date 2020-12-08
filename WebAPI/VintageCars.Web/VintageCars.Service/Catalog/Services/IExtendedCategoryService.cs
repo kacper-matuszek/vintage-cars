@@ -19,6 +19,7 @@ namespace VintageCars.Service.Catalog.Services
         void UpdateCategoryAttribute(CategoryAttribute categoryAttribute);
         void DeleteCategoryMapping(CategoryAttributeMapping categoryAttributeMapping);
         void DeleteCategoryMapping(Guid categoryAttributeMappingId);
+        bool HasAnyMappings(Guid categoryAttributeId);
         IList<CategoryAttributeMapping> GetCategoryAttributeMappingsByCategoryId(Guid categoryId);
         CategoryAttributeMapping GetCategoryAttributeMapping(Guid categoryAttributeMapping);
         void InsertCategoryAttributeMapping(CategoryAttributeMapping categoryAttributeMapping);
