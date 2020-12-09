@@ -1,7 +1,7 @@
-import { Theme } from "@material-ui/core";
-import { makeStyles } from "@material-ui/styles";
+import { makeStyles, createStyles, Theme } from "@material-ui/core";
 
-export const useStyles = makeStyles((theme: Theme) => ({
+export const useStyles = makeStyles((theme: Theme) => 
+  createStyles({
     root: {
       flexGrow: 1,
       backgroundColor: theme.palette.background.paper,
@@ -20,6 +20,6 @@ export const useStyles = makeStyles((theme: Theme) => ({
     },
     tab: {
       minWidth: '90px',
-      padding: '1vh'
+      padding: '1vh',
     },
   }));

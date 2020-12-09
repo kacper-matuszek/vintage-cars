@@ -57,8 +57,8 @@ const FormDialog = forwardRef(({children, showLink, caption, title, actions, sho
                 </Button> ) : <></>}
             <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title" fullWidth={true} maxWidth={maxWidth} fullScreen={isFullScreen}>
                 <DialogTitle id="form-dialog-title">
-                    <Box display="flex">
-                        <Box flexGrow={3}>
+                    <Box sx={{display: 'flex'}}>
+                        <Box sx={{flexGrow: 3}}>
                             {title}
                         </Box>
                         {fullScreen ? <></> :

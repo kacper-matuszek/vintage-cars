@@ -1,6 +1,6 @@
-import { createStyles, Theme } from "@material-ui/core";
+import { makeStyles, createStyles, Theme } from "@material-ui/core";
 
-export const styles = (theme: Theme) =>
+export const styles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       margin: 0,
@@ -12,4 +12,4 @@ export const styles = (theme: Theme) =>
       top: theme.spacing(1),
       color: theme.palette.primary.dark,
     },
-  });
+  }));

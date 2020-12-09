@@ -1,5 +1,5 @@
 import { Backdrop, Box, CircularProgress, Fade } from '@material-ui/core';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import LoadingContext from '../../../contexts/LoadingContext';
 import useStyles from './loading-style';
 const LoadingComponent = (props) => {
@@ -26,11 +26,26 @@ const LoadingComponent = (props) => {
         </LoadingContext.Provider>
     );
 }
-const withLoading = (Component) => {
+export const LoadingProviderComponent = (props) => {
+    const classes = useStyles();
+    const [loading, setLoading] = useState(false);
+    const loadingContextValue = {showLoading: () => setLoading(true), hideLoading: () => setLoading(false)}; 
+
+    return (
+        <LoadingContext.Provider value={loadingContextValue}>
+            <div className={classes.parent}>
+                  {loading ?  <Backdrop className={classes.backdrop} open={loading}>
+                        <CircularProgress className={classes.circular}/>
+                    </Backdrop> : <></>}
+                {props.children}
+            </div>
+        </LoadingContext.Provider>
+    )
+}
+export const withLoading = (Component) => {
     return (props) => (
         <LoadingComponent childProps={props}>
             <Component/>
         </LoadingComponent>
     );
 };
-export default withLoading;

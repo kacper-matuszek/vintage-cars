@@ -8,7 +8,6 @@ import useGetData from "../../../hooks/fetch/GetDataHook";
 import useInfinitePagedListAPI from "../../../hooks/fetch/pagedAPI/InfinitePagedAPIHook";
 import useSendSubmitWithNotification from "../../../hooks/fetch/SendSubmitHook";
 import useLoading from "../../../hooks/utils/LoadingHook";
-import withLoading from "../../base/loading/LoadingComponent";
 import SimpleInfiniteSelect from "../../base/select/simple-infinite-select/SimpleInfiniteSelectComponent";
 import { ValidatorManage, ValidatorType } from "../../login/models/validators/Validator";
 import ContactProfile from "../models/ContactProfile";
@@ -200,8 +199,13 @@ const ProfileSection = (props) => {
                 name="postalCode"
                 autoComplete="postalCode"
                 onChange={(postalCode) => extractData("zipPostalCode", postalCode)} />
-                <Box p={5}></Box>
-                <Box display="flex" justifyContent="flex-end" width="100%" m={2}>
+                <Box sx={{padding: 5}}></Box>
+                <Box sx={{
+                    display: 'flex',
+                    justifyContent: 'flex-end',
+                    width: '100%',
+                    margin: 2
+                }}>
                     <Button
                         type="submit"
                         variant="contained"

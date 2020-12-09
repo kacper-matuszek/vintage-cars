@@ -1,5 +1,5 @@
 import { Box } from "@material-ui/core";
-import withLoading from "../../loading/LoadingComponent";
+import {withLoading} from "../../loading/LoadingComponent";
 import { useStyles } from "./tab-panel-style";
 import React from 'react'
 
@@ -23,7 +23,7 @@ const TabPanel = (props) => {
        {...other}
      >
        {value === index && (
-         <Box p={3} className={classes.box}>
+         <Box className={classes.box}>
            {childWithProps}
          </Box>
        )}

@@ -42,7 +42,7 @@ export const NavigationFormDialog = (props: NavigationFormDialogProps) => {
                             aria-label="icon label tabs"
                             className={classes.tabs}>
                             {props.iconsWithContent.map((icon, index) => (
-                                <Tab icon={icon.icon} key={`${icon.title}-${index}`} className={classes.tab} fullWidth />
+                                <Tab icon={icon.icon} key={`${icon.title}-${index}`} className={classes.tab} />
                             ))}
                         </Tabs> 
                         {iconsWithContent.map((icWithCont, index) => (
@@ -51,7 +51,7 @@ export const NavigationFormDialog = (props: NavigationFormDialogProps) => {
                             </TabPanel>
                         ))}
                 </DialogContent>
-                <DialogTitle id={"navigation-form-dialog-footer"} onClose={props.onClose}>{""}</DialogTitle>
+                <DialogTitle id={"navigation-form-dialog-footer"}>{""}</DialogTitle>
             </Dialog>
         </div>
     )

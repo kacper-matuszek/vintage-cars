@@ -32,6 +32,9 @@ export const theme = createMuiTheme({
                   backgroundColor: "#c3aa86"
                 }
             }
+        },
+        MuiTab: {
+            fullWidth: true
         }
     }
 });

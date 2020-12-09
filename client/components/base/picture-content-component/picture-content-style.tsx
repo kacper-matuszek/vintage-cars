@@ -1,6 +1,7 @@
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, createStyles } from '@material-ui/core/styles';
 
-const pictureStyle = makeStyles((theme) => ({
+const pictureStyle = makeStyles((theme) => 
+createStyles ({
     image: {
         backgroundImage: 'url(/static/PorscheWallpaper.jpg)',
         backgroundRepeat: 'no-repeat',

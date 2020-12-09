@@ -1,7 +1,7 @@
-import { Theme } from "@material-ui/core";
-import { makeStyles } from "@material-ui/styles";
+import { makeStyles, createStyles, Theme } from "@material-ui/core";
 
-export const useStyles = makeStyles((theme: Theme) => ({
+export const useStyles = makeStyles((theme: Theme) => 
+  createStyles({
     root: {
       flexGrow: 1,
       display: 'flex',
@@ -11,6 +11,7 @@ export const useStyles = makeStyles((theme: Theme) => ({
     box: {
       display: 'flex',
       maxHeight: '100%',
-      position: 'relative'
+      position: 'relative',
+      padding: '1vh'
     }
   }));

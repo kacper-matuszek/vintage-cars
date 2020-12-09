@@ -9,6 +9,7 @@ import isEmpty from "../../../../core/models/utils/StringExtension";
 import useExtractData from "../../../../hooks/data/ExtracttDataHook";
 import useAuhtorizationPagedList from "../../../../hooks/fetch/pagedAPI/AuthorizedPagedAPIHook";
 import useSendSubmitWithNotification from "../../../../hooks/fetch/SendSubmitHook";
+import SaveButton from "../../../base/controls/SaveButtonComponent";
 import FormDialog from "../../../base/FormDialogComponent"
 import ExtendedTable from "../../../base/table-list/extended-table/ExtendedTableComponent";
 import TableContent from "../../../base/table-list/table-content/TableContentComponent";
@@ -42,23 +43,15 @@ const CategoryDialogForm = forwardRef((props: CategoryDialogProps, ref) => {
         name: ""
     });
 
-    const {showLoading, hideLoading} = useContext(LoadingContext);
-    const [send] = useSendSubmitWithNotification("/v1/category", showLoading, hideLoading);
+    const [send] = useSendSubmitWithNotification("/v1/category");
     const [injectData, model, extractData] = useExtractData<Category>(new Category())
-    const addActions = () => {
-        return (
-            <Button variant="contained" color="primary" type="submit" onClick={handleSubmit}>
-                Zapisz
-            </Button>
-        )
-    }   
+    const addActions = () => <SaveButton onSubmit={handleSubmit}/>  
     const newModelForm = () => {
         if(model.id  !== undefined)
             injectData(new Category());
         formDialogRef.current.openForm();
     }
-    const handleSubmit = async (event) => {
-        event.preventDefault();
+    const handleSubmit = async () => {
         categoryAttributeMapping.source.forEach((cam, index) => {
             const categoryAttributeMapp = new CategoryAttributeMapping();
             categoryAttributeMapp.categoryAttributeId = cam.id;
@@ -103,8 +96,8 @@ const CategoryDialogForm = forwardRef((props: CategoryDialogProps, ref) => {
                 maxWidth="md"
             >
                 <form noValidate>
-                <Box display="flex" flexDirection="row">
-                    <Box flexGrow={3}>
+                <Box sx={{display:  'flex'}}>
+                    <Box sx={{flexGrow: 3}}>
                         <TextField 
                             className={classes.nameField}
                             InputLabelProps={{shrink: !isEmpty(model?.name)}}
