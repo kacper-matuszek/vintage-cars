@@ -16,10 +16,10 @@ export const useStyles = makeStyles((theme: Theme) =>
     },
     tabs: {
       borderRight: `1px solid ${theme.palette.divider}`,
-      minWidth: '90px',
+      minWidth: '100px',
     },
     tab: {
-      minWidth: '90px',
+      minWidth: '100px',
       padding: '1vh',
     },
   }));

@@ -202,9 +202,9 @@ const ProfileSection = (props) => {
                 <Box sx={{padding: 5}}></Box>
                 <Box sx={{
                     display: 'flex',
+                    position: 'relative',
                     justifyContent: 'flex-end',
                     width: '100%',
-                    margin: 2
                 }}>
                     <Button
                         type="submit"

@@ -13,7 +13,7 @@ const FooterSection = (props) => {
                 </Tabs>
             </AppBar>
             <Divider/>
-            <Box className={classes.footerBox} component="span" display="block">
+            <Box className={classes.footerBox} component="span" sx={{display: "block"}}>
                 {props.children}
             </Box>
         </Paper>

@@ -2,8 +2,7 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 
 const drawerWidth = 240;
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
+const useStyles = makeStyles((theme: Theme) => ({
     menuButton: {
       marginRight: theme.spacing(2),
     },
@@ -51,7 +50,12 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     loginRegister: {
       display: 'flex',
-      
+    },
+    loginButton: {
+      backgroundColor: theme.palette.primary.contrastText,
+    },
+    registerButton: {
+      backgroundColor: theme.palette.primary.contrastText
     }
   }),
 );

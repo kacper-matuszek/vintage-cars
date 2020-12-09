@@ -1,6 +1,5 @@
-import Document, { Html, Main, NextScript } from 'next/document'
+import Document, { Html, Main, Head, NextScript } from 'next/document'
 import { ServerStyleSheets } from '@material-ui/styles'
-import Head from 'next/head';
 
 class MyDocument extends Document {
     static async getInitialProps(ctx) {
@@ -29,8 +28,7 @@ class MyDocument extends Document {
     render() {
         return (
             <Html>
-                <Head>
-                </Head>
+                <Head/>
                 <body style={{ margin: 0, padding: 0 }}>
                     <Main />
                     <NextScript />

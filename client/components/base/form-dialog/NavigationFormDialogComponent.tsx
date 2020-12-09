@@ -29,7 +29,7 @@ export const NavigationFormDialog = (props: NavigationFormDialogProps) => {
 
     return (
         <div className={classes.root}>
-            <Dialog open={props.open} fullWidth={true}>
+            <Dialog open={props.open} fullWidth={true} maxWidth="md">
                 <DialogTitle id={"navigation-form-dialog"} onClose={props.onClose}>{title}</DialogTitle>
                 <DialogContent dividers className={classes.dialogContent}>
                         <Tabs

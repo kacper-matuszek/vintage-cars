@@ -189,12 +189,12 @@ const ExtendedTable = <T extends ISelectable>(props: ExtendedTableProps<T>) => {
               count={rows.totalCount !== undefined ? rows.totalCount : 0}
               rowsPerPage={rowsPerPage}
               page={page}
-              onChangePage={handleChangePage}
-              onChangeRowsPerPage={handleChangeRowsPerPage}
+              onPageChange={handleChangePage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
               labelRowsPerPage="Wierszy na stronę:"
               labelDisplayedRows={({from, to, count}) => `${from}-${to} z ${count}`}
-              nextIconButtonText='Następna strona'
-              backIconButtonText='Poprzednia strona'
+              nextIconButtonProps={{title: 'Następna strona'}}
+              backIconButtonProps={{title: 'Poprzednia strona'}}
             />
           </Paper>
         </div>
