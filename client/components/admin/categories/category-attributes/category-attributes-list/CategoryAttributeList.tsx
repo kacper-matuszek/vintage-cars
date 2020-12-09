@@ -13,6 +13,7 @@ import { ValidatorManage, ValidatorType } from "../../../../login/models/validat
 import isEmpty from "../../../../../core/models/utils/StringExtension";
 import useSendSubmitWithNotification from "../../../../../hooks/fetch/SendSubmitHook";
 import LoadingContext from "../../../../../contexts/LoadingContext";
+import SaveButton from "../../../../base/controls/SaveButtonComponent";
 
 const headers: HeadCell<CategoryAttributeView>[] = [
     {id: 'name', label: 'nazwa'},
@@ -35,24 +36,17 @@ const CategoryAttributeList = () => {
 
     const {showLoading, hideLoading} = useContext(LoadingContext);
     const [fetchCategoryAttributes, isLoading, categoryAttributes, refresh] = useAuhtorizationPagedList<CategoryAttributeView>('/v1/category/attribute/list');
-    const [send] = useSendSubmitWithNotification("/v1/category/attribute", showLoading, hideLoading);
+    const [send] = useSendSubmitWithNotification("/v1/category/attribute");
     const [sendDelete] = useSendSubmitWithNotification("/v1/category/attribute/delete", showLoading, hideLoading, "Usunięto pomyślnie.");
     const [injectData, model, extractData]  = useExtractData<CategoryAttribute>(new CategoryAttribute());
     
-    const addActions = () => {
-        return (
-            <Button variant="contained" color="primary" type="submit" onClick={handleSubmit}>
-                Zapisz
-            </Button>
-        )
-    }
+    const addActions = () => <SaveButton onSubmit={handleSubmit}/>
     const openForm = () => {
         if(model.id !== undefined)
             injectData(new CategoryAttribute());
          formDialogRef.current.openForm();
     }
-    const handleSubmit = async (event) => {
-        event.preventDefault();
+    const handleSubmit = async () => {
         modelValidator.isValid(model);
         setModelErrors({...modelErrors, name: modelValidator.getMessageByKey("name")});
         if(modelValidator.isAllValid()) {

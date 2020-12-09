@@ -9,6 +9,7 @@ const useLog = (): [(content: string) => void, string, boolean, (event?: React.S
         if(reason === 'clickaway')
             return;
         setIsShow(false);
+        onClosed();
     }
     const showMessage = (content: string) => setMessage(content);
     const onClosed = () => setMessage('');

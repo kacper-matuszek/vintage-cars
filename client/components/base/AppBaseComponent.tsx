@@ -42,13 +42,13 @@ const AppBase = ({children, title, head, loading, setLoading}: Props, ref) => {
                              {children}
                         </Grid>
                     </LoadingContext.Provider>
-                    <Snackbar anchorOrigin={{vertical: 'bottom', horizontal: 'center'}} open={isShowWarnigMessage} onClose={warnignHandleClose} autoHideDuration={6000} onExited={warningOnClosed}>
+                    <Snackbar anchorOrigin={{vertical: 'bottom', horizontal: 'center'}} open={isShowWarnigMessage} onClose={warnignHandleClose} autoHideDuration={6000} onExit={warningOnClosed}>
                         <Alert severity="warning" onClose={warnignHandleClose} variant="filled">{warningMessage}</Alert>
                     </Snackbar>
-                    <Snackbar anchorOrigin={{vertical: 'bottom', horizontal: 'center'}} open={isShowErrorMessage} onClose={errorHandleClose} onExited={errorOnClosed}>
+                    <Snackbar anchorOrigin={{vertical: 'bottom', horizontal: 'center'}} open={isShowErrorMessage} onClose={errorHandleClose} onExit={errorOnClosed}>
                         <Alert severity="error" onClose={errorHandleClose} variant="filled">{errorMessage}</Alert>
                     </Snackbar>
-                    <Snackbar anchorOrigin={{vertical: 'bottom', horizontal: 'center'}} open={isShowSuccessMessage} onClose={successHandleClose} autoHideDuration={6000} onExited={successOnClosed}>
+                    <Snackbar anchorOrigin={{vertical: 'bottom', horizontal: 'center'}} open={isShowSuccessMessage} onClose={successHandleClose} autoHideDuration={6000} onExit={successOnClosed}>
                         <Alert severity="success" onClose={successHandleClose} variant="filled">{successMessage}</Alert>
                     </Snackbar>
                 </NotificationContext.Provider>
