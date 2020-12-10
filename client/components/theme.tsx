@@ -60,7 +60,7 @@ export const useStyles = makeStyles({
 export const backdropStyle = makeStyles((theme: Theme) => 
     createStyles({
         backdrop: {
-            zIndex: 10000,
+            zIndex: 1350,
             color: '#FFF',
         },
     })
