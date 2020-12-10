@@ -28,8 +28,9 @@ interface CategoryDialogProps {
 const CategoryDialogForm = forwardRef((props: CategoryDialogProps, ref) => {
     const classes = useStyles();
     const notification = useContext(NotificationContext);
+    const [isReadonly, setIsReadonly] = useState(false);
     const formDialogRef = useRef(null);
-    const [categoryAttributeMapping, setCategoryAttributeMapping]= useState(new PagedList<CategoryAttributeMappingView>())
+    const [categoryAttributeMapping, setCategoryAttributeMapping]= useState(new PagedList<CategoryAttributeMappingView>());
     const modelValidator = new ValidatorManage();
     modelValidator.setValidators({
         ["name"]: [{
@@ -76,8 +77,13 @@ const CategoryDialogForm = forwardRef((props: CategoryDialogProps, ref) => {
         openForm() {
             newModelForm();
         },
-        openFormWithEditModel(model: Category) {
+        openFormWithEditModel(model: Category, attributeMapping: Array<CategoryAttributeMappingView>) {
             injectData(model);
+            alert(attributeMapping[0].name);
+            const pagedAttributeMappings = new PagedList<CategoryAttributeMappingView>();
+            pagedAttributeMappings.source = attributeMapping;
+            pagedAttributeMappings.totalCount = attributeMapping.length;
+            setCategoryAttributeMapping(pagedAttributeMappings);
             formDialogRef.current.openForm();
         },
     }));

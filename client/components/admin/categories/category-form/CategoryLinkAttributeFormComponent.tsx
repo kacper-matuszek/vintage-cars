@@ -12,6 +12,7 @@ import CategoryAttributeMapping from "./models/CategoryAttributeMapping";
 
 interface CategoryLinkAttributeProps {
     onSubmit: (categoryAttributeMapping: CategoryAttributeMappingView) => void,
+    disabled?: boolean
 }
 
 const CategoryLinkAttribute = (props: CategoryLinkAttributeProps) => {
@@ -73,7 +74,7 @@ const CategoryLinkAttribute = (props: CategoryLinkAttributeProps) => {
     const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
         extractData("attributeControlType", event);
     };
-
+    const isReadonly = () => props.disabled !== undefined ? props.disabled : false;
     return (
         <FormDialog
             title="Łączenie atrybutu z kategorią"
@@ -84,7 +85,7 @@ const CategoryLinkAttribute = (props: CategoryLinkAttributeProps) => {
             showLink={false}
             ref={formRef}
             actions={
-                <Button variant="contained" color="primary" type="submit" onClick={handleSubmit}>
+                <Button variant="contained" color="primary" type="submit" onClick={handleSubmit} disabled={isReadonly()}>
                     Zapisz
                 </Button>
             }
@@ -103,11 +104,13 @@ const CategoryLinkAttribute = (props: CategoryLinkAttributeProps) => {
                 data={categoryAttribtue.source}
                 totalCount={categoryAttribtue?.totalCount}
                 onChangeValue={(value) => extractDataFromDerivedValue("categoryAttributeId", value)}
+                disabled={isReadonly()}
             />
             <FormControl fullWidth required>
                 <InputLabel 
                     id="attribute-control"
                     htmlFor="attribute-control"
+                    disabled={isReadonly()}
                     error={!!errors.attributeControlType}>
                         Kontrolka
                 </InputLabel>
@@ -117,6 +120,7 @@ const CategoryLinkAttribute = (props: CategoryLinkAttributeProps) => {
                     onChange={handleChange}
                     error={!!errors.attributeControlType}
                     fullWidth
+                    disabled={isReadonly()}
                 >
                     {Object.keys(AttributeControlType).map(obj => {
                         const isValue = parseInt(obj, 10) >= 0;

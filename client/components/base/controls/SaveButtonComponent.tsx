@@ -2,10 +2,11 @@ import SaveIcon from '@material-ui/icons/Save';
 import LoadingButton from '@material-ui/lab/LoadingButton'
 import { useState } from 'react';
 interface SaveButtonProps {
-    onSubmit: () => Promise<void>
+    onSubmit: () => Promise<void>,
+    disabled?: boolean
 }
 const SaveButton = (props : SaveButtonProps) => {
-    const {onSubmit} = props;
+    const {onSubmit, disabled} = props;
     const [loading, setLoading] = useState(false);
     const handleClick = async (event) => {
         event.preventDefault();
@@ -20,6 +21,7 @@ const SaveButton = (props : SaveButtonProps) => {
             variant="contained"
             color="primary"
             onClick={handleClick}
+            disabled={disabled === undefined ? false : disabled}
         >
             Zapisz
         </LoadingButton>
