@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Nop.Core.Domain.Catalog;
 using Nop.Core.Infrastructure.Mapper;
+using VintageCars.Data.Models;
 using VintageCars.Domain.Catalog.Queries;
 using VintageCars.Domain.Catalog.Response;
 using VintageCars.Domain.Common;
@@ -29,13 +31,16 @@ namespace VintageCars.Service.Catalog.Handlers
         {
             var storeId = _infrastructureService.Cache.Store.Id;
             var categories = _categoryService
-                .GetAllCategories(string.Empty, storeId, request.Paged.PageIndex, request.Paged.PageSize, showHidden: true)
+                .GetAllCategories(string.Empty, storeId, request.Paged.PageIndex, request.Paged.PageSize,
+                    showHidden: true)
                 .ConvertPagedList<Category, CategoryView>();
 
             categories.Source.ForEach(c =>
             {
                 var categoryAttributeMappings = _categoryService.GetCategoryAttributeMappingsByCategoryId(c.Id);
-                c.Attributes = AutoMapperConfiguration.Mapper.Map<IEnumerable<CategoryAttributeMappingView>>(categoryAttributeMappings);
+                var categoryAttributes = _categoryService.GetAllCategoryAttributesByCategoryId(c.Id);
+                c.Attributes = AutoMapperConfiguration.Mapper.Map<IEnumerable<CategoryAttributeMappingView>>(categoryAttributes); 
+                c.Attributes.ToList().ForEach(cAttribute => AutoMapperConfiguration.Mapper.Map(categoryAttributeMappings.FirstOrDefault(x => x.CategoryAttributeId == cAttribute.Id), cAttribute));
             });
             return Task.FromResult(categories);
         }

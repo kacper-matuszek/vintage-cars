@@ -11,6 +11,7 @@ namespace VintageCars.Service.Catalog.Services
         void DeleteCategoryAttribute(CategoryAttribute categoryAttribute);
         void DeleteCategoryAttribute(Guid categoryAttributeId);
         IList<CategoryAttribute> GetAllCategoryAttributes();
+        IList<CategoryAttribute> GetAllCategoryAttributesByCategoryId(Guid categoryId);
 
         IPagedList<CategoryAttribute> GetPagedCategoryAttributes(int pageIndex = 0,
             int pageSize = Int32.MaxValue);

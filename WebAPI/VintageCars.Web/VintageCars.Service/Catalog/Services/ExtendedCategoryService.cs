@@ -91,6 +91,18 @@ namespace VintageCars.Service.Catalog.Services
             return GetBaseAllCategoryAttributes().ToList();
         }
 
+        public virtual IList<CategoryAttribute> GetAllCategoryAttributesByCategoryId(Guid categoryId)
+        {
+            if (categoryId == default(Guid))
+                return new List<CategoryAttribute>();
+
+            var query = from ca in _categoryAttributeRepository.Table
+                join cam in _categoryAttributeMappingRepository.Table on ca.Id equals cam.CategoryAttributeId
+                where cam.CategoryId == categoryId
+                select ca;
+            return query.ToList();
+        }
+
         public virtual CategoryAttribute GetCategoryAttribute(Guid categoryAttributeId)
         {
             if(categoryAttributeId == default(Guid))
