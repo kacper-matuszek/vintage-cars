@@ -5,4 +5,5 @@ export default class CategoryAttributeView implements ISelectable {
     id: Guid;
     name: string;
     description: string;
+    canSelect: boolean = true
 }
