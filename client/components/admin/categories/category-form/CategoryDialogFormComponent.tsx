@@ -7,7 +7,7 @@ import { AttributeControlType } from "../../../../core/models/enums/AttributeCon
 import PagedList from "../../../../core/models/paged/PagedList";
 import isEmpty from "../../../../core/models/utils/StringExtension";
 import useExtractData from "../../../../hooks/data/ExtracttDataHook";
-import useAuhtorizationPagedList from "../../../../hooks/fetch/pagedAPI/AuthorizedPagedAPIHook";
+import useAuhtorizedPagedList from "../../../../hooks/fetch/pagedAPI/AuthorizedPagedAPIHook";
 import useSendSubmitWithNotification from "../../../../hooks/fetch/SendSubmitHook";
 import SaveButton from "../../../base/controls/SaveButtonComponent";
 import FormDialog from "../../../base/FormDialogComponent"
@@ -29,6 +29,7 @@ const CategoryDialogForm = forwardRef((props: CategoryDialogProps, ref) => {
     const classes = useStyles();
     const notification = useContext(NotificationContext);
     const [isReadonly, setIsReadonly] = useState(false);
+    const [isEdit, setIsEdit] = useState(false);
     const formDialogRef = useRef(null);
     const [categoryAttributeMapping, setCategoryAttributeMapping]= useState(new PagedList<CategoryAttributeMappingView>());
     const modelValidator = new ValidatorManage();
@@ -86,6 +87,7 @@ const CategoryDialogForm = forwardRef((props: CategoryDialogProps, ref) => {
             pagedAttributeMappings.totalCount = attributeMapping.length;
             pagedAttributeMappings.source.forEach(x => x.cantSelect = true);
             setCategoryAttributeMapping(pagedAttributeMappings);
+            setIsEdit(true);
             formDialogRef.current.openForm();
         },
     }));
@@ -93,7 +95,7 @@ const CategoryDialogForm = forwardRef((props: CategoryDialogProps, ref) => {
     return (
        <>
             <FormDialog
-                title="Dodawanie kategorii"
+                title={`${isEdit ? "Edycja" : "Dodawanie"} kategorii`}
                 showChangeScreen
                 showCancel={true}
                 showLink={false}
@@ -177,14 +179,21 @@ const CategoryDialogForm = forwardRef((props: CategoryDialogProps, ref) => {
                 }}
                 title="Atrybuty Kategorii"
                 >
-                    <TableContent key="category-attribute-mapping-name" name={'name'} headerName="Nazwa"/>
-                    <TableContent key="category-attribute-mapping-description" name={'description'} headerName="Opis"/>
+                    <TableContent key="category-attribute-mapping-name" name="name" headerName="Nazwa"/>
+                    <TableContent key="category-attribute-mapping-description" name="description" headerName="Opis"/>
                     <TableContent 
-                        key="category-attribute-mapping-attributeControl" name={'attributeControlType'} 
+                        key="category-attribute-mapping-attributeControl" name="attributeControlType"
                         headerName="Kontrolka"
                         content={(model) => {
-                            const isValue = parseInt(model, 10) >= 0
-                            return isValue ?  (<>{AttributeControlType[model]}</>) : (<>{model}</>)
+                            const isValue = parseInt(model.attributeControlType, 10) >= 0
+                            return isValue ?  (<>{AttributeControlType[model.attributeControlType]}</>) : (<>{model.attributeControlType}</>)
+                        }}/>
+                    <TableContent 
+                        key="button" 
+                        name="Test-Button" 
+                        headerName=""
+                        content={(model) => {
+                            return <SaveButton onSubmit={async() => alert(model.name)}/>
                         }}/>
             </ExtendedTable>
             </FormDialog>
