@@ -1,16 +1,19 @@
-import { Dispatch, SetStateAction, useCallback, useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useCallback, useEffect, useRef, useState } from "react";
 import { IModel } from "../../../core/models/base/IModel";
 import { ErrorDetails } from "../../../core/models/errors/ErrorDetail";
 import Paged from "../../../core/models/paged/Paged";
 import PagedList from "../../../core/models/paged/PagedList";
+import UrlHelper from "../../../core/models/utils/UrlHelper";
 import BaseWebApiService from "../../../core/services/api-service/BaseWebApiService";
 import { toCallback } from "../../../core/services/api-service/Callback";
 
-const useAuhtorizationPagedList = <T extends IModel>(url: string, onError?: (message: string) => void): [Dispatch<SetStateAction<Paged>>, boolean, PagedList<T>, () => Promise<void>] => {
+const useAuhtorizedPagedList = <T extends IModel>(url: string, onError?: (message: string) => void): 
+    [Dispatch<SetStateAction<Paged>>, (paged: Paged, additionalParameters: any) => void, boolean, PagedList<T>, () => Promise<void>] => {
     const [isLoading, setIsLoading] = useState(false);
     const [response, setResponse] = useState(new PagedList<T>());
     const [paged, setPaged] = useState<Paged>(null);
     const apiService = new BaseWebApiService();
+    const parameters = useRef(null);
 
     const callback = useCallback((data: PagedList<T>) => {
         setResponse(prevState => {
@@ -44,7 +47,12 @@ const useAuhtorizationPagedList = <T extends IModel>(url: string, onError?: (mes
 
     async function getData() {
         setIsLoading(true);
-        await apiService.getAuthorized<PagedList<T>>(`${url}?pageIndex=${paged.pageIndex}&pageSize=${paged.pageSize}`, toCallback(
+        if(parameters.current === null || parameters.current === undefined) 
+            parameters.current = {};
+        parameters.current.pageIndex = paged.pageIndex;
+        parameters.current.pageSize = paged.pageSize;
+
+        await apiService.getAuthorized<PagedList<T>>(UrlHelper.generateParameters(url, parameters.current), toCallback(
             (data) => callback(data),
             (validError) => handleError(validError),
             (error) => handleError(error)
@@ -62,11 +70,16 @@ const useAuhtorizationPagedList = <T extends IModel>(url: string, onError?: (mes
         return getData();
     }
 
+    const setPagedWithAdditionalParameter = (paged: Paged, additionalParameters: any = null) => {
+        parameters.current = additionalParameters;
+        setPaged(paged)
+    }
+
     useEffect(() => {
         if(paged === null) return;
         getData();
     }, [paged]);
 
-    return [setPaged, isLoading, response, refresh];
+    return [setPaged, setPagedWithAdditionalParameter,isLoading, response, refresh];
 }
-export default useAuhtorizationPagedList;
+export default useAuhtorizedPagedList;
