@@ -47,7 +47,7 @@ const ExtendedTable = <T extends ISelectable>(props: ExtendedTableProps<T>) => {
 
     const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
       if (event.target.checked) {
-          const newSelecteds = rows.source.filter(n => n.canSelect).map((n) => n.id);
+          const newSelecteds = rows.source.filter(n => n.cantSelect).map((n) => n.id);
           setSelected(newSelecteds);
           return;
         }
@@ -60,6 +60,10 @@ const ExtendedTable = <T extends ISelectable>(props: ExtendedTableProps<T>) => {
 
         if (selectedIndex === -1) {
           newSelected = newSelected.concat(selected, id);
+          const object = rows.source.filter(x => x.id === id)[0];
+          if(object?.cantSelect === undefined || !object.cantSelect)
+            setSelected(newSelected);
+          return;
         } else if (selectedIndex === 0) {
           newSelected = newSelected.concat(selected.slice(1));
         } else if (selectedIndex === selected.length - 1) {
@@ -71,8 +75,7 @@ const ExtendedTable = <T extends ISelectable>(props: ExtendedTableProps<T>) => {
           );
         }
         
-        if(rows.source[selectedIndex].canSelect)
-          setSelected(newSelected);
+        setSelected(newSelected);
     };
 
     const handleChangePage = (event: unknown, newPage: number) => {

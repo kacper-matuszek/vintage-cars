@@ -37,7 +37,7 @@ const CategoryList = () => {
     const openCategoryForm = () => categoryForm.current.openForm();
     const handleEdit = (categoryView: CategoryView) => {
         const category = categoryMapper.toDestination(categoryView);
-        categoryForm.current.openFormWithEditModel(category, categoryView.attributes);
+        categoryForm.current.openFormWithEditModel(category, categoryView.attributes, categoryView.isArchival);
     }
     return (
         <>

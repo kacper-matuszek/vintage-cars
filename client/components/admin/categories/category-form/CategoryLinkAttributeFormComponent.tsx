@@ -60,7 +60,6 @@ const CategoryLinkAttribute = (props: CategoryLinkAttributeProps) => {
             const attribute = categoryAttribtue.source.filter(x => x.id === model.categoryAttributeId)[0];
             categoryView.name = attribute.name;
             categoryView.description = attribute.description;
-
             props.onSubmit(categoryView);
             formRef.current.closeForm();
             injectData(new CategoryAttributeMapping());
@@ -84,6 +83,7 @@ const CategoryLinkAttribute = (props: CategoryLinkAttributeProps) => {
             showCancel={true}
             showLink={false}
             ref={formRef}
+            disableOpenButton={props.disabled}
             actions={
                 <Button variant="contained" color="primary" type="submit" onClick={handleSubmit} disabled={isReadonly()}>
                     Zapisz

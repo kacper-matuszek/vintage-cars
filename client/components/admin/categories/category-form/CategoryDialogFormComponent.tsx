@@ -45,8 +45,8 @@ const CategoryDialogForm = forwardRef((props: CategoryDialogProps, ref) => {
     });
 
     const [send] = useSendSubmitWithNotification("/v1/category");
-    const [injectData, model, extractData] = useExtractData<Category>(new Category())
-    const addActions = () => <SaveButton onSubmit={handleSubmit}/>  
+    const [injectData, model, extractData, extractDataFromDerivedValue] = useExtractData<Category>(new Category())
+    const addActions = () => <SaveButton onSubmit={handleSubmit} disabled={isReadonly}/>  
     const newModelForm = () => {
         if(model.id  !== undefined)
             injectData(new Category());
@@ -77,12 +77,13 @@ const CategoryDialogForm = forwardRef((props: CategoryDialogProps, ref) => {
         openForm() {
             newModelForm();
         },
-        openFormWithEditModel(model: Category, attributeMapping: Array<CategoryAttributeMappingView>) {
+        openFormWithEditModel(model: Category, attributeMapping: Array<CategoryAttributeMappingView>, isPreview: boolean = false) {
             injectData(model);
-            alert(attributeMapping[0].name);
+            setIsReadonly(isPreview);
             const pagedAttributeMappings = new PagedList<CategoryAttributeMappingView>();
             pagedAttributeMappings.source = attributeMapping;
             pagedAttributeMappings.totalCount = attributeMapping.length;
+            pagedAttributeMappings.source.forEach(x => x.cantSelect = true);
             setCategoryAttributeMapping(pagedAttributeMappings);
             formDialogRef.current.openForm();
         },
@@ -109,6 +110,7 @@ const CategoryDialogForm = forwardRef((props: CategoryDialogProps, ref) => {
                             InputLabelProps={{shrink: !isEmpty(model?.name)}}
                             error={!!modelErrors.name}
                             helperText={modelErrors.name}
+                            disabled={isReadonly}
                             value={model?.name}
                             variant="outlined"
                             margin="normal"
@@ -120,8 +122,11 @@ const CategoryDialogForm = forwardRef((props: CategoryDialogProps, ref) => {
                             onChange={(name)  => extractData("name", name)}/>
                     </Box>
                     <FormControlLabel
+                        disabled={isReadonly}
                         control={
-                            <Checkbox/>
+                            <Checkbox
+                             checked={model?.isPublished}
+                             onChange={() => extractDataFromDerivedValue("isPublished", !model?.isPublished)}/>
                         }
                         label="Opublikowane"
                     />
@@ -129,6 +134,7 @@ const CategoryDialogForm = forwardRef((props: CategoryDialogProps, ref) => {
                 <TextField
                     InputLabelProps={{shrink: !isEmpty(model?.description)}}
                     value={model?.description}
+                    disabled={isReadonly}
                     variant="outlined"
                     margin="normal"
                     fullWidth
@@ -156,6 +162,7 @@ const CategoryDialogForm = forwardRef((props: CategoryDialogProps, ref) => {
                             return list;
                         })
                     }
+                    disabled={isReadonly}
                 />
             </Box>
             <ExtendedTable<CategoryAttributeMappingView>
