@@ -44,7 +44,7 @@ const SimpleInfiniteSelect = (props: SimpleInfiniteSelectProps) => {
     const pingToGetData = () => {
         if(props.data.length > 0 && props.data.length === props.totalCount) return;
         paged.current.increment();
-        props.fetchData(paged.current);
+        props.fetchData(new Paged(paged.current.pageIndex, paged.current.pageSize));
     };
     const searchValue = () => {
         if(defaultValue !== null || props.value === null || props.value === undefined || props.value.toString() === Guid.EMPTY || props.data.length === 0)
