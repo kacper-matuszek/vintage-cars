@@ -6,6 +6,7 @@ export default class Category implements IModel {
     id: Guid;
     name: string;
     description: string;
+    isPublished: boolean;
     attributeMappings: Array<CategoryAttributeMapping>;
 
     constructor() {
