@@ -18,7 +18,7 @@ interface ExtendedTableProps<T extends ISelectable> {
     rows: PagedList<T>,
     fetchData?: (paged: Paged) => void,
     title: string,
-    children: JSX.Element[],
+    children: JSX.Element[], 
     onDeleteClick?: (selectedItems: Guid[]) => void,
     onAddClick?: () => void,
     onEditClick?: (model: T) => void,
@@ -163,7 +163,7 @@ const ExtendedTable = <T extends ISelectable>(props: ExtendedTableProps<T>) => {
                               <TableCell component="th" id={`${labelId}-${index}`} key={`${labelId}-${index}`} scope="row" padding="default">
                                 { cell.content !== undefined && cell.content !== null ?
                                   (
-                                    cell.content(row[cell.id])
+                                    cell.content(row)
                                   ) :
                                 (typeof row[cell.id] === "boolean" ? 
                                   (
