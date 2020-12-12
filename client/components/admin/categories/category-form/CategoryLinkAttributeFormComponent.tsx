@@ -55,8 +55,7 @@ const CategoryLinkAttribute = (props: CategoryLinkAttributeProps) => {
         {
             const categoryView = new CategoryAttributeMappingView();
             categoryView.attributeControlType = model.attributeControlType;
-            categoryView.id = model.categoryAttributeId;
-
+            categoryView.categoryAttributeId = model.categoryAttributeId;
             const attribute = categoryAttribtue.source.filter(x => x.id === model.categoryAttributeId)[0];
             categoryView.name = attribute.name;
             categoryView.description = attribute.description;

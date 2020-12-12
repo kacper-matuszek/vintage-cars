@@ -55,7 +55,8 @@ const CategoryDialogForm = forwardRef((props: CategoryDialogProps, ref) => {
     const handleSubmit = async () => {
         categoryAttributeMapping.source.forEach((cam, index) => {
             const categoryAttributeMapp = new CategoryAttributeMapping();
-            categoryAttributeMapp.categoryAttributeId = cam.id;
+            categoryAttributeMapp.id = cam.id;
+            categoryAttributeMapp.categoryAttributeId = cam.categoryAttributeId;
             categoryAttributeMapp.attributeControlType = cam.attributeControlType;
             categoryAttributeMapp.displayOrder = index + 1;
             model.attributeMappings.push(categoryAttributeMapp);
@@ -148,7 +149,7 @@ const CategoryDialogForm = forwardRef((props: CategoryDialogProps, ref) => {
                 <CategoryLinkAttribute
                     onSubmit={(attrMapping) => 
                         setCategoryAttributeMapping(prevState => {
-                            const attrIsExist = prevState.source.some(x => x.id === attrMapping.id);
+                            const attrIsExist = prevState.source.some(x => x.categoryAttributeId === attrMapping.categoryAttributeId);
                             if(attrIsExist) {
                                 notification.showWarningMessage("Dany atrybut już istnieje. Jeśli chcesz go zastąpić usuń aktualny.");
                                 return prevState;
