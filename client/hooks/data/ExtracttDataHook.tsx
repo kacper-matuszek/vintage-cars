@@ -1,7 +1,7 @@
 import { useState, useEffect, Dispatch, SetStateAction, useRef, useCallback, useMemo } from "react";
 import isEmpty from "../../core/models/utils/StringExtension";
 
-const useExtractData = <T extends object>(object: T): [injectData: (model: T) => void, filledValue: T, extractData: (fieldName: string, derivedValue: any) => void, extractFromDerivedValue: (fieldName: string, derivedValue: any) => void] => {
+const useExtractData = <T extends object>(object: T): [injectData: (model: T) => void, filledValue: T, extractData: (fieldName: keyof T, derivedValue: any) => void, extractFromDerivedValue: (fieldName: keyof T, derivedValue: any) => void] => {
     const [value, setValue] = useState(object);
 
     const setValueBase = (fieldName: string, derivedValue: any, isEvent: boolean = true) => {
@@ -28,9 +28,9 @@ const useExtractData = <T extends object>(object: T): [injectData: (model: T) =>
         return derivedValue;
     }
 
-    const setValueFromDerivedValue = (fieldName: string, derivedValue: any) => setValueBase(fieldName, derivedValue, false);
+    const setValueFromDerivedValue = (fieldName: keyof T, derivedValue: any) => setValueBase(fieldName as string, derivedValue, false);
 
-    const setValueFromEvent = (fieldName: string, derivedValue: any) => setValueBase(fieldName, derivedValue);
+    const setValueFromEvent = (fieldName: keyof T, derivedValue: any) => setValueBase(fieldName as string, derivedValue);
 
     const injectData = (model: T) => setValue(model);
     
