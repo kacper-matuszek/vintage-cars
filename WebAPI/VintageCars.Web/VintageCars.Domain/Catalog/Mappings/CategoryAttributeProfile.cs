@@ -24,6 +24,7 @@ namespace VintageCars.Domain.Catalog.Mappings
             CreateMap<CategoryAttribute, CategoryAttributeView>();
             CreateMap<CategoryAttribute, CategoryAttributeMappingView>()
                 .ForMember(dest => dest.CategoryAttributeId, opt => opt.MapFrom(src => src.Id));
+            CreateMap<CategoryAttributeValue, CategoryAttributeValueView>();
             CreateMap<CategoryAttributeMapping, CategoryAttributeMappingView>();
         }
         public int Order => 5;

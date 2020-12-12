@@ -10,7 +10,7 @@ using VintageCars.Service.Catalog.Services;
 
 namespace VintageCars.Service.Catalog.Handlers
 {
-    public class GetCategoryAttributesHandler : IRequestHandler<GetCategoryAttributesCommand, PagedList<CategoryAttributeView>>
+    public class GetCategoryAttributesHandler : IRequestHandler<GetCategoryAttributesQuery, PagedList<CategoryAttributeView>>
     {
         private readonly IExtendedCategoryService _extendedCategoryService;
 
@@ -19,7 +19,7 @@ namespace VintageCars.Service.Catalog.Handlers
             _extendedCategoryService = extendedCategoryService;
         }
 
-        public Task<PagedList<CategoryAttributeView>> Handle(GetCategoryAttributesCommand request, CancellationToken cancellationToken)
+        public Task<PagedList<CategoryAttributeView>> Handle(GetCategoryAttributesQuery request, CancellationToken cancellationToken)
         {
             var pagedList = _extendedCategoryService.GetPagedCategoryAttributes(request.Paged.PageIndex, request.Paged.PageSize);
             return Task.FromResult(pagedList.ConvertPagedList<CategoryAttribute, CategoryAttributeView>());

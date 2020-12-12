@@ -28,6 +28,8 @@ namespace VintageCars.Service.Catalog.Services
         void DeleteCategoryAttributeValue(CategoryAttributeValue categoryAttributeValue);
         void DeleteCategoryAttributeValue(Guid categoryAttributeValueId);
         IList<CategoryAttributeValue> GetCategoryAttributeValues(Guid categoryAttributeMappingId);
+        IPagedList<CategoryAttributeValue> GetPagedCategoryAttributeValues(Guid categoryId,
+            Guid categoryAttributeId, int pageIndex = 0, int pageSize = Int32.MaxValue);
         CategoryAttributeValue GetCategoryAttributeValueById(Guid categoyAttributeValueId);
         void InsertCategoryAttributeValue(CategoryAttributeValue categoryAttributeValue);
         void UpdateCategoryAttributeValue(CategoryAttributeValue categoryAttributeValue);

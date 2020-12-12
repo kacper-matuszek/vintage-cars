@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -41,7 +42,11 @@ namespace VintageCars.Web.Controllers.Admin
 
         [HttpGet("attribute/list")]
         public async Task<ActionResult<PagedList<CategoryAttributeView>>> GetList([FromQuery] PagedRequest pageInfo)
-            => Single(await SendAsync(new GetCategoryAttributesCommand(pageInfo)));
+            => Single(await SendAsync(new GetCategoryAttributesQuery(pageInfo)));
+
+        [HttpGet("attribute-value/list")]
+        public async Task<ActionResult<PagedList<CategoryAttributeValueView>>> GetAttributeValues([FromQuery] Guid categoryId, [FromQuery] Guid categoryAttributeId, [FromQuery] PagedRequest pagedRequest)
+            => Single(await SendAsync(new GetCategoryAttributeValuesQuery(categoryId, categoryAttributeId, pagedRequest)));
 
         [HttpPost("attribute-value/link")]
         public async Task<ActionResult> LinkCategoryAttributeValue([FromBody] LinkCategoryAttributeValueCommand linkCategoryAttributeValueCommand)

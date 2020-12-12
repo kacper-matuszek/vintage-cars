@@ -5,13 +5,13 @@ using VintageCars.Domain.Utils;
 
 namespace VintageCars.Domain.Catalog.Queries
 {
-    public class GetCategoryAttributesCommand : QueryPagedBase<PagedList<CategoryAttributeView>>
+    public class GetCategoryAttributesQuery : QueryPagedBase<PagedList<CategoryAttributeView>>
     {
-        public GetCategoryAttributesCommand()
+        public GetCategoryAttributesQuery()
         {
         }
 
-        public GetCategoryAttributesCommand(PagedRequest paged) : base(paged)
+        public GetCategoryAttributesQuery(PagedRequest paged) : base(paged)
         {
         }
     }

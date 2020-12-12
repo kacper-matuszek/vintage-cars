@@ -240,6 +240,18 @@ namespace VintageCars.Service.Catalog.Services
             return query.ToCachedList(key);
         }
 
+        public virtual IPagedList<CategoryAttributeValue> GetPagedCategoryAttributeValues(Guid categoryId,
+            Guid categoryAttributeId, int pageIndex = 0, int pageSize = Int32.MaxValue)
+        {
+            var query = from cav in _categoryAttributeValueRepository.Table
+                join cam in _categoryAttributeMappingRepository.Table on cav.CategoryAttributeMappingId equals cam.Id
+                orderby cav.DisplayOrder
+                where cam.CategoryId == categoryId && cam.CategoryAttributeId == categoryAttributeId
+                select cav;
+
+            return new Nop.Core.PagedList<CategoryAttributeValue>(query, pageIndex, pageSize);
+        }
+
         public virtual CategoryAttributeValue GetCategoryAttributeValueById(Guid categoyAttributeValueId)
         {
             if(categoyAttributeValueId == default(Guid))
