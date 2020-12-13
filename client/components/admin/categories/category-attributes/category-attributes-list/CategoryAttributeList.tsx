@@ -3,7 +3,7 @@ import CategoryAttributeView from "../models/CategoryAttributeView"
 import TableContent from "../../../../base/table-list/table-content/TableContentComponent";
 import { HeadCell } from "../../../../base/table-list/table-head/HeadCell";
 import { Guid } from "guid-typescript";
-import useAuhtorizationPagedList from "../../../../../hooks/fetch/pagedAPI/AuthorizedPagedAPIHook";
+import useAuhtorizedPagedList from "../../../../../hooks/fetch/pagedAPI/AuthorizedPagedAPIHook";
 import FormDialog from "../../../../base/FormDialogComponent";
 import { Button, TextField } from "@material-ui/core";
 import { useContext, useRef, useState } from "react";
@@ -35,7 +35,7 @@ const CategoryAttributeList = () => {
     });
 
     const {showLoading, hideLoading} = useContext(LoadingContext);
-    const [fetchCategoryAttributes, _, isLoading, categoryAttributes, refresh] = useAuhtorizationPagedList<CategoryAttributeView>('/v1/category/attribute/list');
+    const [fetchCategoryAttributes, _, isLoading, categoryAttributes, refresh] = useAuhtorizedPagedList<CategoryAttributeView>('/v1/category/attribute/list');
     const [send] = useSendSubmitWithNotification("/v1/category/attribute");
     const [sendDelete] = useSendSubmitWithNotification("/v1/category/attribute/delete", showLoading, hideLoading, "Usunięto pomyślnie.");
     const [injectData, model, extractData]  = useExtractData<CategoryAttribute>(new CategoryAttribute());

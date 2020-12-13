@@ -7,10 +7,10 @@ export default class CategoryAttributeView implements ISelectable {
     id: Guid;
     name: string;
     description: string;
-    get canSelect() {
+    get cantSelect() {
         return this._canSelect === undefined ? true : this._canSelect;
     }
-    set canSelect(value: boolean) {
+    set cantSelect(value: boolean) {
         this._canSelect = value;
     }
 }
