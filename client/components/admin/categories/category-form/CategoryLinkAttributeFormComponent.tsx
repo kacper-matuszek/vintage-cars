@@ -2,7 +2,7 @@ import { Button, FormControl, FormHelperText, InputLabel, MenuItem, OutlinedInpu
 import { useEffect, useRef, useState } from "react";
 import { AttributeControlType } from "../../../../core/models/enums/AttributeControlType";
 import useExtractData from "../../../../hooks/data/ExtracttDataHook";
-import useAuhtorizationPagedList from "../../../../hooks/fetch/pagedAPI/AuthorizedPagedAPIHook";
+import useAuhtorizedPagedList from "../../../../hooks/fetch/pagedAPI/AuthorizedPagedAPIHook";
 import FormDialog from "../../../base/FormDialogComponent";
 import SimpleInfiniteSelect from "../../../base/select/simple-infinite-select/SimpleInfiniteSelectComponent";
 import { ValidatorManage, ValidatorType } from "../../../login/models/validators/Validator";
@@ -17,7 +17,7 @@ interface CategoryLinkAttributeProps {
 
 const CategoryLinkAttribute = (props: CategoryLinkAttributeProps) => {
     const formRef = useRef(null);
-    const [fetchCategoryAttribute, isLoading, categoryAttribtue] = useAuhtorizationPagedList<CategoryAttributeView>('/v1/category/attribute/list');
+    const [fetchCategoryAttribute, fetchCategoryWithParam, isLoading, categoryAttribtue] = useAuhtorizedPagedList<CategoryAttributeView>('/v1/category/attribute/list');
     const [injectData, model, extractData, extractDataFromDerivedValue] = useExtractData<CategoryAttributeMapping>(new CategoryAttributeMapping());
     const [errors, setErrors] = useState({
         attributeControlType: "",

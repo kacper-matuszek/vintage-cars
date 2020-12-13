@@ -21,7 +21,7 @@ const CategoryList = () => {
     const categoryForm = useRef(null);
     const categoryMapper = new CategoryMapper();
     const {showLoading, hideLoading} = useContext(LoadingContext);
-    const [fetchCategories, isLoading, categories, refresh] = useAuhtorizationPagedList<CategoryView>('/v1/Category/list');
+    const [fetchCategories, fetchCategoryWithParam, isLoading, categories, refresh] = useAuhtorizationPagedList<CategoryView>('/v1/Category/list');
     const [sendDelete] = useSendSubmitWithNotification("/v1/category/delete", showLoading, hideLoading, "Zarchiwizowano pomyślnie.");
 
     const handleDelete = async (ids: Guid[]) => {
