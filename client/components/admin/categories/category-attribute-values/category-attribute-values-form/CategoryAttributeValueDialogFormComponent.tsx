@@ -11,6 +11,7 @@ interface ICategoryAttributeValueDialogFormProps {
 }
 const CategoryAttributeValueDialogForm = forwardRef((props: ICategoryAttributeValueDialogFormProps, ref) => {
     const formDialog = useRef(null);
+    const [isEdit, setIsEdit] = useState(false);
     const [injectData, model, extractData, extractFromDerivedValue] = useExtractData<CategoryAttributeValue>(new CategoryAttributeValue());
     const [errors, setErrors] = useState({name: ""});
     const categoryAttributeValueValidator = new ValidatorManage();
@@ -43,13 +44,14 @@ const CategoryAttributeValueDialogForm = forwardRef((props: ICategoryAttributeVa
             formDialog.current.openForm();
         },
         editForm(model: CategoryAttributeValue) {
+            setIsEdit(true);
             injectData(model);
             formDialog.current.openForm();
         }
     }))
     return (
         <SubmitDialogForm
-            title="Łączenie wartości z atrybutem"
+            title={`${isEdit ? "Edycja" : "Dodawanie"} wartości atrybutu`}
             handleSubmit={handleSubmit}
             onCancel={handleCancel}
             ref={formDialog}
