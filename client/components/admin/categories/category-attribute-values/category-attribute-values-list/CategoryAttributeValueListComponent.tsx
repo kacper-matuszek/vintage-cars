@@ -1,8 +1,10 @@
 import { Guid } from "guid-typescript";
-import { useRef } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
+import LoadingContext from "../../../../../contexts/LoadingContext";
 import CategoryAttributeValueMapper from "../../../../../core/mappers/category/CategoryAttributeValueMapper";
-import Paged from "../../../../../core/models/paged/Paged";
+import PagedList from "../../../../../core/models/paged/PagedList";
 import useAuhtorizedPagedList from "../../../../../hooks/fetch/pagedAPI/AuthorizedPagedAPIHook";
+import useSendSubmitWithNotification from "../../../../../hooks/fetch/SendSubmitHook";
 import ExtendedTable from "../../../../base/table-list/extended-table/ExtendedTableComponent";
 import TableContent from "../../../../base/table-list/table-content/TableContentComponent";
 import { HeadCell } from "../../../../base/table-list/table-head/HeadCell";
@@ -12,7 +14,8 @@ import CategoryAttributeValueView from "../models/CategoryAttributeValueView";
 
 interface ICategoryAttributeValueListProps {
     categoryId: Guid,
-    categoryAttributeId: Guid
+    categoryAttributeId: Guid,
+    onListChanged?: (list: Array<CategoryAttributeValueView>) => void
 }
 const headers: HeadCell<CategoryAttributeValueView>[] = [
     {id: 'name', label: 'Nazwa'},
@@ -20,18 +23,67 @@ const headers: HeadCell<CategoryAttributeValueView>[] = [
     {id: 'displayOrder', label: 'Pozycja'}
 ]
 const CategoryAttributeValueList = (props: ICategoryAttributeValueListProps) => {
-    const {categoryId, categoryAttributeId} = props;
+    const {categoryId, categoryAttributeId, onListChanged} = props;
     const categoryAttributeValueForm = useRef(null);
+    const {showLoading, hideLoading} = useContext(LoadingContext);
     const categoryAttributeValueMapper = new CategoryAttributeValueMapper();
-    const [_, fetchCategoryAttributeValue, isLoading, categoryAttributeValues] = useAuhtorizedPagedList<CategoryAttributeValueView>("/v1/category/attribute-value/list");
-
+    const [_, fetchCategoryAttributeValue, isLoading, readCategoryAttrValues, refresh] = useAuhtorizedPagedList<CategoryAttributeValueView>("/v1/category/attribute-value/list");
+    const [categoryAttributeValues, setCategoryAttributeValues] = useState(new PagedList<CategoryAttributeValueView>())
+    const [sendDelete] = useSendSubmitWithNotification("/v1/category/attribute-value/delete", showLoading, hideLoading,"Usunięto pomyślnie")
+    
+    const openForm = () => categoryAttributeValueForm.current.openForm();
     const handleEdit = (categoryAttributeValueView: CategoryAttributeValueView) => {
         categoryAttributeValueForm.current.editForm(categoryAttributeValueMapper.toDestination(categoryAttributeValueView));
     }
     const handleFormSubmit = (model: CategoryAttributeValue) => {
         const categoryAttributeValueView = categoryAttributeValueMapper.toSource(model);
-        categoryAttributeValues.source.push(categoryAttributeValueView);
+        categoryAttributeValueView.isNew = true;
+        setCategoryAttributeValues(prevState => {
+            const list = new PagedList<CategoryAttributeValueView>();
+            list.source.push(...prevState.source);
+            let isUpdate = false;
+            if(list.source.some(x => x.id === categoryAttributeValueView.id))
+            {
+                isUpdate = true;
+                list.source = list.source.filter(x => x.id !== categoryAttributeValueView.id);
+            }
+            list.source.push(categoryAttributeValueView);
+            if(!isUpdate)
+                list.totalCount = prevState.totalCount + 1;
+            return list;
+        })
     }
+    const handleDelete = async(ids: Guid[]) => {
+        const toDelete = categoryAttributeValues.source.filter(x => ids.some(id => id === x.id));
+        const arrayWithNewObjs = toDelete.filter(x => x.isNew);
+        if(arrayWithNewObjs) {
+            categoryAttributeValues.source = categoryAttributeValues.source.filter(x => !arrayWithNewObjs.some(newObj => newObj.id === x.id));
+        }
+        const newObjs = categoryAttributeValues.source.filter(x => x.isNew);
+        (async () => toDelete.filter(x => !x.isNew).forEach(x => {
+            (async () => {
+                await sendDelete(x)
+            })();
+        }))().finally(() => {
+            categoryAttributeValues.source = [];
+            refresh();
+            setCategoryAttributeValues(prevState => {
+                const list = new PagedList<CategoryAttributeValueView>();
+                list.source.push(...prevState.source);
+                list.source.push(...newObjs);
+                list.totalCount += newObjs.length;
+                return list;
+            })
+        })
+    }
+    useEffect(() => {
+        console.log(readCategoryAttrValues);
+        setCategoryAttributeValues(readCategoryAttrValues);
+    }, [readCategoryAttrValues]);
+    useEffect(() => {
+        if(onListChanged)
+            onListChanged(categoryAttributeValues.source);
+    }, [categoryAttributeValues])
     return (
         <>
             <ExtendedTable<CategoryAttributeValueView>
@@ -39,8 +91,9 @@ const CategoryAttributeValueList = (props: ICategoryAttributeValueListProps) => 
                     fetchCategoryAttributeValue(paged, {categoryId, categoryAttributeId})
                 }}
                 rows={categoryAttributeValues}
-                onAddClick={categoryAttributeValueForm.current.openForm}
+                onAddClick={openForm}
                 onEditClick={handleEdit}
+                onDeleteClick={handleDelete}
                 title="Wartości"
                 >
                 {headers.map((obj, index) => {
@@ -49,7 +102,7 @@ const CategoryAttributeValueList = (props: ICategoryAttributeValueListProps) => 
                     )
                 })}
             </ExtendedTable>
-            <CategoryAttributeValueDialogForm onSubmit={handleFormSubmit}/>
+            <CategoryAttributeValueDialogForm onSubmit={handleFormSubmit} ref={categoryAttributeValueForm}/>
         </>
     )
 }

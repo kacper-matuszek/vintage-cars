@@ -13,10 +13,9 @@ import SaveButton from "../../../base/controls/SaveButtonComponent";
 import FormDialog from "../../../base/FormDialogComponent"
 import ExtendedTable from "../../../base/table-list/extended-table/ExtendedTableComponent";
 import TableContent from "../../../base/table-list/table-content/TableContentComponent";
-import { HeadCell } from "../../../base/table-list/table-head/HeadCell";
 import { ValidatorManage, ValidatorType } from "../../../login/models/validators/Validator";
 import CategoryAttributeMappingView from "../categories-list/models/CategoryAttributeMappingView";
-import CategoryAttributeView from "../category-attributes/models/CategoryAttributeView";
+import CategoryAttributeLinkAttributeValue from "../category-attributes/category-attributes-form/CategoryAttributeLinkAttributeValueComponent";
 import useStyles from "./category-dialog-style";
 import CategoryLinkAttribute from "./CategoryLinkAttributeFormComponent";
 import Category from "./models/Category";
@@ -188,13 +187,17 @@ const CategoryDialogForm = forwardRef((props: CategoryDialogProps, ref) => {
                             const isValue = parseInt(model.attributeControlType, 10) >= 0
                             return isValue ?  (<>{AttributeControlType[model.attributeControlType]}</>) : (<>{model.attributeControlType}</>)
                         }}/>
-                    <TableContent 
+                    {isEdit ? <TableContent 
                         key="button" 
                         name="Test-Button" 
                         headerName=""
-                        content={(model) => {
-                            return <SaveButton onSubmit={async() => alert(model.name)}/>
-                        }}/>
+                        content={(rowModel) => {
+                            return <CategoryAttributeLinkAttributeValue
+                                        categoryAttributeId={rowModel.categoryAttributeId}
+                                        categoryId={model.id}
+                                        categoryAttributeName={rowModel.name}
+                                    />
+                        }}/> : <></>}
             </ExtendedTable>
             </FormDialog>
         </>

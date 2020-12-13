@@ -13,7 +13,9 @@ const CategoryAttributeValueDialogForm = forwardRef((props: ICategoryAttributeVa
     const formDialog = useRef(null);
     const [isEdit, setIsEdit] = useState(false);
     const [injectData, model, extractData, extractFromDerivedValue] = useExtractData<CategoryAttributeValue>(new CategoryAttributeValue());
-    const [errors, setErrors] = useState({name: ""});
+    const [errors, setErrors] = useState({
+        name: ""
+    });
     const categoryAttributeValueValidator = new ValidatorManage();
     categoryAttributeValueValidator.setValidators({
         ["name"]: [{
@@ -31,7 +33,7 @@ const CategoryAttributeValueDialogForm = forwardRef((props: ICategoryAttributeVa
             props.onSubmit(model);
             formDialog.current.closeForm();
             injectData(new CategoryAttributeValue());
-            setErrors(prevState => prevState.name = "");
+            setErrors({name: ""});
         }
     }
     const handleCancel = () => {
@@ -54,6 +56,7 @@ const CategoryAttributeValueDialogForm = forwardRef((props: ICategoryAttributeVa
             title={`${isEdit ? "Edycja" : "Dodawanie"} wartości atrybutu`}
             handleSubmit={handleSubmit}
             onCancel={handleCancel}
+            disableOpenButton={true}
             ref={formDialog}
             >
             <form noValidate>
@@ -70,8 +73,8 @@ const CategoryAttributeValueDialogForm = forwardRef((props: ICategoryAttributeVa
                     label="Nazwa"
                     name="name"
                     onChange={(name)  => extractData("name", name)}/>
-                <Box sx={{display: 'flex'}}>
-                    <Box>
+                <Box sx={{display: 'flex', alignItems: 'center'}}>
+                    <Box sx={{flexGrow: 3}}>
                         <FormControlLabel
                             control={
                                 <Checkbox
@@ -84,6 +87,11 @@ const CategoryAttributeValueDialogForm = forwardRef((props: ICategoryAttributeVa
                     </Box>
                     <Box>
                         <TextField 
+                            InputProps={{
+                                inputProps: {
+                                    min: 0
+                                }
+                            }}
                             variant="outlined"
                             type="number"
                             margin="normal"
@@ -91,6 +99,7 @@ const CategoryAttributeValueDialogForm = forwardRef((props: ICategoryAttributeVa
                             id="displayOrder"
                             label="Pozycja"
                             name="displayOrder"
+                            value={model?.displayOrder === undefined ? () => {extractData("displayOrder", 0); return 0} : model.displayOrder}
                             onChange={(displayOrder) => extractData("displayOrder", displayOrder)}
                         />
                     </Box>

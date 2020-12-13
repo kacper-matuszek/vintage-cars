@@ -1,3 +1,4 @@
+import { Guid } from "guid-typescript";
 import CategoryAttributeValue from "../../../components/admin/categories/category-attribute-values/models/CategoryAttributeValue";
 import CategoryAttributeValueView from "../../../components/admin/categories/category-attribute-values/models/CategoryAttributeValueView";
 import IMapper from "../../models/utils/IMapper";

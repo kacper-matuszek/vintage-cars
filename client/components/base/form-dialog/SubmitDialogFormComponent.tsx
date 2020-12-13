@@ -38,7 +38,7 @@ const SubmitDialogForm = forwardRef((props: ISubmitDialogForm, ref) => {
             showChangeScreen={props.showChangeScreen}
             showCancel={true}
             title={props.title}
-            actions={addActions}
+            actions={addActions()}
             ref={formDialog}
             >
             {props.children}
