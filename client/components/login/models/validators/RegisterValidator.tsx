@@ -1,4 +1,4 @@
-import isEmpty from "../../../../core/models/utils/StringExtension";
+import isStringNullOrEmpty from "../../../../core/models/utils/StringExtension";
 
 export default class RegisterValidator {
     constructor(){
@@ -10,7 +10,7 @@ export default class RegisterValidator {
     public canContinue: boolean = true;
 
     public validateEmail(value: string): void {
-        if(isEmpty(value))
+        if(isStringNullOrEmpty(value))
         {
             this.email = "Email nie może być pusty.";
             this.canContinue = false;
@@ -26,7 +26,7 @@ export default class RegisterValidator {
     }
 
     public validatePassword(value: string): void {
-        if(isEmpty(value))
+        if(isStringNullOrEmpty(value))
         {
             this.password = "Hasło nie może być puste.";
             this.canContinue = false;
@@ -43,7 +43,7 @@ export default class RegisterValidator {
 
     public validatePasswords(password: string, repeatedPassword: string)
     {
-        if(isEmpty(password) || isEmpty(repeatedPassword))
+        if(isStringNullOrEmpty(password) || isStringNullOrEmpty(repeatedPassword))
         {
             this.repeatedPassword = "Hasło nie może być puste.";
             this.canContinue = false;
@@ -60,7 +60,7 @@ export default class RegisterValidator {
 
     public validateUserName(username: string)
     {
-        if(isEmpty(username)) {
+        if(isStringNullOrEmpty(username)) {
             this.username = "Login nie może być pusty.";
             this.canContinue = false;
             return;

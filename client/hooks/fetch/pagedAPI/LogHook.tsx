@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import isEmpty from "../../../core/models/utils/StringExtension";
+import isStringNullOrEmpty from "../../../core/models/utils/StringExtension";
 
 const useLog = (): [(content: string) => void, string, boolean, (event?: React.SyntheticEvent, reason?: string) => void, () => void] => {
     const [isShow, setIsShow] = useState(false);
@@ -14,7 +14,7 @@ const useLog = (): [(content: string) => void, string, boolean, (event?: React.S
     const showMessage = (content: string) => setMessage(content);
     const onClosed = () => setMessage('');
     useEffect(() => {
-        if(isEmpty(message)) return;
+        if(isStringNullOrEmpty(message)) return;
         setIsShow(true);
         
     }, [message]);

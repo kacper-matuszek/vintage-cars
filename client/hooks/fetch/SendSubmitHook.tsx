@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 import NotificationContext from "../../contexts/NotificationContext";
-import isEmpty from "../../core/models/utils/StringExtension";
+import isStringNullOrEmpty from "../../core/models/utils/StringExtension";
 import BaseWebApiService from "../../core/services/api-service/BaseWebApiService"
 import { postCallback } from "../../core/services/api-service/Callback";
 
@@ -13,7 +13,7 @@ const useSendSubmitWithNotification = <T extends object>(url: string, showLoadin
             showLoading();
         await apiService.postWithoutResponseAuthorized(`${url}`, object, postCallback(
             () => {
-                const message = isEmpty(successMessage) ? 'Zapisano pomyślnie' : successMessage
+                const message = isStringNullOrEmpty(successMessage) ? 'Zapisano pomyślnie' : successMessage
                 notification.showSuccessMessage(message);
             },
             (warning) => notification.showWarningMessage(warning.message),

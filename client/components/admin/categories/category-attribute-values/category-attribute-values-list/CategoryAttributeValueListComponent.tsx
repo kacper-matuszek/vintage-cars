@@ -1,6 +1,7 @@
 import { Guid } from "guid-typescript";
 import { useContext, useEffect, useRef, useState } from "react";
 import LoadingContext from "../../../../../contexts/LoadingContext";
+import NotificationContext from "../../../../../contexts/NotificationContext";
 import CategoryAttributeValueMapper from "../../../../../core/mappers/category/CategoryAttributeValueMapper";
 import PagedList from "../../../../../core/models/paged/PagedList";
 import useAuhtorizedPagedList from "../../../../../hooks/fetch/pagedAPI/AuthorizedPagedAPIHook";
@@ -26,6 +27,7 @@ const CategoryAttributeValueList = (props: ICategoryAttributeValueListProps) => 
     const {categoryId, categoryAttributeId, onListChanged} = props;
     const categoryAttributeValueForm = useRef(null);
     const {showLoading, hideLoading} = useContext(LoadingContext);
+    const notification = useContext(NotificationContext);
     const categoryAttributeValueMapper = new CategoryAttributeValueMapper();
     const [_, fetchCategoryAttributeValue, isLoading, readCategoryAttrValues, refresh] = useAuhtorizedPagedList<CategoryAttributeValueView>("/v1/category/attribute-value/list");
     const [categoryAttributeValues, setCategoryAttributeValues] = useState(new PagedList<CategoryAttributeValueView>())
@@ -36,22 +38,13 @@ const CategoryAttributeValueList = (props: ICategoryAttributeValueListProps) => 
         categoryAttributeValueForm.current.editForm(categoryAttributeValueMapper.toDestination(categoryAttributeValueView));
     }
     const handleFormSubmit = (model: CategoryAttributeValue) => {
+        if(model.isPreSelected && categoryAttributeValues.source.some(ca => ca.isPreSelected)) {
+            model.isPreSelected = false;
+            notification.showWarningMessage("\"Domyślnie Wybrany\" został dezaktywowany, ponieważ już istnieje taki atrybut na liście. Może istnieć TYLKO jeden.")
+        }
         const categoryAttributeValueView = categoryAttributeValueMapper.toSource(model);
         categoryAttributeValueView.isNew = true;
-        setCategoryAttributeValues(prevState => {
-            const list = new PagedList<CategoryAttributeValueView>();
-            list.source.push(...prevState.source);
-            let isUpdate = false;
-            if(list.source.some(x => x.id === categoryAttributeValueView.id))
-            {
-                isUpdate = true;
-                list.source = list.source.filter(x => x.id !== categoryAttributeValueView.id);
-            }
-            list.source.push(categoryAttributeValueView);
-            if(!isUpdate)
-                list.totalCount = prevState.totalCount + 1;
-            return list;
-        })
+        setCategoryAttributeValues(prevState => prevState.addOrUpdateAndGenerateRef(categoryAttributeValueView))
     }
     const handleDelete = async(ids: Guid[]) => {
         const toDelete = categoryAttributeValues.source.filter(x => ids.some(id => id === x.id));
@@ -77,7 +70,6 @@ const CategoryAttributeValueList = (props: ICategoryAttributeValueListProps) => 
         })
     }
     useEffect(() => {
-        console.log(readCategoryAttrValues);
         setCategoryAttributeValues(readCategoryAttrValues);
     }, [readCategoryAttrValues]);
     useEffect(() => {

@@ -1,6 +1,7 @@
-import { Box, Checkbox, FormControlLabel, Input, TextField } from "@material-ui/core"
+import { Box, Checkbox, FormControlLabel, Input, TextField, Tooltip } from "@material-ui/core"
 import { forwardRef, useState, useRef, useImperativeHandle } from "react"
-import isEmpty from "../../../../../core/models/utils/StringExtension"
+import { isEmpty } from "../../../../../core/models/utils/ObjectExtension"
+import isStringNullOrEmpty from "../../../../../core/models/utils/StringExtension"
 import useExtractData from "../../../../../hooks/data/ExtracttDataHook"
 import SubmitDialogForm from "../../../../base/form-dialog/SubmitDialogFormComponent"
 import { ValidatorManage, ValidatorType } from "../../../../login/models/validators/Validator"
@@ -61,7 +62,7 @@ const CategoryAttributeValueDialogForm = forwardRef((props: ICategoryAttributeVa
             >
             <form noValidate>
                 <TextField
-                    InputLabelProps={{shrink: !isEmpty(model?.name)}}
+                    InputLabelProps={{shrink: !isStringNullOrEmpty(model?.name)}}
                     error={!!errors.name}
                     helperText={errors.name}
                     value={model?.name}
@@ -75,15 +76,17 @@ const CategoryAttributeValueDialogForm = forwardRef((props: ICategoryAttributeVa
                     onChange={(name)  => extractData("name", name)}/>
                 <Box sx={{display: 'flex', alignItems: 'center'}}>
                     <Box sx={{flexGrow: 3}}>
-                        <FormControlLabel
-                            control={
-                                <Checkbox
-                                    checked={model?.isPreSelected}
-                                    onChange={() => extractFromDerivedValue("isPreSelected", !model?.isPreSelected)}
-                                />
-                            }
-                            label="Domyślnie wybrany"
-                        />
+                        <Tooltip title="Dla konkretnej listy może istnieć tylko jedna domyślna wybrana wartość atrybutu.">
+                            <FormControlLabel
+                                control={
+                                    <Checkbox
+                                        checked={isEmpty(model?.isPreSelected) ? false : model.isPreSelected}
+                                        onChange={() => extractFromDerivedValue("isPreSelected", !model?.isPreSelected)}
+                                    />
+                                }
+                                label="Domyślnie wybrany"
+                            />
+                        </Tooltip>
                     </Box>
                     <Box>
                         <TextField 

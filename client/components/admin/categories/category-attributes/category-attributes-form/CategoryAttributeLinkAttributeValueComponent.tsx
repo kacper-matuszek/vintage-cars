@@ -18,21 +18,21 @@ const CategoryAttributeLinkAttributeValue = (props: ICategoryAttributeLinkAttrib
     const [send] = useSendSubmitWithNotification("/v1/category/attribute-value/link");
     const prepareDataToSend = () => {
         const sendData = new CategoryAttributeLinkAttributeValueSendData();
+        categoryAttributeValues.forEach(x => x.id = x.isNew ? null : x.id);
         sendData.categoryId = categoryId;
-        sendData.categoryAttributeValues = categoryAttributeValues.map(x => ({...x, categoryAttributeId: categoryAttributeId}))
+        sendData.categoryAttributeValues = categoryAttributeValues.map(x => ({...x, categoryAttributeId: categoryAttributeId}));
         return sendData;
     }
     const handleSubmit = async() => {
-        // await send(prepareDataToSend()).finally(() => {
-        //     formDialog.current.closeForm();
-        // });
-        console.log(prepareDataToSend());
+        await send(prepareDataToSend()).finally(() => {
+            formDialog.current.closeForm();
+        });
     }
     return (
         <SubmitDialogForm
             title={`Łączenie atrybutu ${categoryAttributeName} z wartościami`}
             handleSubmit={handleSubmit}
-            caption="Połacz wartości"
+            caption="Połącz wartości"
             showLink={false}
             maxWidth="md"
             disableOpenButton={false}

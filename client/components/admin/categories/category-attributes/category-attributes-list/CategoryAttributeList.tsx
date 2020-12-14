@@ -10,7 +10,7 @@ import { useContext, useRef, useState } from "react";
 import useExtractData from "../../../../../hooks/data/ExtracttDataHook";
 import CategoryAttribute from "../models/CategoryAttribute";
 import { ValidatorManage, ValidatorType } from "../../../../login/models/validators/Validator";
-import isEmpty from "../../../../../core/models/utils/StringExtension";
+import isStringNullOrEmpty from "../../../../../core/models/utils/StringExtension";
 import useSendSubmitWithNotification from "../../../../../hooks/fetch/SendSubmitHook";
 import LoadingContext from "../../../../../contexts/LoadingContext";
 import SaveButton from "../../../../base/controls/SaveButtonComponent";
@@ -97,7 +97,7 @@ const CategoryAttributeList = () => {
             >
             <form noValidate>
                 <TextField
-                    InputLabelProps={{shrink: !isEmpty(model?.name)}}
+                    InputLabelProps={{shrink: !isStringNullOrEmpty(model?.name)}}
                     error={!!modelErrors.name}
                     helperText={modelErrors.name}
                     value={model?.name}
@@ -111,7 +111,7 @@ const CategoryAttributeList = () => {
                     autoComplete="name"
                     onChange={(name)  => extractData("name", name)}/>
                 <TextField
-                    InputLabelProps={{shrink: !isEmpty(model?.description)}}
+                    InputLabelProps={{shrink: !isStringNullOrEmpty(model?.description)}}
                     value={model?.description}
                     variant="outlined"
                     margin="normal"

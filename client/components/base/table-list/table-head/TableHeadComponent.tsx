@@ -1,6 +1,6 @@
 import { TableCell, TableHead, TableRow, TableSortLabel } from "@material-ui/core"
 import Checkbox from '@material-ui/core/Checkbox';
-import isEmpty from "../../../../core/models/utils/StringExtension";
+import isStringNullOrEmpty from "../../../../core/models/utils/StringExtension";
 import { HeadCell, SimpleHeadCell } from "./HeadCell";
 import useStyles from "./table-head-style";
 
@@ -61,7 +61,7 @@ const ExtendedTableHead = <T extends object>(props: ExtendedTableProps<T>) => {
                     simpleHeader.add ? 
                     (<TableCell 
                       className={classes.header}
-                      width={isEmpty(simpleHeader.width) ? "auto" : simpleHeader.width}
+                      width={isStringNullOrEmpty(simpleHeader.width) ? "auto" : simpleHeader.width}
                       key={`${simpleHeader.label}-${index}`}
                       padding="default"
                       align="right">

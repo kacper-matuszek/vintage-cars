@@ -2,7 +2,7 @@ import { Box, Button, Container, Divider, TextField, CircularProgress, Backdrop,
 import { Guid } from "guid-typescript";
 import { createRef, Dispatch, SetStateAction, useEffect, useState } from "react";
 import Paged from "../../../core/models/paged/Paged";
-import isEmpty from "../../../core/models/utils/StringExtension";
+import isStringNullOrEmpty from "../../../core/models/utils/StringExtension";
 import useExtractData from "../../../hooks/data/ExtracttDataHook";
 import useGetData from "../../../hooks/fetch/GetDataHook";
 import useInfinitePagedListAPI from "../../../hooks/fetch/pagedAPI/InfinitePagedAPIHook";
@@ -81,7 +81,7 @@ const ProfileSection = (props) => {
         <Box>
             <form className={classes.form} noValidate method="POST" onSubmit={handleSubmit}>
                 <TextField
-                InputLabelProps={{shrink: !isEmpty(model?.firstName)}}
+                InputLabelProps={{shrink: !isStringNullOrEmpty(model?.firstName)}}
                 error={!!errors.firstName}
                 helperText={errors.firstName}
                 value={model?.firstName}
@@ -95,7 +95,7 @@ const ProfileSection = (props) => {
                 autoComplete="firstName"
                 onChange={(firstName) => extractData("firstName", firstName)}/>
                 <TextField
-                InputLabelProps={{shrink: !isEmpty(model?.lastName)}}
+                InputLabelProps={{shrink: !isStringNullOrEmpty(model?.lastName)}}
                 error={!!errors.lastName}
                 helperText={errors.lastName}
                 value={model?.lastName}
@@ -109,7 +109,7 @@ const ProfileSection = (props) => {
                 autoComplete="lastName" 
                 onChange={(lastName) => extractData("lastName", lastName)}/>
                 <TextField
-                InputLabelProps={{shrink: !isEmpty(model?.phoneNumber)}}
+                InputLabelProps={{shrink: !isStringNullOrEmpty(model?.phoneNumber)}}
                 error={!!errors.phoneNumber}
                 helperText={errors.phoneNumber}
                 value={model?.phoneNumber}
@@ -123,7 +123,7 @@ const ProfileSection = (props) => {
                 autoComplete="phoneNumber" 
                 onChange={(phoneNumber) => extractData("phoneNumber", phoneNumber)}/>
                 <TextField
-                InputLabelProps={{shrink: !isEmpty(model?.company)}}
+                InputLabelProps={{shrink: !isStringNullOrEmpty(model?.company)}}
                 value={model?.company}
                 variant="outlined"
                 margin="normal"
@@ -165,7 +165,7 @@ const ProfileSection = (props) => {
                     totalCount={responseStateProvince?.totalCount}
                 />
                 <TextField
-                InputLabelProps={{shrink: !isEmpty(model?.city)}}
+                InputLabelProps={{shrink: !isStringNullOrEmpty(model?.city)}}
                 value={model?.city}
                 variant="outlined"
                 margin="normal"
@@ -176,7 +176,7 @@ const ProfileSection = (props) => {
                 autoComplete="city"
                 onChange={(city) => extractData("city", city)} />
                 <TextField
-                InputLabelProps={{shrink: !isEmpty(model?.address1)}}
+                InputLabelProps={{shrink: !isStringNullOrEmpty(model?.address1)}}
                 value={model?.address1}
                 variant="outlined"
                 margin="normal"
@@ -187,7 +187,7 @@ const ProfileSection = (props) => {
                 autoComplete="address"
                 onChange={(address) => extractData("address1", address)} />
                 <TextField
-                InputLabelProps={{shrink: !isEmpty(model?.zipPostalCode)}}
+                InputLabelProps={{shrink: !isStringNullOrEmpty(model?.zipPostalCode)}}
                 error={!!errors.postalCode}
                 helperText={errors.postalCode}
                 value={model?.zipPostalCode}

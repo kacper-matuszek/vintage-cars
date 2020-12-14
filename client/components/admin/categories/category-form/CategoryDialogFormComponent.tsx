@@ -160,7 +160,6 @@ const CategoryDialogForm = forwardRef((props: CategoryDialogProps, ref) => {
                                 list.source.push(...prevState.source);
                             list.source.push(attrMapping);
                             list.totalCount = prevState.totalCount + 1;
-                            console.log(list.totalCount);
                             return list;
                         })
                     }
@@ -188,15 +187,15 @@ const CategoryDialogForm = forwardRef((props: CategoryDialogProps, ref) => {
                             return isValue ?  (<>{AttributeControlType[model.attributeControlType]}</>) : (<>{model.attributeControlType}</>)
                         }}/>
                     {isEdit ? <TableContent 
-                        key="button" 
-                        name="Test-Button" 
+                        key="link-attribute-value" 
+                        name="linkAttributeValue" 
                         headerName=""
                         content={(rowModel) => {
-                            return <CategoryAttributeLinkAttributeValue
+                            return rowModel.attributeControlType != AttributeControlType.TextBox && !isEmpty(rowModel.id) ? <CategoryAttributeLinkAttributeValue
                                         categoryAttributeId={rowModel.categoryAttributeId}
                                         categoryId={model.id}
                                         categoryAttributeName={rowModel.name}
-                                    />
+                                    /> : <></>
                         }}/> : <></>}
             </ExtendedTable>
             </FormDialog>
