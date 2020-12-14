@@ -135,7 +135,7 @@ const ExtendedTable = <T extends ISelectable>(props: ExtendedTableProps<T>) => {
                   rowCount={rows.source.length}
                   showSelectAll={showSelection === undefined ? false : showSelection}
                 />
-                <TableBody>
+                <TableBody key={`extended-table-body-${Guid.create()}`}>
                   {stableSort(rows.source, getComparator(order, orderBy))
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((row, index) => {

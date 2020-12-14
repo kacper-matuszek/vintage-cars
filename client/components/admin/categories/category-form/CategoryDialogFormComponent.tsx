@@ -5,7 +5,7 @@ import LoadingContext from "../../../../contexts/LoadingContext";
 import NotificationContext from "../../../../contexts/NotificationContext";
 import { AttributeControlType } from "../../../../core/models/enums/AttributeControlType";
 import PagedList from "../../../../core/models/paged/PagedList";
-import isEmpty from "../../../../core/models/utils/StringExtension";
+import isStringNullOrEmpty from "../../../../core/models/utils/StringExtension";
 import useExtractData from "../../../../hooks/data/ExtracttDataHook";
 import useAuhtorizedPagedList from "../../../../hooks/fetch/pagedAPI/AuthorizedPagedAPIHook";
 import useSendSubmitWithNotification from "../../../../hooks/fetch/SendSubmitHook";
@@ -109,7 +109,7 @@ const CategoryDialogForm = forwardRef((props: CategoryDialogProps, ref) => {
                     <Box sx={{flexGrow: 3}}>
                         <TextField 
                             className={classes.nameField}
-                            InputLabelProps={{shrink: !isEmpty(model?.name)}}
+                            InputLabelProps={{shrink: !isStringNullOrEmpty(model?.name)}}
                             error={!!modelErrors.name}
                             helperText={modelErrors.name}
                             disabled={isReadonly}
@@ -134,7 +134,7 @@ const CategoryDialogForm = forwardRef((props: CategoryDialogProps, ref) => {
                     />
                 </Box>
                 <TextField
-                    InputLabelProps={{shrink: !isEmpty(model?.description)}}
+                    InputLabelProps={{shrink: !isStringNullOrEmpty(model?.description)}}
                     value={model?.description}
                     disabled={isReadonly}
                     variant="outlined"
@@ -191,7 +191,7 @@ const CategoryDialogForm = forwardRef((props: CategoryDialogProps, ref) => {
                         name="linkAttributeValue" 
                         headerName=""
                         content={(rowModel) => {
-                            return rowModel.attributeControlType != AttributeControlType.TextBox && !isEmpty(rowModel.id) ? <CategoryAttributeLinkAttributeValue
+                            return rowModel.attributeControlType != AttributeControlType.TextBox && !isStringNullOrEmpty(rowModel.id) ? <CategoryAttributeLinkAttributeValue
                                         categoryAttributeId={rowModel.categoryAttributeId}
                                         categoryId={model.id}
                                         categoryAttributeName={rowModel.name}
