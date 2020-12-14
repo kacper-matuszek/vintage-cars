@@ -25,7 +25,8 @@ const CategoryAttributeLinkAttributeValue = (props: ICategoryAttributeLinkAttrib
     }
     const handleSubmit = async() => {
         await send(prepareDataToSend()).finally(() => {
-            formDialog.current.closeForm();
+            if(formDialog.current)
+                formDialog.current.closeForm();
         });
     }
     return (

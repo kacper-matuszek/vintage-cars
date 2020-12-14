@@ -8,7 +8,7 @@ import { ValidatorManage, ValidatorType } from "../../../../login/models/validat
 import CategoryAttributeValue from "../models/CategoryAttributeValue"
 
 interface ICategoryAttributeValueDialogFormProps {
-    onSubmit: (model: CategoryAttributeValue) => void
+    onSubmit: (model: CategoryAttributeValue, isNew: boolean) => void
 }
 const CategoryAttributeValueDialogForm = forwardRef((props: ICategoryAttributeValueDialogFormProps, ref) => {
     const formDialog = useRef(null);
@@ -31,7 +31,7 @@ const CategoryAttributeValueDialogForm = forwardRef((props: ICategoryAttributeVa
         categoryAttributeValueValidator.isValid(model);
         setErrors({...errors, name: categoryAttributeValueValidator.getMessageByKey("name")});
         if(categoryAttributeValueValidator.isAllValid()) {
-            props.onSubmit(model);
+            props.onSubmit(model, !isEdit);
             formDialog.current.closeForm();
             injectData(new CategoryAttributeValue());
             setErrors({name: ""});

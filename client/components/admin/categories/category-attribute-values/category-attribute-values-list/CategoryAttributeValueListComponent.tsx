@@ -37,13 +37,13 @@ const CategoryAttributeValueList = (props: ICategoryAttributeValueListProps) => 
     const handleEdit = (categoryAttributeValueView: CategoryAttributeValueView) => {
         categoryAttributeValueForm.current.editForm(categoryAttributeValueMapper.toDestination(categoryAttributeValueView));
     }
-    const handleFormSubmit = (model: CategoryAttributeValue) => {
+    const handleFormSubmit = (model: CategoryAttributeValue, isNew: boolean) => {
         if(model.isPreSelected && categoryAttributeValues.source.some(ca => ca.isPreSelected)) {
             model.isPreSelected = false;
             notification.showWarningMessage("\"Domyślnie Wybrany\" został dezaktywowany, ponieważ już istnieje taki atrybut na liście. Może istnieć TYLKO jeden.")
         }
         const categoryAttributeValueView = categoryAttributeValueMapper.toSource(model);
-        categoryAttributeValueView.isNew = true;
+        categoryAttributeValueView.isNew = isNew;
         setCategoryAttributeValues(prevState => prevState.addOrUpdateAndGenerateRef(categoryAttributeValueView))
     }
     const handleDelete = async(ids: Guid[]) => {
