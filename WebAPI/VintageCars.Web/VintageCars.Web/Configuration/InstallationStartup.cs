@@ -57,11 +57,14 @@ namespace VintageCars.Web.Configuration
             if (!dataProvider.IsDatabaseExists())
             {
                 dataProvider.CreateDatabase(_installationConfiguration["Collation"]);
-            }
+                dataProvider.InitializeDatabase();
+                _installationService = EngineContext.Current.Resolve<IInstallationService>();
+                _installationService.InstallRequiredData();
 
+                return;
+            }
+            //update schema
             dataProvider.InitializeDatabase();
-            _installationService = EngineContext.Current.Resolve<IInstallationService>();
-            _installationService.InstallRequiredData();
         }
 
 
