@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="ProductAnnouncement\" />
     <Folder Include="Products\Commands\" />
     <Folder Include="Products\Mappings\" />
     <Folder Include="Products\Response\" />
