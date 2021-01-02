@@ -17,10 +17,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="ProductAnnouncement\" />
-    <Folder Include="Products\Commands\" />
-    <Folder Include="Products\Mappings\" />
-    <Folder Include="Products\Response\" />
+    <Folder Include="ProductAnnouncement\Commands\" />
+    <Folder Include="ProductAnnouncement\Mappings\" />
+    <Folder Include="ProductAnnouncement\Validators\" />
+    <Folder Include="ProductAnnouncement\Response\" />
+    <Folder Include="ProductAnnouncement\Queries\" />
     <Folder Include="Settings\Models\" />
   </ItemGroup>
 
