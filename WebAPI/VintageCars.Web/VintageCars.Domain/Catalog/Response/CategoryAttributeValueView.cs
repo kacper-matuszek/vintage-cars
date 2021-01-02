@@ -1,11 +1,10 @@
 ﻿using System;
+using VintageCars.Domain.Base;
 
 namespace VintageCars.Domain.Catalog.Response
 {
-    public class CategoryAttributeValueView
+    public class CategoryAttributeValueView : BaseModelView
     {
-        public Guid Id { get; set; }
-        public string Name { get; set; }
         public bool IsPreselected { get; set; }
         public int DisplayOrder { get; set; }
     }

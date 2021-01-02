@@ -1,10 +1,8 @@
-﻿using System;
+﻿using VintageCars.Domain.Base;
 
 namespace VintageCars.Domain.Country.StateProvince.Response
 {
-    public class StateProvinceView
+    public class StateProvinceView : BaseModelView
     {
-        public Guid Id { get; set; }
-        public string Name { get; set; }
     }
 }

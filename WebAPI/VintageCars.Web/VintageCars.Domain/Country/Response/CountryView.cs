@@ -1,10 +1,8 @@
-﻿using System;
+﻿using VintageCars.Domain.Base;
 
 namespace VintageCars.Domain.Country.Response
 {
-    public class CountryView
+    public class CountryView : BaseModelView
     {
-        public Guid Id { get; set; }
-        public string Name { get; set; }
     }
 }

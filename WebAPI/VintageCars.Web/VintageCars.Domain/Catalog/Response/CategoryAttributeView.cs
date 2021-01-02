@@ -1,11 +1,10 @@
 ﻿using System;
+using VintageCars.Domain.Base;
 
 namespace VintageCars.Domain.Catalog.Response
 {
-    public class CategoryAttributeView
+    public class CategoryAttributeView : BaseModelView
     {
-        public Guid Id { get; set; }
-        public string Name { get; set; }
         public string Description { get; set; }
     }
 }
