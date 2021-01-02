@@ -29,9 +29,9 @@ const CategoryAttributeValueList = (props: ICategoryAttributeValueListProps) => 
     const {showLoading, hideLoading} = useContext(LoadingContext);
     const notification = useContext(NotificationContext);
     const categoryAttributeValueMapper = new CategoryAttributeValueMapper();
-    const [_, fetchCategoryAttributeValue, isLoading, readCategoryAttrValues, refresh] = useAuhtorizedPagedList<CategoryAttributeValueView>("/v1/category/attribute-value/list");
+    const [_, fetchCategoryAttributeValue, isLoading, readCategoryAttrValues, refresh] = useAuhtorizedPagedList<CategoryAttributeValueView>("/admin/v1/category/attribute-value/list");
     const [categoryAttributeValues, setCategoryAttributeValues] = useState(new PagedList<CategoryAttributeValueView>())
-    const [sendDelete] = useSendSubmitWithNotification("/v1/category/attribute-value/delete", showLoading, hideLoading,"Usunięto pomyślnie")
+    const [sendDelete] = useSendSubmitWithNotification("/admin/v1/category/attribute-value/delete", showLoading, hideLoading,"Usunięto pomyślnie")
     
     const openForm = () => categoryAttributeValueForm.current.openForm();
     const handleEdit = (categoryAttributeValueView: CategoryAttributeValueView) => {

@@ -15,7 +15,7 @@ const CategoryAttributeLinkAttributeValue = (props: ICategoryAttributeLinkAttrib
     const {categoryAttributeName, categoryAttributeId, categoryId} = props;
     const formDialog = useRef(null);
     const [categoryAttributeValues, setCategoryAttributeValues] = useState<CategoryAttributeValueView[]>([]);
-    const [send] = useSendSubmitWithNotification("/v1/category/attribute-value/link");
+    const [send] = useSendSubmitWithNotification("/admin/v1/category/attribute-value/link");
     const prepareDataToSend = () => {
         const sendData = new CategoryAttributeLinkAttributeValueSendData();
         categoryAttributeValues.forEach(x => x.id = x.isNew ? null : x.id);

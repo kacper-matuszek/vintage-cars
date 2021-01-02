@@ -44,7 +44,7 @@ const CategoryDialogForm = forwardRef((props: CategoryDialogProps, ref) => {
         name: ""
     });
 
-    const [send] = useSendSubmitWithNotification("/v1/category");
+    const [send] = useSendSubmitWithNotification("/admin/v1/category");
     const [injectData, model, extractData, extractDataFromDerivedValue] = useExtractData<Category>(new Category())
     const addActions = () => <SaveButton onSubmit={handleSubmit} disabled={isReadonly}/>  
     const newModelForm = () => {

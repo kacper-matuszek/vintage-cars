@@ -12,7 +12,7 @@ using VintageCars.Domain.Utils;
 namespace VintageCars.Web.Controllers.Admin
 {
     [Authorize(Roles = "Administrators")]
-    [Route("api/v1/[controller]")]
+    [Route("api/admin/v1/[controller]")]
     [ApiController]
     public class CategoryController : BaseController
     {

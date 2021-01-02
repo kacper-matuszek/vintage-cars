@@ -17,7 +17,7 @@ interface CategoryLinkAttributeProps {
 
 const CategoryLinkAttribute = (props: CategoryLinkAttributeProps) => {
     const formRef = useRef(null);
-    const [fetchCategoryAttribute, fetchCategoryWithParam, isLoading, categoryAttribtue] = useAuhtorizedPagedList<CategoryAttributeView>('/v1/category/attribute/list');
+    const [fetchCategoryAttribute, fetchCategoryWithParam, isLoading, categoryAttribtue] = useAuhtorizedPagedList<CategoryAttributeView>('/admin/v1/category/attribute/list');
     const [injectData, model, extractData, extractDataFromDerivedValue] = useExtractData<CategoryAttributeMapping>(new CategoryAttributeMapping());
     const [errors, setErrors] = useState({
         attributeControlType: "",

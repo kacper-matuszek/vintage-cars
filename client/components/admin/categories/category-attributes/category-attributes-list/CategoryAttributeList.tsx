@@ -35,9 +35,9 @@ const CategoryAttributeList = () => {
     });
 
     const {showLoading, hideLoading} = useContext(LoadingContext);
-    const [fetchCategoryAttributes, _, isLoading, categoryAttributes, refresh] = useAuhtorizedPagedList<CategoryAttributeView>('/v1/category/attribute/list');
-    const [send] = useSendSubmitWithNotification("/v1/category/attribute");
-    const [sendDelete] = useSendSubmitWithNotification("/v1/category/attribute/delete", showLoading, hideLoading, "Usunięto pomyślnie.");
+    const [fetchCategoryAttributes, _, isLoading, categoryAttributes, refresh] = useAuhtorizedPagedList<CategoryAttributeView>('/admin/v1/category/attribute/list');
+    const [send] = useSendSubmitWithNotification("/admin/v1/category/attribute");
+    const [sendDelete] = useSendSubmitWithNotification("/admin/v1/category/attribute/delete", showLoading, hideLoading, "Usunięto pomyślnie.");
     const [injectData, model, extractData]  = useExtractData<CategoryAttribute>(new CategoryAttribute());
     
     const addActions = () => <SaveButton onSubmit={handleSubmit}/>
