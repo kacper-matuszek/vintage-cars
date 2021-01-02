@@ -28,6 +28,8 @@ namespace VintageCars.Domain.Catalog.Mappings
                 .ForMember(x => x.IsPublished, opt => opt.MapFrom(src => src.Published))
                 .ForMember(x => x.IsArchival, opt => opt.MapFrom(src => src.Deleted))
                 .ForMember(x => x.Attributes, opt => opt.Ignore());
+
+            CreateMap<Category, CategoryShortInfoView>();
         }
         public int Order => 6;
     }
