@@ -23,5 +23,10 @@ namespace VintageCars.Web.Controllers
         [HttpGet("list")]
         public async Task<ActionResult<PagedList<CategoryShortInfoView>>> CategoriesShortInfo([FromQuery] PagedRequest pagedRequest)
             => Single(await SendAsync(new GetCategoriesShortInfoQuery(pagedRequest)));
+
+        [Authorize(Roles = "Registered")]
+        [HttpGet("attribute/list")]
+        public async Task<ActionResult<List<CategoryAttributeFullInfoView>>> Attributes([FromQuery] GetCategoryAttributesWithValuesQuery query)
+            => Single(await SendAsync(query));
     }
 }
