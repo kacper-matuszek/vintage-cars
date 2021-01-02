@@ -4,7 +4,7 @@ using VintageCars.Data.Models;
 
 namespace VintageCars.Data.Migrations
 {
-    [NopMigration("2020/12/28 11:42:00", "Prouct Announcement schema")]
+    [NopMigration("2020/12/28 11:42:00", "Product Announcement schema")]
     public class ProductAnnouncementSchema : AutoReversingMigration
     {
         private readonly IMigrationManager _migrationManager;
@@ -19,6 +19,7 @@ namespace VintageCars.Data.Migrations
             _migrationManager.BuildTable<ProductAnnouncement>(Create);
             _migrationManager.BuildTable<ProductAnnouncementAttribute>(Create);
             _migrationManager.BuildTable<ProductAnnouncementAttributeMapping>(Create);
+            _migrationManager.BuildTable<ProductAnnouncementPictureMapping>(Create);
         }
     }
 }
