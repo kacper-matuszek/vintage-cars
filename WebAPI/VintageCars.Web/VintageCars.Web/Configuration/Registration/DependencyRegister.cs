@@ -34,6 +34,7 @@ using VintageCars.Service.Catalog.Services;
 using VintageCars.Service.Customers.Address;
 using VintageCars.Service.Infrastructure;
 using VintageCars.Service.Messages;
+using VintageCars.Service.ProductAnnouncement.Services;
 using InstallationService = VintageCars.Service.Infrastructure.InstallationService;
 
 namespace VintageCars.Web.Configuration.Registration
@@ -94,6 +95,7 @@ namespace VintageCars.Web.Configuration.Registration
             builder.RegisterType<CountryService>().As<ICountryService>().InstancePerLifetimeScope();
             builder.RegisterType<StateProvinceService>().As<IStateProvinceService>().InstancePerLifetimeScope();
             builder.RegisterType<ProductAttributeService>().As<IProductAttributeService>().InstancePerLifetimeScope();
+            builder.RegisterType<ProductAnnouncementService>().As<IProductAnnouncementService>().InstancePerLifetimeScope();
 
             builder.RegisterType<ActionContextAccessor>().As<IActionContextAccessor>().InstancePerLifetimeScope();
 

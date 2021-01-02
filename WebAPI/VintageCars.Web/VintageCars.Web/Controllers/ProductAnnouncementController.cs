@@ -1,5 +1,7 @@
-﻿using MediatR;
+﻿using System.Threading.Tasks;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using VintageCars.Domain.ProductAnnouncement.Commands;
 
 namespace VintageCars.Web.Controllers
 {
@@ -10,5 +12,9 @@ namespace VintageCars.Web.Controllers
         public ProductAnnouncementController(IMediator mediator) : base(mediator)
         {
         }
+
+        [HttpPost("create")]
+        public async Task<ActionResult> CreateProductAnnouncement([FromBody] CreateProductAnnouncement productAnnouncement)
+            => await ExecuteCommandWithoutResult(productAnnouncement);
     }
 }
