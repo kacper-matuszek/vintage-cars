@@ -10,7 +10,7 @@ namespace VintageCars.Data.Models.Base
         {
             CreateDate = DateTime.UtcNow;
         }
-        public int CreatedBy { get; set; }
+        public Guid CreatedBy { get; set; }
         public DateTime CreateDate { get; set; }
     }
 }

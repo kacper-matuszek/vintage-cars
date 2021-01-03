@@ -9,7 +9,9 @@ namespace VintageCars.Data
     {
         public Dictionary<Type, string> TableNames => new Dictionary<Type, string>()
         {
-            { typeof(CategoryAttributeMapping), "Category_CategoryAttribute_Mapping" }
+            { typeof(CategoryAttributeMapping), "Category_CategoryAttribute_Mapping" },
+            { typeof(ProductAnnouncementAttributeMapping), "ProductAnnouncement_Attribute_Mapping" },
+            { typeof(ProductAnnouncementPictureMapping), "ProductAnnouncement_Picture_Mapping" }
         };
         public Dictionary<(Type, string), string> ColumnName => new Dictionary<(Type, string), string>();
     }
