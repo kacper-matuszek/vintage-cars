@@ -17,7 +17,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="ProductAnnouncement\Mappings\" />
     <Folder Include="ProductAnnouncement\Validators\" />
     <Folder Include="ProductAnnouncement\Response\" />
     <Folder Include="ProductAnnouncement\Queries\" />

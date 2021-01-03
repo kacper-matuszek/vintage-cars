@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Diagnostics;
 using AutoMapper;
 using Nop.Core;
 using VintageCars.Domain.Base;
+using VintageCars.Domain.Commands.Base;
 
 namespace VintageCars.Domain.Extensions
 {
@@ -13,6 +15,14 @@ namespace VintageCars.Domain.Extensions
         {
             return mappingExpression.ForMember(dest => dest.Id,
                 opt => opt.MapFrom(src => src != null && src.Id.HasValue ? src.Id.Value : Guid.NewGuid()));
+        }
+
+        public static IMappingExpression<TSource, TDestination> GenerateIdFromCreateCommand<TSource, TDestination>(
+            this IMappingExpression<TSource, TDestination> mappingExpression)
+            where TSource : CommandBase
+            where TDestination : BaseEntity
+        {
+            return mappingExpression.ForMember(dest => dest.Id, opt => opt.MapFrom(_ => Guid.NewGuid()));
         }
     }
 }
