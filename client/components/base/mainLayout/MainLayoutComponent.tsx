@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import MenuAppBar from "../menu-bar/MenuAppBarComponent"
 import PersonIcon from '@material-ui/icons/Person'
+import CreateIcon from '@material-ui/icons/Create';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp'
 import { NameWithNode, RouterWithElement } from '../../../core/models/base/NameWithNode'
 import DirectionsCarIcon from '@material-ui/icons/DirectionsCar';
@@ -26,12 +27,16 @@ const MainLayout = (props) => {
     const sideBarItems: Array<RouterWithElement> = [
         {name: "Lista samochodów", route: "/login", onClick: () => {}, children: <DirectionsCarIcon fontSize={fontSize}/>}
     ]
+    const sideBarItemsForRegistered: Array<RouterWithElement> = [
+        {name: "Utwórz własny samochód", route: "/cars/create", onClick: () => {}, children: <CreateIcon fontSize={fontSize}/>}
+    ]
+
 
     return (
         <React.Fragment>
             <MenuAppBar
                 accountMenuChildren={generateRouteMenuItems(accountMenu)}
-                listMenu={generateLinkMenuItems(sideBarItems)}
+                listMenu={generateLinkMenuItems(props.isAuthorized ? sideBarItems.concat(sideBarItemsForRegistered) : sideBarItems)}
                 isAuthorized={props.isAuthorized}
             ></MenuAppBar>
             <Box className={clsx(classes.layoutContainer, {

@@ -16,6 +16,8 @@ import NavigationProfileDialog from "../../components/profile/NavigationProfileD
 import NotificationContext from "../../contexts/NotificationContext";
 import LoadingContext from "../../contexts/LoadingContext";
 import CategoryAttributeList from "../../components/admin/categories/category-attributes/category-attributes-list/CategoryAttributeList";
+import ImagesDropzoneArea from "../../components/base/upload-files/ImagesDropzoneAreaComponent";
+import UploadDropzoneDialog from "../../components/base/upload-files/UploadDropzoneDialogComponent";
 
 const useStyles = makeStyles({
   parent: {
@@ -33,6 +35,7 @@ const useStyles = makeStyles({
 const Home = (props) => {
     const classes = useStyles();
     const router = useRouter();
+    const [files, setFiles] = useState([]);
     const [value, setValue] = React.useState(0);
     const [title, setTitle] = React.useState("Title");
     const [open, setOpen] = React.useState(false);
@@ -83,6 +86,10 @@ const Home = (props) => {
            /></>)}
            </LoadingContext.Consumer>
            </LoadingContext.Provider> */}
+           <ImagesDropzoneArea setFiles={setFiles}/>
+           <Button onClick={() => console.log(files)}>
+               Hej
+           </Button>
         </div>
     )
 }
