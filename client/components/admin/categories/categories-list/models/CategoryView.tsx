@@ -9,6 +9,7 @@ export default class CategoryView implements ISelectableArchival {
     isPublished: boolean;
     showOnHomePag: boolean;
     isArchival: boolean;
+    isSelected: boolean;
     cantSelect: boolean;
     attributes: Array<CategoryAttributeMappingView>;
 }

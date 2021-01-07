@@ -6,6 +6,7 @@ export default class CategoryAttributeValueView implements ISelectable {
     name: string;
     isPreSelected: boolean;
     displayOrder: number;
+    isSelected: boolean;
     cantSelect: boolean;
     isNew: boolean;
 }
