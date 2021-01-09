@@ -5,6 +5,7 @@ namespace VintageCars.Domain.Utils
     public class PictureModel
     {
         public Picture Picture { get; set; }
-        public byte[] Data { get; set; }
+        public string DataAsBase64 { get; set; }
+        public byte[] DataAsByteArray { get; set; }
     }
 }
