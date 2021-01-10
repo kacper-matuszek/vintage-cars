@@ -7,7 +7,7 @@ import { RouterWithElement } from '../../../core/models/base/NameWithNode';
 import { Collapse, List } from '@material-ui/core';
 import { generateLinkMenuItems } from './GeneratorExtension';
 import { ExpandLess, ExpandMore } from '@material-ui/icons';
-import isStringNullOrEmpty from '../../../core/models/utils/StringExtension';
+import { isStringNullOrEmpty } from '../../../core/models/utils/StringExtension';
 
 interface ListItemLinkProps {
     icon?: React.ReactElement;

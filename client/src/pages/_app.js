@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import AppBase from "../../components/base/AppBaseComponent";
 import MainLayout from "../../components/base/mainLayout/MainLayoutComponent";
 import PictureContent from "../../components/base/picture-content-component/PictureContent";
-import isStringNullOrEmpty from "../../core/models/utils/StringExtension";
+import { isStringNullOrEmpty } from "../../core/models/utils/StringExtension";
 import CookieDictionary from "../../core/models/settings/cookieSettings/CookieDictionary";
 import Router from 'next/router';
 import Cookie from 'universal-cookie';

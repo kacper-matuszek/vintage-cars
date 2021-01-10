@@ -1,7 +1,7 @@
 import { Box, Checkbox, FormControlLabel, Input, TextField, Tooltip } from "@material-ui/core"
 import { forwardRef, useState, useRef, useImperativeHandle } from "react"
 import { isEmpty } from "../../../../../core/models/utils/ObjectExtension"
-import isStringNullOrEmpty from "../../../../../core/models/utils/StringExtension"
+import { isStringNullOrEmpty } from "../../../../../core/models/utils/StringExtension"
 import useExtractData from "../../../../../hooks/data/ExtracttDataHook"
 import SubmitDialogForm from "../../../../base/form-dialog/SubmitDialogFormComponent"
 import { ValidatorManage, ValidatorType } from "../../../../login/models/validators/Validator"

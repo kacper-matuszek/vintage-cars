@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 import NotificationContext from "../../contexts/NotificationContext";
-import isStringNullOrEmpty from "../../core/models/utils/StringExtension";
+import { isStringNullOrEmpty } from "../../core/models/utils/StringExtension";
 import BaseWebApiService from "../../core/services/api-service/BaseWebApiService"
 import { postCallback } from "../../core/services/api-service/Callback";
 

@@ -2,7 +2,7 @@ import { Box, Button, Container, Divider, TextField, CircularProgress, Backdrop,
 import { Guid } from "guid-typescript";
 import { createRef, Dispatch, SetStateAction, useEffect, useState } from "react";
 import Paged from "../../../core/models/paged/Paged";
-import isStringNullOrEmpty from "../../../core/models/utils/StringExtension";
+import { isStringNullOrEmpty } from "../../../core/models/utils/StringExtension";
 import useExtractData from "../../../hooks/data/ExtracttDataHook";
 import useGetData from "../../../hooks/fetch/GetDataHook";
 import useInfinitePagedListAPI from "../../../hooks/fetch/pagedAPI/InfinitePagedAPIHook";

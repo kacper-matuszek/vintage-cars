@@ -4,7 +4,7 @@ import { NameWithNode, RouterWithElement } from '../../../core/models/base/NameW
 import { ListItemLink } from './ListItemLinkComponent';
 import Link from "next/link";
 import { generateUnique } from '../../../core/models/utils/Generator';
-import isStringNullOrEmpty from '../../../core/models/utils/StringExtension';
+import { isStringNullOrEmpty } from '../../../core/models/utils/StringExtension';
 
 export const generateMenuItems = (items: Array<NameWithNode>) => {
     return(

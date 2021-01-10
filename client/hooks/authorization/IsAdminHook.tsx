@@ -1,7 +1,7 @@
 import Cookie from 'universal-cookie';
 import Role from '../../core/models/authorization/Roles';
 import CookieDictionary from '../../core/models/settings/cookieSettings/CookieDictionary';
-import isStringNullOrEmpty from '../../core/models/utils/StringExtension';
+import { isStringNullOrEmpty } from '../../core/models/utils/StringExtension';
 
 const useIsAdmin = (): () => boolean => {
 

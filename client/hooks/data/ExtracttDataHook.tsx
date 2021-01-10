@@ -1,5 +1,5 @@
 import { useState, useEffect, Dispatch, SetStateAction, useRef, useCallback, useMemo } from "react";
-import isStringNullOrEmpty from "../../core/models/utils/StringExtension";
+import { isStringNullOrEmpty } from "../../core/models/utils/StringExtension";
 
 const useExtractData = <T extends object>(object: T): [injectData: (model: T) => void, filledValue: T, extractData: (fieldName: keyof T, derivedValue: any) => void, extractFromDerivedValue: (fieldName: keyof T, derivedValue: any) => void] => {
     const [value, setValue] = useState(object);
