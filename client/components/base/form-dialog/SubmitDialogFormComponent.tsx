@@ -1,5 +1,6 @@
 import { forwardRef, useImperativeHandle, useRef } from "react";
 import { BaseProps } from "../../../core/models/base/BaseProps";
+import { isEmpty } from "../../../core/models/utils/ObjectExtension";
 import SaveButton from "../controls/SaveButtonComponent";
 import FormDialog from "../FormDialogComponent";
 interface ISubmitDialogForm extends BaseProps {
@@ -12,11 +13,12 @@ interface ISubmitDialogForm extends BaseProps {
     maxWidth?: 'lg' | 'md' | 'sm' | 'xl'| 'xs',
     onCancel?: () => void,
     showChangeScreen?: boolean,
-    handleSubmit: () => Promise<void>
+    handleSubmit: () => Promise<void>,
+    disableSubmitButton?: boolean
 }
 const SubmitDialogForm = forwardRef((props: ISubmitDialogForm, ref) => {
     const formDialog = useRef(null);
-    const addActions = () => <SaveButton onSubmit={props.handleSubmit}/>
+    const addActions = () => <SaveButton onSubmit={props.handleSubmit} disabled={isEmpty(props.disableSubmitButton) ? false : props.disableSubmitButton}/>
     
     useImperativeHandle(ref, () => ({
         closeForm() {
