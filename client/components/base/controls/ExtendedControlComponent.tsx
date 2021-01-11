@@ -1,24 +1,31 @@
-import { Checkbox, FormControl, FormControlLabel, InputLabel, MenuItem, Select, TextField } from "@material-ui/core";
+import { Box, Checkbox, FormControl, FormControlLabel, InputLabel, MenuItem, Select, TextField } from "@material-ui/core";
 import { Guid } from "guid-typescript";
+import { useEffect, useState } from "react";
 import ISelectable from "../../../core/models/base/ISelectable";
 import { AttributeControlType } from "../../../core/models/enums/AttributeControlType";
+import { ExtendedControlChangeValueType } from "../../../core/models/enums/ExtendedControlChangeValueType";
 import { isEmpty } from "../../../core/models/utils/ObjectExtension";
-import isStringNullOrEmpty from "../../../core/models/utils/StringExtension";
+import Caption from "./CaptionComponent";
 
 interface ExtendedControlProps {
     id: string,
     label: string,
     attributeControlType: AttributeControlType,
     value?: any,
-    onChangeValue: (value: any) => void,
+    onChangeValue: (value: any, type: ExtendedControlChangeValueType) => void,
     multipleOptions?: Array<ISelectable>
 }
 const ExtendedControl = (props: ExtendedControlProps) => {
     const {attributeControlType, label, id, value, onChangeValue, multipleOptions} = props;
-
-    const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+    
+    const [checkedChexkBoxes, setCheckedCheckBoxes] = useState([]);
+    const [valueOneOption, setValueOneOption] = useState<string>('')
+    const handleChange = (event: React.ChangeEvent<{ value: unknown }>, type: ExtendedControlChangeValueType) => {
         const value: any = event.target.value;
-        onChangeValue(value);
+        if(type === ExtendedControlChangeValueType.Id || type === ExtendedControlChangeValueType.Text) {
+            setValueOneOption(value);
+        }
+        onChangeValue(value, type);
     };
 
     const renderSwitch = (attributeControlType: AttributeControlType) => {
@@ -27,39 +34,51 @@ const ExtendedControl = (props: ExtendedControlProps) => {
             case AttributeControlType.TextBox: {
                 return (
                     <TextField
-                        InputLabelProps={{shrink: !isStringNullOrEmpty(value)}}
+                        InputLabelProps={{shrink: true}}
                         variant="outlined"
                         margin="normal"
                         fullWidth
                         id={id}
-                        key={`${id}-${Guid.create()}`}
+                        key={id}
                         label={label}
                         name={id}
-                        onChange={handleChange}
+                        value={valueOneOption}
+                        onChange={(e) => handleChange(e, ExtendedControlChangeValueType.Text)}
                     />
                 )
             }
             case AttributeControlType.Checkboxes: {
                 return isEmpty(multipleOptions) ? <></> :
-                    multipleOptions.map((obj, index) => {
-                        return (
-                            <FormControlLabel
-                                key={`control-label-${Guid.create()}`}
-                                control={
-                                    <Checkbox
-                                        checked={isEmpty(obj?.isSelected) ? false : obj.isSelected}
-                                        onChange={() => 
-                                            {
-                                                obj.isSelected = !obj.isSelected;
-                                                onChangeValue(obj);
-                                            }}
-                                    />
-                                }
-                                label={label}
-                                id={id}
-                            />
-                        )
-                    })
+                    <>
+                        <Box sx={{display: 'flex', flexDirection: 'row'}}>
+                            <Caption text={`${label}:`} key={`caption-${id}`}/>
+                            {checkedChexkBoxes.map((obj, index) => {
+                                return (
+                                        <FormControlLabel
+                                            key={`control-label-${index}`}
+                                            control={
+                                                <Checkbox
+                                                    //checked={obj?.isSelected} error uncontrolled -> controlled (vice versa)
+                                                    key={`control-label-checkbox-${index}`}
+                                                    onChange={() => 
+                                                        {
+                                                            setCheckedCheckBoxes(prevState => {
+                                                                let checkedCheckBox = prevState.find(x => x.id === obj.id);
+                                                                checkedCheckBox.isSelected = !checkedCheckBox.isSelected;
+                                                                return prevState;
+                                                            });
+                                                            onChangeValue(obj, ExtendedControlChangeValueType.Object);
+                                                        }}
+                                                />
+                                            }
+                                            label={obj.name}
+                                            id={id}
+                                        />
+                                )
+                            })}
+                        </Box>
+                    </>
+                    
             }
             case AttributeControlType.DropdownList: {
                 return (
@@ -78,8 +97,8 @@ const ExtendedControl = (props: ExtendedControlProps) => {
                             key={`select-${id}-${Guid.create()}`}
                             id={`select-${id}`}
                             fullWidth
-                            value={value}
-                            onChange={handleChange}
+                            value={valueOneOption}
+                            onChange={(e) => handleChange(e, ExtendedControlChangeValueType.Id)}
                         >
                             {
                                 isEmpty(multipleOptions) ? 
@@ -100,6 +119,17 @@ const ExtendedControl = (props: ExtendedControlProps) => {
             }
         }
     }
+
+    useEffect(() => {
+        if(checkedChexkBoxes?.length === 0) {
+            multipleOptions.forEach(obj => {
+                setCheckedCheckBoxes(prevState => {
+                    prevState.push(obj);
+                    return prevState;
+                })
+            });
+        }
+    }, []);
 
     return (<>{renderSwitch(attributeControlType)}</>);
 }
