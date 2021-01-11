@@ -1,4 +1,4 @@
-import isStringNullOrEmpty from "../../../../core/models/utils/StringExtension";
+import { isStringNullOrEmpty } from "../../../../core/models/utils/StringExtension";
 
 export default class RegisterValidator {
     constructor(){
