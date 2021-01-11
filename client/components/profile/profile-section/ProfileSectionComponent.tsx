@@ -2,6 +2,7 @@ import { Box, Button, Container, Divider, TextField, CircularProgress, Backdrop,
 import { Guid } from "guid-typescript";
 import { createRef, Dispatch, SetStateAction, useEffect, useState } from "react";
 import Paged from "../../../core/models/paged/Paged";
+import { isEmpty } from "../../../core/models/utils/ObjectExtension";
 import { isStringNullOrEmpty } from "../../../core/models/utils/StringExtension";
 import useExtractData from "../../../hooks/data/ExtracttDataHook";
 import useGetData from "../../../hooks/fetch/GetDataHook";
@@ -54,7 +55,7 @@ const ProfileSection = (props) => {
         }]
     });
     const [receivedModel, isLoading] = useGetData<ContactProfile>("/v1/account/details");
-    const [injectData, model, extractData, extractDataFromDerivedValue] = useExtractData<ContactProfile>(receivedModel);
+    const [injectData, model, extractData, extractDataFromDerivedValue] = useExtractData<ContactProfile>(isEmpty(receivedModel) ? new ContactProfile() : receivedModel);
     const [send] = useSendSubmitWithNotification("/v1/account/details", showLoading, hideLoading)
     const [countryId, setCountryId] = useState(Guid.createEmpty());
     const [fetchCountry, isLoadingCountry, responseCountry] = useInfinitePagedListAPI<CountryView>("/v1/country/all");
