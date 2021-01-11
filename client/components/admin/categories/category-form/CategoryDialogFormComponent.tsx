@@ -5,7 +5,7 @@ import LoadingContext from "../../../../contexts/LoadingContext";
 import NotificationContext from "../../../../contexts/NotificationContext";
 import { AttributeControlType } from "../../../../core/models/enums/AttributeControlType";
 import PagedList from "../../../../core/models/paged/PagedList";
-import isStringNullOrEmpty from "../../../../core/models/utils/StringExtension";
+import { isStringNullOrEmpty } from "../../../../core/models/utils/StringExtension";
 import useExtractData from "../../../../hooks/data/ExtracttDataHook";
 import useAuhtorizedPagedList from "../../../../hooks/fetch/pagedAPI/AuthorizedPagedAPIHook";
 import useSendSubmitWithNotification from "../../../../hooks/fetch/SendSubmitHook";
