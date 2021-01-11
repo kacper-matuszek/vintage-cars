@@ -169,7 +169,7 @@ namespace VintageCars.Service.ProductAnnouncement.Services
             var binary = new PictureBinary()
             {
                 Id = Guid.NewGuid(),
-                BinaryData = picture.Data,
+                BinaryData = picture.DataAsByteArray,
                 PictureId = picture.Picture.Id
             };
             _prictureBinaryRepository.Insert(binary);
