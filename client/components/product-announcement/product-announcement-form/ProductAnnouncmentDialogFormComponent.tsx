@@ -1,7 +1,8 @@
-import { Box, TextField, Tooltip } from "@material-ui/core";
+import { Box, TextField, Tooltip, Typography } from "@material-ui/core";
 import { Guid } from "guid-typescript";
 import { forwardRef, useContext, useImperativeHandle, useRef, useState } from "react";
 import NotificationContext from "../../../contexts/NotificationContext";
+import File from "../../../core/models/base/File";
 import { ExtendedControlChangeValueType } from "../../../core/models/enums/ExtendedControlChangeValueType";
 import { isEmpty } from "../../../core/models/utils/ObjectExtension";
 import { isStringNullOrEmpty } from "../../../core/models/utils/StringExtension";
@@ -10,9 +11,11 @@ import useGetData from "../../../hooks/fetch/GetDataHook";
 import useAuhtorizedPagedList from "../../../hooks/fetch/pagedAPI/AuthorizedPagedAPIHook";
 import CategoryShortInfoView from "../../admin/categories/categories-list/models/CategoryShortInfoView";
 import CategoryAttributeFullInfoView from "../../admin/categories/category-attributes/models/CategoryAttributeFullInfoView";
+import Caption from "../../base/controls/CaptionComponent";
 import ExtendedControl from "../../base/controls/ExtendedControlComponent";
 import SubmitDialogForm from "../../base/form-dialog/SubmitDialogFormComponent";
 import SimpleInfiniteSelect from "../../base/select/simple-infinite-select/SimpleInfiniteSelectComponent";
+import ImagesDropzoneArea from "../../base/upload-files/ImagesDropzoneAreaComponent";
 import { ValidatorManage, ValidatorType } from "../../login/models/validators/Validator";
 import CreateProductAnnouncement from "../models/CreateProductAnnouncement";
 import ProductAnnouncementAttribute from "../models/ProductAnnouncementAttribute";
@@ -27,6 +30,7 @@ const ProductAnnouncementDialogForm = forwardRef((props, ref) => {
     
     const [injectData, createModel, extractData, extractFromDerivedValue] = useExtractData<CreateProductAnnouncement>(new CreateProductAnnouncement());
     const productAttributes = useRef(new Array<ProductAnnouncementAttribute>());
+    const [images, setImages] = useState<File[]>(new Array<File>());
     const modelValidator = new ValidatorManage();
     modelValidator.setValidators({
         ["name"]: [{
@@ -70,7 +74,6 @@ const ProductAnnouncementDialogForm = forwardRef((props, ref) => {
         });
         if(modelValidator.isAllValid()) {
             createModel.attributes = productAttributes.current;
-            console.log(createModel);
         }
     }
 
@@ -151,7 +154,7 @@ const ProductAnnouncementDialogForm = forwardRef((props, ref) => {
                 ref={formDialog}
             >
                 <form noValidate>
-                    <Box sx={{display: "flex", width: "100%", flexDirection: "column"}}>
+                    <Box sx={{display: "flex", width: "100%", flexDirection: "column", marginBottom: 5}}>
                         <Box sx={{display: "flex", width: "100%"}}>
                             <Box sx={{display: "flex", width: "50%", marginRight: 1}}>
                                 <Tooltip 
@@ -274,6 +277,12 @@ const ProductAnnouncementDialogForm = forwardRef((props, ref) => {
                                 </>
                             }
                         </Box>
+                    </Box>
+                    <Box sx={{display: "flex", flexDirection: "column", width: "column", marginTop: 10}}>
+                        <Typography key="caption-images" variant="h6">
+                            Zdjęcia:
+                        </Typography>
+                        <ImagesDropzoneArea key="images-dropzone" setFiles={setImages}/>
                     </Box>
                 </form>
             </SubmitDialogForm>
