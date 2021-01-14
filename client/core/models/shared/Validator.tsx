@@ -1,6 +1,6 @@
-import IDictionary from "../../../../core/models/utils/IDictionary";
+import IDictionary from "../utils/IDictionary";
 
-export class ValidatorManage {
+export class ValidatorManager {
     private _validators : IValidatorDictionary;
     get validators(): IValidatorDictionary {
         return this._validators;

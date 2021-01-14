@@ -1,6 +1,6 @@
 import { TableCell, TableHead, TableRow, TableSortLabel } from "@material-ui/core"
 import Checkbox from '@material-ui/core/Checkbox';
-import isStringNullOrEmpty from "../../../../core/models/utils/StringExtension";
+import { isStringNullOrEmpty } from "../../../../core/models/utils/StringExtension";
 import { HeadCell, SimpleHeadCell } from "./HeadCell";
 import useStyles from "./table-head-style";
 

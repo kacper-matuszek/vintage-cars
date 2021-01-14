@@ -4,11 +4,13 @@ import { forwardRef, useContext, useImperativeHandle, useRef, useState } from "r
 import NotificationContext from "../../../contexts/NotificationContext";
 import File from "../../../core/models/base/File";
 import { ExtendedControlChangeValueType } from "../../../core/models/enums/ExtendedControlChangeValueType";
+import Picture from "../../../core/models/shared/Picture";
 import { isEmpty } from "../../../core/models/utils/ObjectExtension";
 import { isStringNullOrEmpty } from "../../../core/models/utils/StringExtension";
 import useExtractData from "../../../hooks/data/ExtracttDataHook";
 import useGetData from "../../../hooks/fetch/GetDataHook";
 import useAuhtorizedPagedList from "../../../hooks/fetch/pagedAPI/AuthorizedPagedAPIHook";
+import useSendSubmitWithNotification from "../../../hooks/fetch/SendSubmitHook";
 import CategoryShortInfoView from "../../admin/categories/categories-list/models/CategoryShortInfoView";
 import CategoryAttributeFullInfoView from "../../admin/categories/category-attributes/models/CategoryAttributeFullInfoView";
 import Caption from "../../base/controls/CaptionComponent";
@@ -16,8 +18,9 @@ import ExtendedControl from "../../base/controls/ExtendedControlComponent";
 import SubmitDialogForm from "../../base/form-dialog/SubmitDialogFormComponent";
 import SimpleInfiniteSelect from "../../base/select/simple-infinite-select/SimpleInfiniteSelectComponent";
 import ImagesDropzoneArea from "../../base/upload-files/ImagesDropzoneAreaComponent";
-import { ValidatorManage, ValidatorType } from "../../login/models/validators/Validator";
+import { ValidatorManager, ValidatorType } from "../../../core/models/shared/Validator";
 import CreateProductAnnouncement from "../models/CreateProductAnnouncement";
+import PictureModel from "../models/PictureModel";
 import ProductAnnouncementAttribute from "../models/ProductAnnouncementAttribute";
 
 interface ProductAnnouncementDialogProps {
@@ -31,7 +34,7 @@ const ProductAnnouncementDialogForm = forwardRef((props, ref) => {
     const [injectData, createModel, extractData, extractFromDerivedValue] = useExtractData<CreateProductAnnouncement>(new CreateProductAnnouncement());
     const productAttributes = useRef(new Array<ProductAnnouncementAttribute>());
     const [images, setImages] = useState<File[]>(new Array<File>());
-    const modelValidator = new ValidatorManage();
+    const modelValidator = new ValidatorManager();
     modelValidator.setValidators({
         ["name"]: [{
             type: ValidatorType.NotEmpty,
@@ -61,7 +64,7 @@ const ProductAnnouncementDialogForm = forwardRef((props, ref) => {
     const [categoryId, setCategoryId] = useState(Guid.createEmpty());
     const [fetchCategories, _, isLoadingCategories, categories] = useAuhtorizedPagedList<CategoryShortInfoView>("/v1/category/list");
     const [categoryAttributes, isLoading, getData] = useGetData<Array<CategoryAttributeFullInfoView>>("/v1/category/attribute/list", false);
-
+    const [send] = useSendSubmitWithNotification("/v1/productannouncement/create");
     const handleSubmit = async () => {
         if(productAttributes.current.length < categoryAttributes.length) {
             notification.showErrorMessage("Wszystkie atrybuty muszą być wypełnione.");
@@ -74,6 +77,9 @@ const ProductAnnouncementDialogForm = forwardRef((props, ref) => {
         });
         if(modelValidator.isAllValid()) {
             createModel.attributes = productAttributes.current;
+            createModel.pictures = images.map(i => new PictureModel(new Picture(Guid.create().toString(), i.type, i.name, i.name), i.dataAsBase64));
+            createModel.attributes.forEach(x => x.categoryAttributeValueId = isEmpty(x.categoryAttributeValueId) ? null : x.categoryAttributeValueId.toString());
+            await send(createModel);
         }
     }
 

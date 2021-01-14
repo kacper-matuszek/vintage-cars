@@ -3,8 +3,8 @@ import { IModel } from "../../../core/models/base/IModel";
 
 export default class ProductAnnouncementAttribute implements IModel {
     id: Guid;
-    categoryAttributeId: Guid;
-    categoryAttributeValueId: Guid;
+    categoryAttributeId: Guid | string;
+    categoryAttributeValueId: Guid | string;
     value: string;
 
     constructor(categoryAttributeId: Guid, value: string, categoryAttributeValueId: Guid) {

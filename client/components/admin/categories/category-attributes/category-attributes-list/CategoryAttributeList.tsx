@@ -10,7 +10,7 @@ import { useContext, useRef, useState } from "react";
 import useExtractData from "../../../../../hooks/data/ExtracttDataHook";
 import CategoryAttribute from "../models/CategoryAttribute";
 import { ValidatorManage, ValidatorType } from "../../../../login/models/validators/Validator";
-import isStringNullOrEmpty from "../../../../../core/models/utils/StringExtension";
+import { isStringNullOrEmpty } from "../../../../../core/models/utils/StringExtension";
 import useSendSubmitWithNotification from "../../../../../hooks/fetch/SendSubmitHook";
 import LoadingContext from "../../../../../contexts/LoadingContext";
 import SaveButton from "../../../../base/controls/SaveButtonComponent";
