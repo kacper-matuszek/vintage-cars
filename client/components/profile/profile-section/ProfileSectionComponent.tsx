@@ -10,7 +10,7 @@ import useInfinitePagedListAPI from "../../../hooks/fetch/pagedAPI/InfinitePaged
 import useSendSubmitWithNotification from "../../../hooks/fetch/SendSubmitHook";
 import useLoading from "../../../hooks/utils/LoadingHook";
 import SimpleInfiniteSelect from "../../base/select/simple-infinite-select/SimpleInfiniteSelectComponent";
-import { ValidatorManage, ValidatorType } from "../../login/models/validators/Validator";
+import { ValidatorManager, ValidatorType } from "../../../core/models/shared/Validator";
 import ContactProfile from "../models/ContactProfile";
 import CountryView from "../models/CountryView";
 import StateProvinceView from "../models/StateProvinceView";
@@ -27,7 +27,7 @@ const ProfileSection = (props) => {
         postalCode: "",
     });
 
-    const profileSectionValidatorManager = new ValidatorManage();
+    const profileSectionValidatorManager = new ValidatorManager();
     profileSectionValidatorManager.setValidators({
         ["firstName"]: [{
             type: ValidatorType.NotEmpty,

@@ -9,7 +9,7 @@ import { Button, TextField } from "@material-ui/core";
 import { useContext, useRef, useState } from "react";
 import useExtractData from "../../../../../hooks/data/ExtracttDataHook";
 import CategoryAttribute from "../models/CategoryAttribute";
-import { ValidatorManage, ValidatorType } from "../../../../login/models/validators/Validator";
+import { ValidatorManager, ValidatorType } from "../../../../../core/models/shared/Validator";
 import { isStringNullOrEmpty } from "../../../../../core/models/utils/StringExtension";
 import useSendSubmitWithNotification from "../../../../../hooks/fetch/SendSubmitHook";
 import LoadingContext from "../../../../../contexts/LoadingContext";
@@ -21,7 +21,7 @@ const headers: HeadCell<CategoryAttributeView>[] = [
 ]
 const CategoryAttributeList = () => {
     const formDialogRef = useRef(null);
-    const modelValidator = new ValidatorManage();
+    const modelValidator = new ValidatorManager();
     modelValidator.setValidators({
         ["name"]: [{
             type: ValidatorType.NotEmpty,

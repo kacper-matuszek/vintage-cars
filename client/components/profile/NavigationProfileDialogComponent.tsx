@@ -3,7 +3,7 @@ import PermContactCalendarIcon from '@material-ui/icons/PermContactCalendar';
 import ProfileSection from "./profile-section/ProfileSectionComponent";
 import { NavigationFormDialog } from "../base/form-dialog/NavigationFormDialogComponent";
 import { useState } from "react";
-import { ValidatorManage, ValidatorType } from "../login/models/validators/Validator";
+import { ValidatorManager, ValidatorType } from "../../core/models/shared/Validator";
 import ContactProfile from "./models/ContactProfile";
 
 const NavigationProfileDialog = (props) => {

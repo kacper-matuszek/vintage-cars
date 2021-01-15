@@ -4,7 +4,7 @@ import { isEmpty } from "../../../../../core/models/utils/ObjectExtension"
 import { isStringNullOrEmpty } from "../../../../../core/models/utils/StringExtension"
 import useExtractData from "../../../../../hooks/data/ExtracttDataHook"
 import SubmitDialogForm from "../../../../base/form-dialog/SubmitDialogFormComponent"
-import { ValidatorManage, ValidatorType } from "../../../../login/models/validators/Validator"
+import { ValidatorManager, ValidatorType } from "../../../../../core/models/shared/Validator"
 import CategoryAttributeValue from "../models/CategoryAttributeValue"
 
 interface ICategoryAttributeValueDialogFormProps {
@@ -17,7 +17,7 @@ const CategoryAttributeValueDialogForm = forwardRef((props: ICategoryAttributeVa
     const [errors, setErrors] = useState({
         name: ""
     });
-    const categoryAttributeValueValidator = new ValidatorManage();
+    const categoryAttributeValueValidator = new ValidatorManager();
     categoryAttributeValueValidator.setValidators({
         ["name"]: [{
             type: ValidatorType.NotEmpty,

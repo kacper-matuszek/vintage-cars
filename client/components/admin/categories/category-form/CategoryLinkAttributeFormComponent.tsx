@@ -5,7 +5,7 @@ import useExtractData from "../../../../hooks/data/ExtracttDataHook";
 import useAuhtorizedPagedList from "../../../../hooks/fetch/pagedAPI/AuthorizedPagedAPIHook";
 import FormDialog from "../../../base/FormDialogComponent";
 import SimpleInfiniteSelect from "../../../base/select/simple-infinite-select/SimpleInfiniteSelectComponent";
-import { ValidatorManage, ValidatorType } from "../../../login/models/validators/Validator";
+import { ValidatorManager, ValidatorType } from "../../../../core/models/shared/Validator";
 import CategoryAttributeMappingView from "../categories-list/models/CategoryAttributeMappingView";
 import CategoryAttributeView from "../category-attributes/models/CategoryAttributeView";
 import CategoryAttributeMapping from "./models/CategoryAttributeMapping";
@@ -30,7 +30,7 @@ const CategoryLinkAttribute = (props: CategoryLinkAttributeProps) => {
             return state
         });
     }
-    const categoryAttributeValidator = new ValidatorManage();
+    const categoryAttributeValidator = new ValidatorManager();
     categoryAttributeValidator.setValidators({
         ["categoryAttributeId"]: [{
             type: ValidatorType.NotEmpty,

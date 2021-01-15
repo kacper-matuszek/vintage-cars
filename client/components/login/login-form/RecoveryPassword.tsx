@@ -1,7 +1,7 @@
 import { Button, TextField } from "@material-ui/core";
 import { useRef, useState } from "react";
 import FormDialog from "../../base/FormDialogComponent";
-import { ValidatorManage, ValidatorType } from "../models/validators/Validator";
+import { ValidatorManager, ValidatorType } from "../../../core/models/shared/Validator";
 
 const RecoveryPassword = (props) => {
     const formDialogRef = useRef(null);
@@ -11,7 +11,7 @@ const RecoveryPassword = (props) => {
     });
 
     /*validators*/
-    const validatorManager = new ValidatorManage();
+    const validatorManager = new ValidatorManager();
     validatorManager.setValidators({
         ["email"]: [{
             type: ValidatorType.NotEmpty,
