@@ -79,7 +79,7 @@ const ProductAnnouncementDialogForm = forwardRef((props, ref) => {
             createModel.attributes = productAttributes.current;
             createModel.pictures = images.map(i => new PictureModel(new Picture(Guid.create().toString(), i.type, i.name, i.name), i.dataAsBase64));
             createModel.attributes.forEach(x => x.categoryAttributeValueId = isEmpty(x.categoryAttributeValueId) ? null : x.categoryAttributeValueId.toString());
-            await send(createModel);
+            await send(createModel).finally(() => formDialog.current.closeForm());
         }
     }
 

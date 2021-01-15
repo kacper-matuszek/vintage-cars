@@ -13,7 +13,7 @@ import SaveButton from "../../../base/controls/SaveButtonComponent";
 import FormDialog from "../../../base/FormDialogComponent"
 import ExtendedTable from "../../../base/table-list/extended-table/ExtendedTableComponent";
 import TableContent from "../../../base/table-list/table-content/TableContentComponent";
-import { ValidatorManage, ValidatorType } from "../../../login/models/validators/Validator";
+import { ValidatorManager, ValidatorType } from "../../../../core/models/shared/Validator";
 import CategoryAttributeMappingView from "../categories-list/models/CategoryAttributeMappingView";
 import CategoryAttributeLinkAttributeValue from "../category-attributes/category-attributes-form/CategoryAttributeLinkAttributeValueComponent";
 import useStyles from "./category-dialog-style";
@@ -31,7 +31,7 @@ const CategoryDialogForm = forwardRef((props: CategoryDialogProps, ref) => {
     const [isEdit, setIsEdit] = useState(false);
     const formDialogRef = useRef(null);
     const [categoryAttributeMapping, setCategoryAttributeMapping]= useState(new PagedList<CategoryAttributeMappingView>());
-    const modelValidator = new ValidatorManage();
+    const modelValidator = new ValidatorManager();
     modelValidator.setValidators({
         ["name"]: [{
             type: ValidatorType.NotEmpty,
