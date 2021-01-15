@@ -11,12 +11,12 @@ namespace VintageCars.Domain.Utils
 
         public byte[] GetDataAsByteArray()
         {
-            return DataAsByteArray.Length > 0 ? DataAsByteArray : Convert.FromBase64String(DataAsBase64);
+            return DataAsByteArray?.Length > 0 ? DataAsByteArray : Convert.FromBase64String(DataAsBase64);
         }
 
         public string GetDataAsBase64()
         {
-            return DataAsByteArray.Length > 0 ? Convert.ToBase64String(DataAsByteArray) : DataAsBase64;
+            return DataAsByteArray?.Length > 0 ? Convert.ToBase64String(DataAsByteArray) : DataAsBase64;
         }
     }
 }
