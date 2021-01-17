@@ -7,5 +7,6 @@ namespace VintageCars.Data.Models
     {
         public Guid ProductAnnouncementId { get; set; }
         public Guid PictureId { get; set; }
+        public bool IsMain { get; set; }
     }
 }
