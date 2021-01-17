@@ -18,8 +18,6 @@
 
   <ItemGroup>
     <Folder Include="ProductAnnouncement\Validators\" />
-    <Folder Include="ProductAnnouncement\Response\" />
-    <Folder Include="ProductAnnouncement\Queries\" />
     <Folder Include="Settings\Models\" />
     <Folder Include="Shared\Request\" />
   </ItemGroup>

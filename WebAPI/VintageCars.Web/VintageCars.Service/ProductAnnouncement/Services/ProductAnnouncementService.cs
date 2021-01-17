@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Dynamic.Core;
 using System.Linq.Expressions;
 using Nop.Core;
 using Nop.Core.Domain.Media;
@@ -196,6 +197,37 @@ namespace VintageCars.Service.ProductAnnouncement.Services
 
             var productAnnouncementPictureMappings = GetProductAnnouncementPictureMappings(papm => papm.ProductAnnouncementId == productAnnouncementId);
             _productAnnouncementPictureMappingRepository.Delete(productAnnouncementPictureMappings);
+        }
+
+        #endregion
+
+        #region Product Announcement Picture
+
+        public virtual IDictionary<Guid, PictureModel> GetMainPicturesForProductAnnouncements(IEnumerable<Guid> productAnnouncementIds)
+        {
+            var picturesWithIds = (from papm in _productAnnouncementPictureMappingRepository.Table
+                                  join pic in _pictureRepository.Table on papm.PictureId equals pic.Id
+                                  join picBin in _prictureBinaryRepository.Table on pic.Id equals picBin.PictureId
+                                  where papm.IsMain && productAnnouncementIds.Contains(papm.ProductAnnouncementId)
+                                  select new
+                                  {
+                                      papm.ProductAnnouncementId,
+                                      PictureModel = new PictureModel()
+                                      {
+                                          Id = pic.Id,
+                                          AltAttribute = pic.AltAttribute,
+                                          TitleAttribute = pic.TitleAttribute,
+                                          MimeType = pic.MimeType,
+                                          DataAsByteArray = picBin.BinaryData,
+                                          IsMain = papm.IsMain
+                                      }
+                                  }).ToDictionary(p => p.ProductAnnouncementId, p => p.PictureModel);
+
+            foreach (var (_, pictureModel) in picturesWithIds)
+            {
+                pictureModel.DataAsBase64 = pictureModel.GetDataAsBase64();
+            }
+            return picturesWithIds;
         }
 
         #endregion

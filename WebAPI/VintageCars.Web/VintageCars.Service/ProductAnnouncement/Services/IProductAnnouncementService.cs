@@ -30,5 +30,6 @@ namespace VintageCars.Service.ProductAnnouncement.Services
         IList<ProductAnnouncementPictureMapping> GetProductAnnouncementPictureMappings(Expression<Func<ProductAnnouncementPictureMapping, bool>> predicate);
         void DeleteProductAnnouncementPictureMapping(Guid productAnnouncementPictureMappingId);
         void DeleteProductAnnoucementPictureMappings(Guid productAnnouncementId);
+        IDictionary<Guid, PictureModel> GetMainPicturesForProductAnnouncements(IEnumerable<Guid> productAnnouncementIds);
     }
 }
