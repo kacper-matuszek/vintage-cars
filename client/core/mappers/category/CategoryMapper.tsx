@@ -11,6 +11,7 @@ export default class CategoryMapper implements IMapper<CategoryView, Category>{
         category.id = source.id;
         category.name = source.name;
         category.description = source.description;
+        category.isPublished = source.isPublished;
         return category;
     }
     toSource(destination: Category): CategoryView {
@@ -18,6 +19,7 @@ export default class CategoryMapper implements IMapper<CategoryView, Category>{
         categoryView.id = destination.id;
         categoryView.name = destination.name;
         categoryView.description = destination.description;
+        categoryView.isPublished = destination.isPublished;
         return categoryView;
     }
 }
