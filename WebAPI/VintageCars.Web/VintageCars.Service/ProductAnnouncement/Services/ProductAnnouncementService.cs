@@ -156,21 +156,22 @@ namespace VintageCars.Service.ProductAnnouncement.Services
             if(picture == null)
                 throw new ArgumentNullException(nameof(picture));
 
-            if(picture.Picture.Id == default(Guid))
-                picture.Picture.Id = Guid.NewGuid();
+            if(picture.Id == default(Guid))
+                picture.Id = Guid.NewGuid();
 
-            _pictureRepository.Insert(picture.Picture);
+            _pictureRepository.Insert(picture);
             _productAnnouncementPictureMappingRepository.Insert(new ProductAnnouncementPictureMapping()
             {
                 ProductAnnouncementId =  productAnnouncementId,
-                PictureId = picture.Picture.Id
+                PictureId = picture.Id,
+                IsMain = picture.IsMain,
             });
 
             var binary = new PictureBinary()
             {
                 Id = Guid.NewGuid(),
                 BinaryData = picture.DataAsByteArray?.Length == null || picture.DataAsByteArray?.Length  == 0 ? picture.GetDataAsByteArray() : picture.DataAsByteArray,
-                PictureId = picture.Picture.Id
+                PictureId = picture.Id
             };
             _prictureBinaryRepository.Insert(binary);
         }
