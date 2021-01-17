@@ -1,4 +1,4 @@
-import PictureModel from "./PictureModel";
+import Picture from "../../../core/models/shared/Picture";
 import ProductAnnouncementAttribute from "./ProductAnnouncementAttribute";
 
 export default class CreateProductAnnouncement {
@@ -6,5 +6,10 @@ export default class CreateProductAnnouncement {
     shortDescription: string;
     description: string;
     attributes: Array<ProductAnnouncementAttribute>;
-    pictures: Array<PictureModel>;
+    pictures: Array<Picture>;
+
+    constructor() {
+        this.attributes = new Array<ProductAnnouncementAttribute>();
+        this.pictures = new Array<Picture>();
+    }
 }
