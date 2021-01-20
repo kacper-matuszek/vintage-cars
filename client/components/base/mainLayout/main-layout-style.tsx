@@ -6,7 +6,7 @@ export const layoutStyle = makeStyles((theme: Theme) =>
             position: 'relative',
             display: 'flex',
             width: '100%',
-            height: '100vh',
+            minHeight: '100vh',
             marginTop: '7vh',
         },
         layoutContainerAdmin: {
@@ -32,8 +32,9 @@ export const layoutStyle = makeStyles((theme: Theme) =>
             flexFlow: 'column',
             padding: '2vh',
             width: '100%',
-            height: '100vh',
-            margin: '5vh 0vh',
+            minHeight: '100vh',
+            marginTop: '5vh',
+            marginBottom: '-5vh',
             zIndex: 1,
         },
         footerTypography: {
