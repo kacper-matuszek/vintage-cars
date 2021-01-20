@@ -20,7 +20,6 @@ import SimpleInfiniteSelect from "../../base/select/simple-infinite-select/Simpl
 import ImagesDropzoneArea from "../../base/upload-files/ImagesDropzoneAreaComponent";
 import { ValidatorManager, ValidatorType } from "../../../core/models/shared/Validator";
 import CreateProductAnnouncement from "../models/CreateProductAnnouncement";
-import PictureModel from "../models/PictureModel";
 import ProductAnnouncementAttribute from "../models/ProductAnnouncementAttribute";
 
 interface ProductAnnouncementDialogProps {
@@ -34,6 +33,7 @@ const ProductAnnouncementDialogForm = forwardRef((props, ref) => {
     const [injectData, createModel, extractData, extractFromDerivedValue] = useExtractData<CreateProductAnnouncement>(new CreateProductAnnouncement());
     const productAttributes = useRef(new Array<ProductAnnouncementAttribute>());
     const [images, setImages] = useState<File[]>(new Array<File>());
+    const [mainImage, setMainImage] = useState<File[]>(new Array<File>());
     const modelValidator = new ValidatorManager();
     modelValidator.setValidators({
         ["name"]: [{
@@ -76,10 +76,17 @@ const ProductAnnouncementDialogForm = forwardRef((props, ref) => {
             shortDescription: modelValidator.getMessageByKey("shortDescription")
         });
         if(modelValidator.isAllValid()) {
+            if(mainImage.length === 1) {
+                createModel.pictures.push(...mainImage.map(i => new Picture(Guid.create().toString(), i.type, i.name, i.name, i.dataAsBase64, true)));
+            }
             createModel.attributes = productAttributes.current;
-            createModel.pictures = images.map(i => new PictureModel(new Picture(Guid.create().toString(), i.type, i.name, i.name), i.dataAsBase64));
+            createModel.pictures.push(...images.map(i => new Picture(Guid.create().toString(), i.type, i.name, i.name, i.dataAsBase64)));
             createModel.attributes.forEach(x => x.categoryAttributeValueId = isEmpty(x.categoryAttributeValueId) ? null : x.categoryAttributeValueId.toString());
-            await send(createModel).finally(() => formDialog.current.closeForm());
+            await send(createModel).finally(() => 
+            {
+                injectData(new CreateProductAnnouncement());
+                formDialog.current.closeForm();
+            });
         }
     }
 
@@ -284,11 +291,19 @@ const ProductAnnouncementDialogForm = forwardRef((props, ref) => {
                             }
                         </Box>
                     </Box>
-                    <Box sx={{display: "flex", flexDirection: "column", width: "column", marginTop: 10}}>
-                        <Typography key="caption-images" variant="h6">
-                            Zdjęcia:
-                        </Typography>
-                        <ImagesDropzoneArea key="images-dropzone" setFiles={setImages}/>
+                    <Box sx={{display: "flex", flexDirection: "row", width: "100%", marginTop: 10}}>
+                        <Box sx={{display: "flex", flexDirection: "column", marginRight: 5, flexGrow: 1}}>
+                            <Typography key="caption-main-image" variant="h6">
+                                Główne zdjęcie: 
+                            </Typography>
+                            <ImagesDropzoneArea key="main-image-dropzone" setFiles={setMainImage} imageLimit={1}/>
+                        </Box>
+                        <Box sx={{display: "flex", flexDirection: "column",  flexGrow: 5}}>
+                            <Typography key="caption-images" variant="h6">
+                                Zdjęcia:
+                            </Typography>
+                            <ImagesDropzoneArea key="images-dropzone" setFiles={setImages}/>
+                        </Box>
                     </Box>
                 </form>
             </SubmitDialogForm>
