@@ -8,28 +8,29 @@ import Typography from '@material-ui/core/Typography';
 
 interface MediaCardProps {
     title: string,
-    description: string;
-    imageData: string
+    description: string,
+    imageData: string,
+    imageMimeType: string,
 }
 
 const MediaCard = (props: MediaCardProps) => {
     const classes = useStyles();
-    const { title, description, imageData } = props;
+    const { title, description, imageData, imageMimeType } = props;
 
     return (
-      <Card className={classes.root}>
+      <Card className={classes.root} elevation={5} onClick={() => alert('hej')}>
       <CardActionArea>
         <CardMedia
           className={classes.media}
           component='img'
-          src={imageData}
+          src={`data:${imageMimeType};base64,${imageData}`}
           title={title}
         />
-        <CardContent>
+        <CardContent className={classes.cardContent}>
           <Typography gutterBottom variant="h5" component="h2">
             {title}
           </Typography>
-          <Typography variant="body2" color="textSecondary" component="p">
+          <Typography variant="body2" color="textPrimary" component="p" style={{fontStyle: "italic"}}>
             {description}
           </Typography>
         </CardContent>
