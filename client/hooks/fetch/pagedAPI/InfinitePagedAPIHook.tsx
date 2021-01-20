@@ -32,6 +32,12 @@ const useInfinitePagedListAPI = <T extends IModel>(url: string, onError?: (messa
                 map.set(el.id, el);
                 return true;
             });
+            prevState.hasNextPage = data.hasNextPage;
+            prevState.hasPreviousPage = data.hasPreviousPage;
+            prevState.totalCount = data.totalCount;
+            prevState.totalPages = data.totalPages;
+            prevState.pageIndex = data.pageIndex;
+            prevState.pageSize =  data.pageSize;
             return prevState;
         })
     }, [response.source])
