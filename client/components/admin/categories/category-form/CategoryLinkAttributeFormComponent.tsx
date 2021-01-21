@@ -9,6 +9,7 @@ import { ValidatorManager, ValidatorType } from "../../../../core/models/shared/
 import CategoryAttributeMappingView from "../categories-list/models/CategoryAttributeMappingView";
 import CategoryAttributeView from "../category-attributes/models/CategoryAttributeView";
 import CategoryAttributeMapping from "./models/CategoryAttributeMapping";
+import useLocale from "../../../../hooks/utils/LocaleHook";
 
 interface CategoryLinkAttributeProps {
     onSubmit: (categoryAttributeMapping: CategoryAttributeMappingView) => void,
@@ -17,6 +18,7 @@ interface CategoryLinkAttributeProps {
 
 const CategoryLinkAttribute = (props: CategoryLinkAttributeProps) => {
     const formRef = useRef(null);
+    const loc = useLocale('common', ['categories', 'category', 'link-attribute']);
     const [fetchCategoryAttribute, fetchCategoryWithParam, isLoading, categoryAttribtue] = useAuhtorizedPagedList<CategoryAttributeView>('/admin/v1/category/attribute/list');
     const [injectData, model, extractData, extractDataFromDerivedValue] = useExtractData<CategoryAttributeMapping>(new CategoryAttributeMapping());
     const [errors, setErrors] = useState({
@@ -35,13 +37,13 @@ const CategoryLinkAttribute = (props: CategoryLinkAttributeProps) => {
         ["categoryAttributeId"]: [{
             type: ValidatorType.NotEmpty,
             paramValue: null,
-            message: "Atrybut jest wymagany.",
+            message: loc.transModel<CategoryAttributeMapping>("categoryAttributeId", ['validators', 'not-empty']),
             isValid: true
         }],
         ["attributeControlType"]: [{
             type: ValidatorType.NotEmpty,
             paramValue: null,
-            message: "Kontrolka jest wymagana.",
+            message: loc.transModel<CategoryAttributeMapping>("attributeControlType", ['validators', 'not-empty']),
             isValid: true
         }]
     });
@@ -75,8 +77,8 @@ const CategoryLinkAttribute = (props: CategoryLinkAttributeProps) => {
     const isReadonly = () => props.disabled !== undefined ? props.disabled : false;
     return (
         <FormDialog
-            title="Łączenie atrybutu z kategorią"
-            caption="Połącz atrybut"
+            title={loc.trans('title')}
+            caption={loc.trans('caption')}
             variantCaption="contained"
             onCancel={handleCancel}
             showCancel={true}
@@ -85,13 +87,13 @@ const CategoryLinkAttribute = (props: CategoryLinkAttributeProps) => {
             disableOpenButton={props.disabled}
             actions={
                 <Button variant="contained" color="primary" type="submit" onClick={handleSubmit} disabled={isReadonly()}>
-                    Zapisz
+                    {loc.trans(['submit', 'caption'])}
                 </Button>
             }
         >
             <SimpleInfiniteSelect
                 id="category-attribute"
-                label="Atrybut"
+                label={loc.transModel<CategoryAttributeMapping>("categoryAttributeId", 'label')}
                 maxHeight="200px"
                 fullWidth={true}
                 required
@@ -111,7 +113,7 @@ const CategoryLinkAttribute = (props: CategoryLinkAttributeProps) => {
                     htmlFor="attribute-control"
                     disabled={isReadonly()}
                     error={!!errors.attributeControlType}>
-                        Kontrolka
+                        {loc.transModel<CategoryAttributeMapping>("attributeControlType", 'label')}
                 </InputLabel>
                 <Select
                     id="select-attribute-control"

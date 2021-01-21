@@ -23,6 +23,7 @@ import { useRouter } from "next/router";
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import AdminNavigationBar from "../../admin/navigation-bar/AdminNavigationBar";
 import useIsAdmin from "../../../hooks/authorization/IsAdminHook";
+import useLocale from "../../../hooks/utils/LocaleHook";
 
 type Props = {
     isAuthorized?:boolean
@@ -31,6 +32,7 @@ type Props = {
 }
 const MenuAppBar = ({isAuthorized, accountMenuChildren, listMenu}: Props) => {
     const classes = useStyles();
+    const loc = useLocale('common', ['base', 'menu-bar']);
     const isAdmin = useIsAdmin();
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
@@ -74,7 +76,7 @@ const MenuAppBar = ({isAuthorized, accountMenuChildren, listMenu}: Props) => {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
-            Your logo and company name
+            {loc.trans('title')}
           </Typography>
           {isAuthorized ? (
             <div>
@@ -108,17 +110,17 @@ const MenuAppBar = ({isAuthorized, accountMenuChildren, listMenu}: Props) => {
                     <ListItemIcon>
                         <ExitToApp />
                     </ListItemIcon>
-                <Typography variant="inherit">Wyloguj</Typography>
+                <Typography variant="inherit">{loc.trans(['buttons', 'logout'])}</Typography>
                 </MenuItem>
               </Menu>
             </div>
           ) : <Box className={classes.loginRegister}>
                 <ExtendedBox>
                   <Button variant="contained" color="secondary" onClick={() => router.push('/register')}>
-                    Rejestracja
+                    {loc.trans(['buttons', 'register'])}
                   </Button>
                   <Button variant="contained" color="secondary" onClick={() => router.push('/login')}>
-                    Logowanie
+                    {loc.trans(['buttons', 'login'])}
                   </Button>
                 </ExtendedBox>
               </Box>}

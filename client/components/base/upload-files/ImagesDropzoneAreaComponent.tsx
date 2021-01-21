@@ -1,6 +1,7 @@
 import {DropzoneArea} from "material-ui-dropzone";
 import { Dispatch, SetStateAction, useState } from "react";
 import File from "../../../core/models/base/File"
+import useLocale from "../../../hooks/utils/LocaleHook";
 
 interface ImagesDropzoneAreaProps {
     setFiles: Dispatch<SetStateAction<File[]>>,
@@ -9,7 +10,7 @@ interface ImagesDropzoneAreaProps {
 
 const ImagesDropzoneArea = (props: ImagesDropzoneAreaProps) => {
     const {setFiles, imageLimit } = props;
-
+    const loc = useLocale('common', ['base', 'images-dropzone']);
     const toBase64 = (data: string) => data.split(',')[1];
     const onDropHandler = (files) => {
         let promises = [];
@@ -45,7 +46,7 @@ const ImagesDropzoneArea = (props: ImagesDropzoneAreaProps) => {
             filesLimit={imageLimit}
             showFileNames
             showAlerts={false}
-            dropzoneText={"Przeciągnij i upuść obrazek lub kliknij"}
+            dropzoneText={loc.trans('title')}
             acceptedFiles={["image/png"]}
             showPreviewsInDropzone={true}/>
     )

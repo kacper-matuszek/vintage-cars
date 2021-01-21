@@ -1,6 +1,7 @@
 import { Guid } from "guid-typescript";
 import { useRef, useState } from "react";
 import useSendSubmitWithNotification from "../../../../../hooks/fetch/SendSubmitHook";
+import useLocale from "../../../../../hooks/utils/LocaleHook";
 import SubmitDialogForm from "../../../../base/form-dialog/SubmitDialogFormComponent";
 import CategoryAttributeValueList from "../../category-attribute-values/category-attribute-values-list/CategoryAttributeValueListComponent";
 import CategoryAttributeValueView from "../../category-attribute-values/models/CategoryAttributeValueView";
@@ -13,6 +14,7 @@ interface ICategoryAttributeLinkAttributeValueProps {
 }
 const CategoryAttributeLinkAttributeValue = (props: ICategoryAttributeLinkAttributeValueProps) => {
     const {categoryAttributeName, categoryAttributeId, categoryId} = props;
+    const loc = useLocale('common', ['categories', 'category-attributes', 'link']);
     const formDialog = useRef(null);
     const [categoryAttributeValues, setCategoryAttributeValues] = useState<CategoryAttributeValueView[]>([]);
     const [send] = useSendSubmitWithNotification("/admin/v1/category/attribute-value/link");
@@ -31,9 +33,9 @@ const CategoryAttributeLinkAttributeValue = (props: ICategoryAttributeLinkAttrib
     }
     return (
         <SubmitDialogForm
-            title={`Łączenie atrybutu ${categoryAttributeName} z wartościami`}
+            title={loc.transQuery('title', { categoryAttributeName: categoryAttributeName})}
             handleSubmit={handleSubmit}
-            caption="Połącz wartości"
+            caption={loc.trans('caption')}
             showLink={false}
             maxWidth="md"
             disableOpenButton={false}

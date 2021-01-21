@@ -6,12 +6,14 @@ import useExtractData from "../../../../../hooks/data/ExtracttDataHook"
 import SubmitDialogForm from "../../../../base/form-dialog/SubmitDialogFormComponent"
 import { ValidatorManager, ValidatorType } from "../../../../../core/models/shared/Validator"
 import CategoryAttributeValue from "../models/CategoryAttributeValue"
+import useLocale from "../../../../../hooks/utils/LocaleHook"
 
 interface ICategoryAttributeValueDialogFormProps {
     onSubmit: (model: CategoryAttributeValue, isNew: boolean) => void
 }
 const CategoryAttributeValueDialogForm = forwardRef((props: ICategoryAttributeValueDialogFormProps, ref) => {
     const formDialog = useRef(null);
+    const loc = useLocale('common', ['categories', 'category-attribute-values', 'form']);
     const [isEdit, setIsEdit] = useState(false);
     const [injectData, model, extractData, extractFromDerivedValue] = useExtractData<CategoryAttributeValue>(new CategoryAttributeValue());
     const [errors, setErrors] = useState({
@@ -22,7 +24,7 @@ const CategoryAttributeValueDialogForm = forwardRef((props: ICategoryAttributeVa
         ["name"]: [{
             type: ValidatorType.NotEmpty,
             paramValue: null,
-            message: "Nazwa jest wymagana.",
+            message: loc.transModel<CategoryAttributeValue>("name", ['validators', 'not-empty']),
             isValid: true
         }]
     });
@@ -51,10 +53,10 @@ const CategoryAttributeValueDialogForm = forwardRef((props: ICategoryAttributeVa
             injectData(model);
             formDialog.current.openForm();
         }
-    }))
+    })) 
     return (
         <SubmitDialogForm
-            title={`${isEdit ? "Edycja" : "Dodawanie"} wartości atrybutu`}
+            title={loc.transQuery(['title', 'name'], {mode: loc.trans(isEdit ? 'edit' : 'create')})}
             handleSubmit={handleSubmit}
             onCancel={handleCancel}
             disableOpenButton={true}
@@ -71,12 +73,12 @@ const CategoryAttributeValueDialogForm = forwardRef((props: ICategoryAttributeVa
                     required
                     fullWidth
                     id="name"
-                    label="Nazwa"
+                    label={loc.transModel<CategoryAttributeValue>("name", 'label')}
                     name="name"
                     onChange={(name)  => extractData("name", name)}/>
                 <Box sx={{display: 'flex', alignItems: 'center'}}>
                     <Box sx={{flexGrow: 3}}>
-                        <Tooltip title="Dla konkretnej listy może istnieć tylko jedna domyślna wybrana wartość atrybutu.">
+                        <Tooltip title={loc.transModel<CategoryAttributeValue>("isPreSelected", 'tooltip')}>
                             <FormControlLabel
                                 control={
                                     <Checkbox
@@ -84,7 +86,7 @@ const CategoryAttributeValueDialogForm = forwardRef((props: ICategoryAttributeVa
                                         onChange={() => extractFromDerivedValue("isPreSelected", !model?.isPreSelected)}
                                     />
                                 }
-                                label="Domyślnie wybrany"
+                                label={loc.transModel<CategoryAttributeValue>("isPreSelected", 'label')}
                             />
                         </Tooltip>
                     </Box>
@@ -100,7 +102,7 @@ const CategoryAttributeValueDialogForm = forwardRef((props: ICategoryAttributeVa
                             margin="normal"
                             fullWidth
                             id="displayOrder"
-                            label="Pozycja"
+                            label={loc.transModel<CategoryAttributeValue>("displayOrder", 'label')}
                             name="displayOrder"
                             value={model?.displayOrder === undefined ? () => {extractData("displayOrder", 0); return 0} : model.displayOrder}
                             onChange={(displayOrder) => extractData("displayOrder", displayOrder)}

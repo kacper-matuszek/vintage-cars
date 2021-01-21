@@ -4,25 +4,27 @@ import LoadingContext from "../../../../contexts/LoadingContext";
 import CategoryMapper from "../../../../core/mappers/category/CategoryMapper";
 import useAuhtorizedPagedList from "../../../../hooks/fetch/pagedAPI/AuthorizedPagedAPIHook";
 import useSendSubmitWithNotification from "../../../../hooks/fetch/SendSubmitHook";
+import useLocale from "../../../../hooks/utils/LocaleHook";
 import ExtendedTable from "../../../base/table-list/extended-table/ExtendedTableComponent";
 import TableContent from "../../../base/table-list/table-content/TableContentComponent";
 import { HeadCell } from "../../../base/table-list/table-head/HeadCell";
 import CategoryDialogForm from "../category-form/CategoryDialogFormComponent";
 import CategoryView from "./models/CategoryView";
 
-const headers: HeadCell<CategoryView>[] = [
-    {id: 'name', label: 'nazwa'},
-    {id: 'description', label: 'Opis'},
-    {id: 'isPublished', label: 'Opublikowane'},
-    {id: 'isArchival', label: 'Archiwalny'}
-]
-
 const CategoryList = () => {
+    const loc = useLocale('common', ['admin', 'categories', 'categories-list']);
+    const headers: HeadCell<CategoryView>[] = [
+        {id: 'name', label: loc.trans(['table', 'headers', 'name'])},
+        {id: 'description', label: loc.trans(['table', 'headers', 'description'])},
+        {id: 'isPublished', label: loc.trans(['table', 'headers', 'published'])},
+        {id: 'isArchival', label: loc.trans(['table', 'headers', 'archival'])}
+    ]
+
     const categoryForm = useRef(null);
     const categoryMapper = new CategoryMapper();
     const {showLoading, hideLoading} = useContext(LoadingContext);
     const [fetchCategories, fetchCategoryWithParam, isLoading, categories, refresh] = useAuhtorizedPagedList<CategoryView>('/admin/v1/Category/list');
-    const [sendDelete] = useSendSubmitWithNotification("/admin/v1/category/delete", showLoading, hideLoading, "Zarchiwizowano pomyślnie.");
+    const [sendDelete] = useSendSubmitWithNotification("/admin/v1/category/delete", showLoading, hideLoading, loc.trans(['delete', 'message', 'success']));
 
     const handleDelete = async (ids: Guid[]) => {
         (async () => ids.forEach(id => {
@@ -44,7 +46,7 @@ const CategoryList = () => {
             <ExtendedTable<CategoryView>
                 fetchData={fetchCategories}
                 rows={categories}
-                title="Kategorie"
+                title={loc.trans(['table', 'title'])}
                 onDeleteClick={(items) => handleDelete(items)}
                 onAddClick={openCategoryForm}
                 onEditClick={(model) => handleEdit(model)}

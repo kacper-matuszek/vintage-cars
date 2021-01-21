@@ -3,6 +3,7 @@ import useStyles from "./table-toolbar-style";
 import clsx from "clsx";
 import DeleteIcon from '@material-ui/icons/Delete';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
+import useLocale from "../../../../hooks/utils/LocaleHook";
 
 interface TableToolbarProps {
     numSelected: number,
@@ -13,6 +14,7 @@ interface TableToolbarProps {
 
 const TableToolbar = (props: TableToolbarProps) => {
     const classes = useStyles();
+    const loc = useLocale('common', ['base', 'table-list', 'toolbar']);
     const { numSelected, title, onDeleteClick, onAddClick }  = props;
 
     const handleDeleteClick = (e) => {
@@ -32,7 +34,7 @@ const TableToolbar = (props: TableToolbarProps) => {
     >
       {numSelected > 0 ? (
         <Typography className={classes.title} color="inherit" variant="subtitle1" component="div">
-          {numSelected} wybrano
+          {loc.transQuery('selected', {amount: numSelected})} 
         </Typography>
       ) : (
         <Typography className={classes.title} variant="h6" id="tableTitle" component="div">
@@ -41,12 +43,12 @@ const TableToolbar = (props: TableToolbarProps) => {
       )}
       {numSelected > 0 ? 
         onDeleteClick !== undefined ? 
-        (<Tooltip title="Usuń">
+        (<Tooltip title={loc.trans('delete-tooltip')}>
           <IconButton aria-label="delete" onClick={handleDeleteClick}>
             <DeleteIcon />
           </IconButton>
         </Tooltip>) : (<></>)
-       : onAddClick ? ( <Tooltip title="Dodaj">
+       : onAddClick ? ( <Tooltip title={loc.trans('add-tooltip')}>
               <IconButton aria-label="add" onClick={handleAddClick}>
                 <AddCircleIcon color="primary" fontSize="large" />
               </IconButton>

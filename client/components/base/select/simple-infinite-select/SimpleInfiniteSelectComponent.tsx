@@ -5,6 +5,7 @@ import { Guid } from "guid-typescript";
 import { useEffect, useRef, useState } from "react"
 import ISelectable from "../../../../core/models/base/ISelectable";
 import Paged from "../../../../core/models/paged/Paged";
+import useLocale from "../../../../hooks/utils/LocaleHook";
 
 interface SimpleInfiniteSelectProps {
     id: string,
@@ -31,6 +32,7 @@ const useStyles = makeStyles(theme => ({
 }))
 const SimpleInfiniteSelect = (props: SimpleInfiniteSelectProps) => {
     const classes = useStyles();
+    const loc = useLocale('common', ['base', 'simple-infinite-select']);
     const paged = useRef(new Paged(-1, props.pageSize));
     const [open, setOpen] = useState(false);
     const [defaultValue, setDefaultValue] = useState(null);
@@ -88,7 +90,7 @@ const SimpleInfiniteSelect = (props: SimpleInfiniteSelectProps) => {
                 getOptionLabel={(option) => option.name}
                 value={defaultValue}
                 options={props.data}
-                noOptionsText="Brak"
+                noOptionsText={loc.trans('empty')}
                 loading={props.isLoading}
                 ListboxProps={{
                     onScroll: loadMoreItems,

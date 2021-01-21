@@ -1,7 +1,11 @@
+import useTranslation from 'next-translate/useTranslation'
+
 const Admin = (props) => {
+    const { t, lang } = useTranslation('common');
+    
     return (
         <div>
-            To jest adminka
+            {t('title')}
         </div>
     )
 }

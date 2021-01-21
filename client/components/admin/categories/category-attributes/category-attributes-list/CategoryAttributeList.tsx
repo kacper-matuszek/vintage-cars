@@ -14,19 +14,23 @@ import { isStringNullOrEmpty } from "../../../../../core/models/utils/StringExte
 import useSendSubmitWithNotification from "../../../../../hooks/fetch/SendSubmitHook";
 import LoadingContext from "../../../../../contexts/LoadingContext";
 import SaveButton from "../../../../base/controls/SaveButtonComponent";
+import useLocale from "../../../../../hooks/utils/LocaleHook";
 
-const headers: HeadCell<CategoryAttributeView>[] = [
-    {id: 'name', label: 'nazwa'},
-    {id: 'description', label: 'Opis'},
-]
 const CategoryAttributeList = () => {
+    const loc = useLocale('common', ['categories', 'category-attributes', 'list']);
+    const locForm = useLocale('common', ['categories', 'category-attributes', 'form']);
+    const headers: HeadCell<CategoryAttributeView>[] = [
+        {id: 'name', label: loc.trans(['table', 'headers', 'name'])},
+        {id: 'description', label: loc.trans(['table', 'headers', 'description'])},
+    ]
+
     const formDialogRef = useRef(null);
     const modelValidator = new ValidatorManager();
     modelValidator.setValidators({
         ["name"]: [{
             type: ValidatorType.NotEmpty,
             paramValue: null,
-            message: "Nazwa jest wymagana.",
+            message: locForm.transModel<CategoryAttribute>("name", ['validators', 'not-empty']),
             isValid: true
         }]
     });
@@ -75,7 +79,7 @@ const CategoryAttributeList = () => {
         <ExtendedTable<CategoryAttributeView>
             fetchData={fetchCategoryAttributes}
             rows={categoryAttributes}
-            title="Atrybuty Kategorii"
+            title={loc.trans(['table', 'title'])}
             onDeleteClick={(items) => handleDelete(items)}
             onEditClick={(obj) => handleEdit(obj)}
             onAddClick={openForm}
@@ -91,7 +95,7 @@ const CategoryAttributeList = () => {
             showLink={false}
             showCancel={true}
             disableOpenButton={true}
-            title="Dodawanie atrybutu"
+            title={locForm.trans('title')}
             actions={addActions()}
             ref={formDialogRef}
             >
@@ -106,7 +110,7 @@ const CategoryAttributeList = () => {
                     required
                     fullWidth
                     id="name"
-                    label="Nazwa"
+                    label={locForm.transModel<CategoryAttribute>("name", 'label')}
                     name="name"
                     autoComplete="name"
                     onChange={(name)  => extractData("name", name)}/>
@@ -117,7 +121,7 @@ const CategoryAttributeList = () => {
                     margin="normal"
                     fullWidth
                     id="description"
-                    label="Opis"
+                    label={locForm.transModel<CategoryAttribute>("description", 'label')}
                     name="description"
                     autoComplete="description"
                     onChange={(description) => extractData("description", description)}/>

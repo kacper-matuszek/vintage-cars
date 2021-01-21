@@ -15,28 +15,31 @@ import useOpenClose from '../../../hooks/utils/CloseHook'
 import useIsAdmin from '../../../hooks/authorization/IsAdminHook'
 import { FormatColorTextSharp } from '@material-ui/icons'
 import clsx from 'clsx';
+import useLocale from '../../../hooks/utils/LocaleHook';
 
 const MainLayout = (props) => {
     const classes = layoutStyle();
+    const loc = useLocale('common', ['base', 'main-layout']);
     const fontSize = "small";
     const isAdmin = useIsAdmin();
     const [isNavigationProfileOpen, setNavigationProfileOpen, closeNavigationProfile] = useOpenClose();
     const accountMenu: Array<RouterWithElement> = [
-        {name: "Profil", route: "", onClick: () => setNavigationProfileOpen(true),children: <PersonIcon fontSize={fontSize}/>},
+        {name: loc.trans('profile-route'), route: "", onClick: () => setNavigationProfileOpen(true),children: <PersonIcon fontSize={fontSize}/>},
     ]
     const sideBarItems: Array<RouterWithElement> = [
-        {name: "Lista samochodów", route: "/login", onClick: () => {}, children: <DirectionsCarIcon fontSize={fontSize}/>}
+        {name: loc.trans('cars-route'), route: "/login", onClick: () => {}, children: <DirectionsCarIcon fontSize={fontSize}/>}
     ]
-    const sideBarItemsForRegistered: Array<RouterWithElement> = [
-        {name: "Utwórz własny samochód", route: "/cars/create", onClick: () => {}, children: <CreateIcon fontSize={fontSize}/>}
-    ]
+    // const sideBarItemsForRegistered: Array<RouterWithElement> = [
+    //     {name: "Utwórz własny samochód", route: "/cars/create", onClick: () => {}, children: <CreateIcon fontSize={fontSize}/>}
+    // ]
 
 
     return (
         <React.Fragment>
             <MenuAppBar
                 accountMenuChildren={generateRouteMenuItems(accountMenu)}
-                listMenu={generateLinkMenuItems(props.isAuthorized ? sideBarItems.concat(sideBarItemsForRegistered) : sideBarItems)}
+                // listMenu={generateLinkMenuItems(props.isAuthorized ? sideBarItems.concat(sideBarItemsForRegistered) : sideBarItems)}
+                listMenu={generateLinkMenuItems(sideBarItems)}
                 isAuthorized={props.isAuthorized}
             ></MenuAppBar>
             <Box className={clsx(classes.layoutContainer, {

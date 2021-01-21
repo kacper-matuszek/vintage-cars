@@ -4,6 +4,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import { BaseProps } from "../../core/models/base/BaseProps";
 import CallMadeIcon from '@material-ui/icons/CallMade';
 import CallReceivedIcon from '@material-ui/icons/CallReceived';
+import useLocale from "../../hooks/utils/LocaleHook";
 
 interface Props extends BaseProps {
     showLink?: boolean,
@@ -22,6 +23,7 @@ interface Props extends BaseProps {
 const FormDialog = forwardRef(({children, showLink, caption, title, actions, showCancel = true, variantCaption = 'outlined', disableOpenButton = false, 
     fullScreen = false, maxWidth = 'sm', onCancel, showChangeScreen}: Props,ref) => {
     const [open, setOpen] = useState(false);
+    const loc = useLocale('common', ['base', 'form-dialog']);
     const [isFullScreen, setFullScreen] = useState(fullScreen);
     const handleClickOpen = () => {
         setOpen(true);
@@ -64,7 +66,7 @@ const FormDialog = forwardRef(({children, showLink, caption, title, actions, sho
                         {fullScreen ? <></> :
                         showChangeScreen ? 
                             <Box>
-                                <Tooltip title={isFullScreen ? "Pomniejsz" : "Powiększ"}>
+                                <Tooltip title={isFullScreen ? loc.trans('minimize-tooltip') : loc.trans('maximize-tooltip')}>
                                     <IconButton aria-label="maximize" onClick={handleFullScreen}>
                                         {isFullScreen ? <CallReceivedIcon color="primary" fontSize="small"/> 
                                         : <CallMadeIcon color="primary" fontSize="small"/>}
@@ -79,7 +81,7 @@ const FormDialog = forwardRef(({children, showLink, caption, title, actions, sho
                 <DialogActions>
                     {actions}
                     { showCancel ? <Button onClick={handleClose} color="primary" variant="outlined">
-                        Anuluj
+                        {loc.trans(['buttons', 'cancel' ,'caption'])}
                     </Button> : ''}
                 </DialogActions>
             </Dialog>

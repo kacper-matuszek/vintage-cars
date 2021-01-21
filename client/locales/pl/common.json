@@ -1,0 +1,183 @@
+{
+    "admin": {
+        "admin-layout": {
+            "profile-route": "Profil",
+            "catalog-route": "Katalog",
+            "attribute-route": "Atrybuty",
+            "category-route": "Kategorie"
+        },
+        "categories": {
+            "categories-list": {
+                "table": {
+                    "title": "Kategorie",
+                    "headers": {
+                        "name": "Nazwa",
+                        "description": "Opis",
+                        "published": "Opublikowanie",
+                        "archival": "Archiwalny"
+                    }
+                },
+                "delete": {
+                    "message": {
+                        "success": "Zarchiwizowano pomyślnie."
+                    }
+                }
+            },
+            "category-attribute-values": {
+                "form": {
+                    "title": {
+                        "edit": "Edycja",
+                        "create": "Dodawanie",
+                        "name": "{{mode}} wartości atrybutu"
+                    },
+                    "name": {
+                        "label": "Nazwa",
+                        "validators": {
+                            "not-empty": "Nazwa jest wymagana."
+                        }
+                    },
+                    "isPreSelected": {
+                        "tooltip": "Dla konkretnej listy może istnieć tylko jedna domyślna wybrana wartość atrybutu.",
+                        "label": "Domyślnie wybrany"
+                    },
+                    "displayOrder": {
+                        "label": "Pozycja"
+                    }
+                },
+                "list": {
+                    "table": {
+                        "title": "Wartości",
+                        "headers": {
+                            "name": "Nazwa",
+                            "isPreSelected": "Domyślnie wybrany",
+                            "displayOrder": "Pozycja"
+                        }
+                    },
+                    "delete": {
+                        "message": {
+                            "success": "Usunięto pomyślnie"
+                        }
+                    },
+                    "submit": {
+                        "message": {
+                            "warning": "\"Domyślnie Wybrany\" został dezaktywowany, ponieważ już istnieje taki atrybut na liście. Może istnieć TYLKO jeden."
+                        }
+                    }
+                }
+            },
+            "category-attributes": {
+                "link": {
+                    "title": "Łączenie atrybutu {{categoryAttributeName}} z wartościami",
+                    "caption": "Połącz wartości"
+                },
+                "list": {
+                    "table": {
+                        "title": "Atrybuty kategorii",
+                        "headers": {
+                            "name": "Nazwa",
+                            "description": "Opis"
+                        }
+                    }
+                },
+                "form": {
+                    "title": "Dodawanie atrybutu",
+                    "name": {
+                        "label": "Nazwa",
+                        "validators": {
+                            "not-empty":"Nazwa jest wymagana."
+                        }
+                    },
+                    "description": {
+                        "label": "Opis"
+                    }
+                }
+            },
+            "category": {
+                "form": {
+                    "title": {
+                        "edit": "Edycja",
+                        "create": "Dodawanie",
+                        "name":"{{mode}} kategorii"
+                    },
+                    "name": {
+                        "label": "Nazwa"
+                    },
+                    "isPublished": {
+                        "label": "Opublikowane"
+                    },
+                    "description": {
+                        "label": "Opis"
+                    },
+                    "attributeMappings": {
+                        "link": {
+                            "message": {
+                                "warning": "Dany atrybut już istnieje. Jeśli chcesz go zastąpić usuń aktualny." 
+                            }
+                        },
+                        "table": {
+                            "title":"Atrybuty kategorii",
+                            "headers": {
+                                "name": "Nazwa",
+                                "description": "Opis",
+                                "attributeControlType": "Kontrolka"
+                            }
+                        }
+                    }
+                },
+                "link-attribute": {
+                    "title": "Łączenie atrybutu z kategorią",
+                    "caption": "Połącz atrybut",
+                    "categoryAttributeId": {
+                        "label": "Atrybut",
+                        "validators": {
+                            "not-empty": "Atrybut jest wymagany."
+                        }
+                    },
+                    "attributeControlType": {
+                        "label": "Kontrolka",
+                        "validators": {
+                            "not-empty": "Kontrolka jest wymagana."
+                        }
+                    },
+                    "submit": {
+                        "caption": "Zapisz"
+                    }
+                }
+            }
+        },
+        "navigation-bar": {
+            "panel": {
+                "admin": "Strefa administracyjna",
+                "user": "Strefa użytkownika",
+                "go-to": {
+                    "admin": "Przejdź do strefy administracyjnej",
+                    "user": "Przejdź do stret użytkownika"
+                }
+            }
+        }
+    },
+    "base": {
+        "main-layout": {
+            "profile-route": "Profil",
+            "cars-route": "Lista samochodów"
+        },
+        "menu-bar": {
+            "title": "Twoje logo i nazwa firmy",
+            "buttons": {
+                "logout": "Wyloguj",
+                "register": "Rejestracja",
+                "login": "Logowanie"
+            }
+        },
+        "simple-infinite-select": {
+            "empty": "Brak"
+        },
+        "table-list": {
+            "toolbar": {
+                "delete-tooltip": "Usuń",
+                "add-tooltip": "Dodaj",
+                "selected": "{{amount}} wybrano"
+            }
+        }
+    }
+}

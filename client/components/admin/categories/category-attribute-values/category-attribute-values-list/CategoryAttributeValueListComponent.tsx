@@ -6,6 +6,7 @@ import CategoryAttributeValueMapper from "../../../../../core/mappers/category/C
 import PagedList from "../../../../../core/models/paged/PagedList";
 import useAuhtorizedPagedList from "../../../../../hooks/fetch/pagedAPI/AuthorizedPagedAPIHook";
 import useSendSubmitWithNotification from "../../../../../hooks/fetch/SendSubmitHook";
+import useLocale from "../../../../../hooks/utils/LocaleHook";
 import ExtendedTable from "../../../../base/table-list/extended-table/ExtendedTableComponent";
 import TableContent from "../../../../base/table-list/table-content/TableContentComponent";
 import { HeadCell } from "../../../../base/table-list/table-head/HeadCell";
@@ -18,12 +19,15 @@ interface ICategoryAttributeValueListProps {
     categoryAttributeId: Guid,
     onListChanged?: (list: Array<CategoryAttributeValueView>) => void
 }
-const headers: HeadCell<CategoryAttributeValueView>[] = [
-    {id: 'name', label: 'Nazwa'},
-    {id: 'isPreSelected', label: 'Domyślnie wybrany'},
-    {id: 'displayOrder', label: 'Pozycja'}
-]
+
 const CategoryAttributeValueList = (props: ICategoryAttributeValueListProps) => {
+    const loc = useLocale('common', ['categories', 'category-attribute-values', 'list'])
+    const headers: HeadCell<CategoryAttributeValueView>[] = [
+        {id: 'name', label: loc.trans(['table', 'headers', 'name'])},
+        {id: 'isPreSelected', label: loc.trans(['table', 'headers', 'isPreSelected'])},
+        {id: 'displayOrder', label: loc.trans(['table', 'headers', 'displayOrder'])}
+    ]
+
     const {categoryId, categoryAttributeId, onListChanged} = props;
     const categoryAttributeValueForm = useRef(null);
     const {showLoading, hideLoading} = useContext(LoadingContext);
@@ -31,7 +35,7 @@ const CategoryAttributeValueList = (props: ICategoryAttributeValueListProps) => 
     const categoryAttributeValueMapper = new CategoryAttributeValueMapper();
     const [_, fetchCategoryAttributeValue, isLoading, readCategoryAttrValues, refresh] = useAuhtorizedPagedList<CategoryAttributeValueView>("/admin/v1/category/attribute-value/list");
     const [categoryAttributeValues, setCategoryAttributeValues] = useState(new PagedList<CategoryAttributeValueView>())
-    const [sendDelete] = useSendSubmitWithNotification("/admin/v1/category/attribute-value/delete", showLoading, hideLoading,"Usunięto pomyślnie")
+    const [sendDelete] = useSendSubmitWithNotification("/admin/v1/category/attribute-value/delete", showLoading, hideLoading, loc.trans(['delete', 'message', 'success']))
     
     const openForm = () => categoryAttributeValueForm.current.openForm();
     const handleEdit = (categoryAttributeValueView: CategoryAttributeValueView) => {
@@ -40,7 +44,7 @@ const CategoryAttributeValueList = (props: ICategoryAttributeValueListProps) => 
     const handleFormSubmit = (model: CategoryAttributeValue, isNew: boolean) => {
         if(model.isPreSelected && categoryAttributeValues.source.some(ca => ca.isPreSelected)) {
             model.isPreSelected = false;
-            notification.showWarningMessage("\"Domyślnie Wybrany\" został dezaktywowany, ponieważ już istnieje taki atrybut na liście. Może istnieć TYLKO jeden.")
+            notification.showWarningMessage(loc.trans(['submit', 'message', 'warning']))
         }
         const categoryAttributeValueView = categoryAttributeValueMapper.toSource(model);
         categoryAttributeValueView.isNew = isNew;
@@ -86,7 +90,7 @@ const CategoryAttributeValueList = (props: ICategoryAttributeValueListProps) => 
                 onAddClick={openForm}
                 onEditClick={handleEdit}
                 onDeleteClick={handleDelete}
-                title="Wartości"
+                title={loc.trans(['table', 'title'])}
                 >
                 {headers.map((obj, index) => {
                     return (

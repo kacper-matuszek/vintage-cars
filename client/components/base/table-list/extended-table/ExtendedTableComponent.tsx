@@ -13,6 +13,7 @@ import PagedList from "../../../../core/models/paged/PagedList";
 import Paged from "../../../../core/models/paged/Paged";
 import EditIcon from '@material-ui/icons/Edit';
 import useToCellContent from "../../../../hooks/utils/ToCellContent";
+import useLocale from "../../../../hooks/utils/LocaleHook";
 
 interface ExtendedTableProps<T extends ISelectable> {
     rows: PagedList<T>,
@@ -27,6 +28,7 @@ interface ExtendedTableProps<T extends ISelectable> {
 }
 const ExtendedTable = <T extends ISelectable>(props: ExtendedTableProps<T>) => {
     const classes = useStyles();
+    const loc = useLocale('common', ['base', 'table-list', 'extended-table']);
     const { rows, children, title, fetchData, onDeleteClick, onAddClick, onEditClick, showSelection, onSelected} = props;
     const [orderBy, setOrderBy] = useState<keyof T>('name');
     const [order, setOrder] = useState<Order>('asc');
@@ -36,7 +38,7 @@ const ExtendedTable = <T extends ISelectable>(props: ExtendedTableProps<T>) => {
     const headers = useToHeadCell<T>(children);
     const cellContents = useToCellContent(children);
     const additionalHeaders = [{
-      label: "Edytuj", visible: false, width: "50px", add: onEditClick !== undefined
+      label: loc.trans(['headers', 'edit']), visible: false, width: "50px", add: onEditClick !== undefined
     }]
 
     const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof T) => {
@@ -175,7 +177,7 @@ const ExtendedTable = <T extends ISelectable>(props: ExtendedTableProps<T>) => {
                             )
                           })}
                           { onEditClick !== undefined ? <TableCell component="th" scope="row" padding="default" align="right" width="50px">
-                            <Tooltip title="Edytuj">
+                            <Tooltip title={loc.trans(['buttons', 'tooltip'])}>
                               <IconButton aria-label="edytuj" onClick={(event) => handleEditClick(event, row.id)}>
                                   <EditIcon color="primary"/>
                               </IconButton>
@@ -195,10 +197,10 @@ const ExtendedTable = <T extends ISelectable>(props: ExtendedTableProps<T>) => {
               page={page}
               onPageChange={handleChangePage}
               onRowsPerPageChange={handleChangeRowsPerPage}
-              labelRowsPerPage="Wierszy na stronę:"
-              labelDisplayedRows={({from, to, count}) => `${from}-${to} z ${count}`}
-              nextIconButtonProps={{title: 'Następna strona'}}
-              backIconButtonProps={{title: 'Poprzednia strona'}}
+              labelRowsPerPage={loc.trans(['pagination', 'rowsPerPage'])}
+              labelDisplayedRows={({from, to, count}) => loc.transQuery(['pagination', 'displayRows'], {from: from, to: to, count: count})}
+              nextIconButtonProps={{title: loc.trans(['pagination', 'nextPage'])}}
+              backIconButtonProps={{title: loc.trans(['pagination', 'previousPage'])}}
             />
           </Paper>
         </div>

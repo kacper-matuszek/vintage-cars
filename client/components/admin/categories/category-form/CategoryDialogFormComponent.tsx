@@ -20,12 +20,14 @@ import useStyles from "./category-dialog-style";
 import CategoryLinkAttribute from "./CategoryLinkAttributeFormComponent";
 import Category from "./models/Category";
 import CategoryAttributeMapping from "./models/CategoryAttributeMapping";
+import useLocale from "../../../../hooks/utils/LocaleHook";
 
 interface CategoryDialogProps {
     onSubmit?: () => void,
 }
 const CategoryDialogForm = forwardRef((props: CategoryDialogProps, ref) => {
     const classes = useStyles();
+    const loc = useLocale('common', ['categories', 'category', 'form']);
     const notification = useContext(NotificationContext);
     const [isReadonly, setIsReadonly] = useState(false);
     const [isEdit, setIsEdit] = useState(false);
@@ -94,7 +96,7 @@ const CategoryDialogForm = forwardRef((props: CategoryDialogProps, ref) => {
     return (
        <>
             <FormDialog
-                title={`${isEdit ? "Edycja" : "Dodawanie"} kategorii`}
+                title={loc.transQuery(['title', 'name'], { mode: (isEdit ? 'edit' : 'create')})}
                 showChangeScreen
                 showCancel={true}
                 showLink={false}
@@ -119,7 +121,7 @@ const CategoryDialogForm = forwardRef((props: CategoryDialogProps, ref) => {
                             required
                             fullWidth
                             id="name"
-                            label="Nazwa"
+                            label={loc.transModel<Category>("name", 'label')}
                             name="name"
                             onChange={(name)  => extractData("name", name)}/>
                     </Box>
@@ -130,7 +132,7 @@ const CategoryDialogForm = forwardRef((props: CategoryDialogProps, ref) => {
                              checked={model?.isPublished}
                              onChange={() => extractDataFromDerivedValue("isPublished", !model?.isPublished)}/>
                         }
-                        label="Opublikowane"
+                        label={loc.transModel<Category>("isPublished", 'label')}
                     />
                 </Box>
                 <TextField
@@ -141,7 +143,7 @@ const CategoryDialogForm = forwardRef((props: CategoryDialogProps, ref) => {
                     margin="normal"
                     fullWidth
                     id="description"
-                    label="Opis"
+                    label={loc.transModel<Category>("description", 'label')}
                     name="description"
                     autoComplete="description"
                     onChange={(description) => extractData("description", description)}/>
@@ -152,7 +154,7 @@ const CategoryDialogForm = forwardRef((props: CategoryDialogProps, ref) => {
                         setCategoryAttributeMapping(prevState => {
                             const attrIsExist = prevState.source.some(x => x.categoryAttributeId === attrMapping.categoryAttributeId);
                             if(attrIsExist) {
-                                notification.showWarningMessage("Dany atrybut już istnieje. Jeśli chcesz go zastąpić usuń aktualny.");
+                                notification.showWarningMessage(loc.transModel<Category>("attributeMappings", ['link', 'message', 'warning']));
                                 return prevState;
                             }
                             const list = new PagedList<CategoryAttributeMappingView>();
@@ -175,13 +177,13 @@ const CategoryDialogForm = forwardRef((props: CategoryDialogProps, ref) => {
                         return prevState; 
                     })
                 }}
-                title="Atrybuty Kategorii"
+                title={loc.transModel<Category>("attributeMappings", ['table', 'title'])}
                 >
-                    <TableContent key="category-attribute-mapping-name" name="name" headerName="Nazwa"/>
-                    <TableContent key="category-attribute-mapping-description" name="description" headerName="Opis"/>
+                    <TableContent key="category-attribute-mapping-name" name="name" headerName={loc.trans(['attributeMappings', 'table', 'headers', 'name'])}/>
+                    <TableContent key="category-attribute-mapping-description" name="description" headerName={loc.trans(['attributeMappings', 'table', 'headers', 'description'])}/>
                     <TableContent 
                         key="category-attribute-mapping-attributeControl" name="attributeControlType"
-                        headerName="Kontrolka"
+                        headerName={loc.trans(['attributeMappings', 'table', 'headers', 'attributeControlType'])}
                         content={(model) => {
                             const isValue = parseInt(model.attributeControlType, 10) >= 0
                             return isValue ?  (<>{AttributeControlType[model.attributeControlType]}</>) : (<>{model.attributeControlType}</>)
