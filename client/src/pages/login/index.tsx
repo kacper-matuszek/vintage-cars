@@ -4,16 +4,18 @@ import { postCallback, toCallback } from "../../../core/services/api-service/Cal
 import LoginForm from "../../../components/login/login-form/LoginForm";
 import LoginAccount from "../../../components/login/models/LoginAccount";
 import LoginResponse from "../../../components/login/models/LoginResponse";
-import { ValidatorManage, ValidatorType } from "../../../components/login/models/validators/Validator";
+import { ValidatorManager, ValidatorType } from "../../../core/models/shared/Validator";
 import { LoginResult } from "../../../components/login/models/enums/LoginResult";
 import Cookie from 'universal-cookie';
 import RecoveryPassword from "../../../components/login/login-form/RecoveryPassword";
 import CookieDictionary from "../../../core/models/settings/cookieSettings/CookieDictionary";
 import { useRouter } from "next/router";
 import NotificationContext from "../../../contexts/NotificationContext";
+import useLocale from "../../../hooks/utils/LocaleHook";
 
 const LoginPage = (props) => {
     const {showSuccessMessage, showErrorMessage, showWarningMessage} = useContext(NotificationContext);
+    const loc = useLocale('login', ['form'])
     const apiService = new BaseWebApiService();
     const router = useRouter();
     /*state*/
@@ -23,18 +25,18 @@ const LoginPage = (props) => {
         email: "",
         password: "",
     });
-    const validatorManager = new ValidatorManage();
+    const validatorManager = new ValidatorManager();
     validatorManager.setValidators({
         ["email"]: [{
             type: ValidatorType.NotEmpty,
             paramValue: null,
-            message: "Email jest wymagany.",
+            message: loc.transModel<LoginAccount>("email", ['validators', 'not-empty']),
             isValid: true
         }],
         ["password"]: [{
             type: ValidatorType.NotEmpty,
             paramValue: null,
-            message: "Hasło jest wymagane.",
+            message: loc.transModel<LoginAccount>("password", ['validators', 'not-empty']),
             isValid: true
         }]
     });
@@ -68,7 +70,7 @@ const LoginPage = (props) => {
                         router.push('/');
                         return;
                     }
-                    showErrorMessage("Nie udało się zalogować. Sprawdź poprawność email oraz hasła.");
+                    showErrorMessage(loc.trans(['submit', 'message', 'error']));
                 },
                 vErr => props.showWarning(vErr.message),
                 err => props.showError(err.message),

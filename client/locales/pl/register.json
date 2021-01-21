@@ -1,0 +1,9 @@
+{
+    "form": {
+        "submit": {
+            "message": {
+                "success": "Zarejestrowano pomyślnie. Przechodzenie do logowania..."
+            }
+        }
+    }
+}

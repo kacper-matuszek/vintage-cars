@@ -1,0 +1,19 @@
+{
+    "form": {
+        "email": {
+            "validators": {
+                "not-empty": "Email jest wymagany."
+            }
+        },
+        "password": {
+            "validators": {
+                "not-empty": "Hasło jest wymagane."
+            }
+        },
+        "submit": {
+            "message": {
+                "error": "Nie udało się zalogować. Sprawdź poprawność email oraz hasła."
+            }
+        }
+    }
+}

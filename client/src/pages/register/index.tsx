@@ -7,9 +7,11 @@ import RegisterValidator from "../../../components/login/models/validators/Regis
 import { RegisterAccount } from "../../../components/login/models/RegisterAccount";
 import { useRouter } from "next/router";
 import NotificationContext from "../../../contexts/NotificationContext";
+import useLocale from "../../../hooks/utils/LocaleHook";
 
 const RegisterPage = (props) => {
     const {showSuccessMessage, showErrorMessage, showWarningMessage} = useContext(NotificationContext);
+    const loc = useLocale('register', ['form'])
     const apiService = new BaseWebApiService();
     const router = useRouter();
     /*state */
@@ -28,7 +30,7 @@ const RegisterPage = (props) => {
             props.setLoading(true);
             apiService.postWithoutResponse("/v1/account/register", registerData, postCallback(
                 () => {
-                    showSuccessMessage("Zarejestrowano pomyślnie. Przechodzenie do logowania...");
+                    showSuccessMessage(loc.trans(['submit', 'message', 'success']));
                     router.push('/login')
                 },
                 vErr => showWarningMessage(vErr.message),

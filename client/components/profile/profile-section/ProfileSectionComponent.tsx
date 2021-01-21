@@ -15,9 +15,11 @@ import ContactProfile from "../models/ContactProfile";
 import CountryView from "../models/CountryView";
 import StateProvinceView from "../models/StateProvinceView";
 import { profileSectionStyle } from "./profile-section-style";
+import useLocale from "../../../hooks/utils/LocaleHook";
 
 const ProfileSection = (props) => {
     const {showLoading, hideLoading} = props;
+    const loc = useLocale('common', ['profile', 'profile-section', 'form'])
     const classes = profileSectionStyle();
      /*profile section errors*/
      const [errors, setErrors] = useState({
@@ -32,25 +34,25 @@ const ProfileSection = (props) => {
         ["firstName"]: [{
             type: ValidatorType.NotEmpty,
             paramValue: null,
-            message: "Imię jest wymagane.",
+            message: loc.transModel<ContactProfile>("firstName", ['validators', 'label']),
             isValid: true
         }],
         ["lastName"]: [{
             type: ValidatorType.NotEmpty,
             paramValue: null,
-            message: "Nazwisko jest wymagane.",
+            message: loc.transModel<ContactProfile>("lastName", ['validators', 'label']),
             isValid: true
         }],
         ["phoneNumber"]: [{
             type: ValidatorType.NotEmpty,
             paramValue: null,
-            message: "Nr. telefonu jest wymagany.",
+            message: loc.transModel<ContactProfile>("phoneNumber", ['validators', 'label']),
             isValid: true,
         }],
         ["zipPostalCode"]: [{
             type: ValidatorType.ZipCode,
             paramValue: null,
-            message: "Wprowadź poprawny kod pocztowy.",
+            message: loc.transModel<ContactProfile>("zipPostalCode", ['validators', 'label']),
             isValid:  true,
         }]
     });
@@ -91,7 +93,7 @@ const ProfileSection = (props) => {
                 required
                 fullWidth
                 id="firstName"
-                label="Imię"
+                label={loc.transModel<ContactProfile>('firstName', 'label')}
                 name="firstName"
                 autoComplete="firstName"
                 onChange={(firstName) => extractData("firstName", firstName)}/>
@@ -105,7 +107,7 @@ const ProfileSection = (props) => {
                 required
                 fullWidth
                 id="lastName"
-                label="Nazwisko"
+                label={loc.transModel<ContactProfile>('lastName', 'label')}
                 name="lastName"
                 autoComplete="lastName" 
                 onChange={(lastName) => extractData("lastName", lastName)}/>
@@ -119,7 +121,7 @@ const ProfileSection = (props) => {
                 fullWidth
                 required
                 id="phoneNumber"
-                label="Numer telefonu"
+                label={loc.transModel<ContactProfile>('phoneNumber', 'label')}
                 name="phoneNumber"
                 autoComplete="phoneNumber" 
                 onChange={(phoneNumber) => extractData("phoneNumber", phoneNumber)}/>
@@ -130,13 +132,13 @@ const ProfileSection = (props) => {
                 margin="normal"
                 fullWidth
                 id="company"
-                label="Nazwa firmy"
+                label={loc.transModel<ContactProfile>('company', 'label')}
                 name="company"
                 autoComplete="company"
                 onChange={(company) => extractData("company", company)} />
                 <SimpleInfiniteSelect
                     id="country"
-                    label="Kraj"
+                    label={loc.trans(["country", 'label'])}
                     maxHeight="200px"
                     fullWidth={true}
                     pageSize={10}
@@ -153,7 +155,7 @@ const ProfileSection = (props) => {
                 /> 
                 <SimpleInfiniteSelect
                     id="state-province"
-                    label="Województwo"
+                    label={loc.trans(["state-province", 'label'])}
                     maxHeight="200px"
                     disabled={countryId?.toString() === Guid.EMPTY}
                     fullWidth={true}
@@ -172,7 +174,7 @@ const ProfileSection = (props) => {
                 margin="normal"
                 fullWidth
                 id="city"
-                label="Miejscowość"
+                label={loc.transModel<ContactProfile>("city", 'label')}
                 name="city"
                 autoComplete="city"
                 onChange={(city) => extractData("city", city)} />
@@ -183,7 +185,7 @@ const ProfileSection = (props) => {
                 margin="normal"
                 fullWidth
                 id="address"
-                label="Adres"
+                label={loc.transModel<ContactProfile>("address1", 'label')}
                 name="address"
                 autoComplete="address"
                 onChange={(address) => extractData("address1", address)} />
@@ -196,7 +198,7 @@ const ProfileSection = (props) => {
                 margin="normal"
                 fullWidth
                 id="postalCode"
-                label="Kod pocztowy"
+                label={loc.transModel<ContactProfile>("zipPostalCode", 'label')}
                 name="postalCode"
                 autoComplete="postalCode"
                 onChange={(postalCode) => extractData("zipPostalCode", postalCode)} />
@@ -211,7 +213,7 @@ const ProfileSection = (props) => {
                         type="submit"
                         variant="contained"
                         color="primary">
-                            Zapisz
+                            {loc.trans(['buttons', 'submit', 'caption'])}
                     </Button>
                 </Box>
             </form>

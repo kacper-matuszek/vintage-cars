@@ -177,6 +177,82 @@
                 "delete-tooltip": "Usuń",
                 "add-tooltip": "Dodaj",
                 "selected": "{{amount}} wybrano"
+            },
+            "extended-table": {
+                "headers": {
+                    "edit": "Edytuj"
+                },
+                "buttons": {
+                    "tooltip": "Edytuj"
+                },
+                "pagination": {
+                    "rowsPerPage": "Wierszy na stronę:",
+                    "displayRows": "{{from}}-{{to}} z {{count}}",
+                    "nextPage": "Następna strona",
+                    "previousPage": "Poprzednia strona"
+                }
+            }
+        },
+        "images-dropzone": {
+            "title": "Przeciągnij i upuść obrazek lub kliknij"
+        },
+        "form-dialog": {
+            "maximize-tooltip": "Powiększ",
+            "minimize-tooltip": "Pomniejsz",
+            "buttons": {
+                "cancel": {
+                    "caption": "Anuluj"
+                }
+            }
+        }
+    },
+    "profile": {
+        "profile-section": {
+            "form": {
+                "firstName": {
+                    "label": "Imię",
+                    "validators": {
+                        "not-empty": "Imię jest wymagane."
+                    }
+                },
+                "lastName": {
+                    "label": "Nazwisko",
+                    "validators": {
+                        "not-empty": "Nazwisko jest wymagane."
+                    }
+                },
+                "phoneNumber": {
+                    "label": "Numer telefonu",
+                    "validators": {
+                        "not-empty": "Nr. telefonu jest wymagany."
+                    }
+                },
+                "company": {
+                    "label": "Nazwa firmy"
+                },
+                "country": {
+                    "label": "Kraj"
+                },
+                "state-province": {
+                    "label": "Województwo"
+                },
+                "address1": {
+                    "label": "Adres"
+                },
+                "city": {
+                    "label": "Miejscowość"
+                },
+                "zipPostalCode": {
+                    "label": "Kod pocztowy",
+                    "validators": {
+                        "zip-code": "Wprowadź poprawny kod pocztowy."
+                    }
+                },
+                "buttons": {
+                    "submit": {
+                        "caption": "Zapisz"
+                    }
+                }
             }
         }
     }

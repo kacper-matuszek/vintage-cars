@@ -31,9 +31,8 @@ const ProductAnnouncementList = (props: ProductAnnouncementProps) => {
 
     return (
         <Box className={classes.root} key="flexbox-container">
-            <button onClick={() => alert(document.location.pathname)}>hej</button>
             <InfiniteScroll
-                style={{position: 'relative', height: '100%'}}
+                className={classes.infiniteScroll}
                 key="infinite-scroll"
                 dataLength={pageSize}
                 next={fetchMore}

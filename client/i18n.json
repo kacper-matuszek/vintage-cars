@@ -2,6 +2,8 @@
     "locales": ["pl"],
     "defaultLocale": "pl",
     "pages": {
-        "*": ["common"]
+        "*": ["common"],
+        "/login": ["login"],
+        "/register": ["register"]
     }
 }

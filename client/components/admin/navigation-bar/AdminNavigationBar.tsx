@@ -30,7 +30,7 @@ const AdminNavigationBar = () => {
                 <Button className={classes.goToButton} startIcon={<ArrowForwardIcon/>} onClick={() => router.push('/')}>
                     {loc.trans(['panel', 'go-to', 'user'])}
                 </Button> :
-                <Button className={classes.goToButton} startIcon={<ArrowForwardIcon/>} onClick={() => router.push('/admin')}>
+                <Button className={classes.goToButton} startIcon={<ArrowForwardIcon/>} onClick={() => router.push('/admin/categories')}>
                     {loc.trans(['panel', 'go-to', 'admin'])}
                 </Button>
                 }
