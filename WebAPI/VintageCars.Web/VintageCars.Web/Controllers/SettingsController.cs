@@ -17,6 +17,6 @@ namespace VintageCars.Web.Controllers
 
         [HttpGet("captcha-key")]
         public async Task<ActionResult<CaptchaKeyResponse>> GetCaptchaKey()
-            => Single(await SendAsync(new GetCaptchaKeyQuery()));
+            => Result(await SendAsync(new GetCaptchaKeyQuery()));
     }
 }

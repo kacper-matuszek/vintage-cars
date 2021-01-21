@@ -23,7 +23,7 @@ namespace VintageCars.Web.Controllers
 
         [HttpPost("login")]
         public async Task<ActionResult<LoginCustomerResponse>> Login([FromBody] LoginCustomerCommand account)
-            => Single(await SendAsync(account));
+            => Result(await SendAsync(account));
 
         [HttpPost("recovery-password")]
         public async Task<ActionResult> RecoveryPassword([FromBody] RecoverPasswordCommand command)
@@ -37,6 +37,6 @@ namespace VintageCars.Web.Controllers
         [Authorize]
         [HttpGet("details")]
         public async Task<ActionResult<AddressDetailResponse>> GetAddressAccountDetails()
-            => Single(await SendAsync(new GetAddressDetailQuery()), true);
+            => Result(await SendAsync(new GetAddressDetailQuery()), true);
     }
 }

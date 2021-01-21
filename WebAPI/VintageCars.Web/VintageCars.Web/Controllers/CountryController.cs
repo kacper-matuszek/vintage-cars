@@ -21,11 +21,11 @@ namespace VintageCars.Web.Controllers
 
         [HttpGet("all")]
         public async Task<ActionResult<PagedList<CountryView>>> GetAll([FromQuery] PagedRequest pageInfo)
-            => Single(await SendAsync(new GetAllCommand(pageInfo)));
+            => Result(await SendAsync(new GetAllCommand(pageInfo)));
 
         [HttpGet("state-province/all/{countryId:guid}")]
         public async Task<ActionResult<PagedList<StateProvinceView>>> GetAll(Guid countryId, [FromQuery] PagedRequest pageInfo)
-            => Single(await SendAsync(new GetAllStateProvinceCommand(countryId, pageInfo)));
+            => Result(await SendAsync(new GetAllStateProvinceCommand(countryId, pageInfo)));
 
     }
 }

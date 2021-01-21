@@ -51,7 +51,7 @@ namespace VintageCars.Web.Controllers
             return Ok();
         }
 
-        protected ActionResult<T> Single<T>(T data, bool allowNullData = false)
+        protected ActionResult<T> Result<T>(T data, bool allowNullData = false)
         {
             if (data == null && !allowNullData) return NotFound();
             return Ok(data);

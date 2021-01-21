@@ -26,7 +26,7 @@ namespace VintageCars.Web.Controllers.Admin
 
         [HttpGet("list")]
         public async Task<ActionResult<PagedList<CategoryView>>> Categories([FromQuery] PagedRequest pagedRequest)
-            => Single(await SendAsync(new GetCategoriesQuery(pagedRequest)));
+            => Result(await SendAsync(new GetCategoriesQuery(pagedRequest)));
 
         [HttpPost("delete")]
         public async Task<ActionResult> DeleteCategory([FromBody] DeleteCategoryCommand deleteCategoryCommand)
@@ -42,11 +42,11 @@ namespace VintageCars.Web.Controllers.Admin
 
         [HttpGet("attribute/list")]
         public async Task<ActionResult<PagedList<CategoryAttributeView>>> GetList([FromQuery] PagedRequest pageInfo)
-            => Single(await SendAsync(new GetCategoryAttributesQuery(pageInfo)));
+            => Result(await SendAsync(new GetCategoryAttributesQuery(pageInfo)));
 
         [HttpGet("attribute-value/list")]
         public async Task<ActionResult<PagedList<CategoryAttributeValueView>>> GetAttributeValues([FromQuery] Guid categoryId, [FromQuery] Guid categoryAttributeId, [FromQuery] PagedRequest pagedRequest)
-            => Single(await SendAsync(new GetCategoryAttributeValuesQuery(categoryId, categoryAttributeId, pagedRequest)));
+            => Result(await SendAsync(new GetCategoryAttributeValuesQuery(categoryId, categoryAttributeId, pagedRequest)));
 
         [HttpPost("attribute-value/link")]
         public async Task<ActionResult> LinkCategoryAttributeValue([FromBody] LinkCategoryAttributeValueCommand linkCategoryAttributeValueCommand)
