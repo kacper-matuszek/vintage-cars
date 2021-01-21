@@ -6,9 +6,9 @@ import useAuhtorizedPagedList from "../../../../hooks/fetch/pagedAPI/AuthorizedP
 import FormDialog from "../../../base/FormDialogComponent";
 import SimpleInfiniteSelect from "../../../base/select/simple-infinite-select/SimpleInfiniteSelectComponent";
 import { ValidatorManager, ValidatorType } from "../../../../core/models/shared/Validator";
-import CategoryAttributeMappingView from "../categories-list/models/CategoryAttributeMappingView";
-import CategoryAttributeView from "../category-attributes/models/CategoryAttributeView";
-import CategoryAttributeMapping from "./models/CategoryAttributeMapping";
+import CategoryAttributeMappingView from "../models/CategoryAttributeMappingView";
+import CategoryAttributeView from "../models/CategoryAttributeView";
+import CategoryAttributeMapping from "../models/CategoryAttributeMapping";
 import useLocale from "../../../../hooks/utils/LocaleHook";
 
 interface CategoryLinkAttributeProps {

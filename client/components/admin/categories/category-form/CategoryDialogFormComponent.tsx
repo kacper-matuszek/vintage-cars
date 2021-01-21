@@ -14,12 +14,12 @@ import FormDialog from "../../../base/FormDialogComponent"
 import ExtendedTable from "../../../base/table-list/extended-table/ExtendedTableComponent";
 import TableContent from "../../../base/table-list/table-content/TableContentComponent";
 import { ValidatorManager, ValidatorType } from "../../../../core/models/shared/Validator";
-import CategoryAttributeMappingView from "../categories-list/models/CategoryAttributeMappingView";
+import CategoryAttributeMappingView from "../models/CategoryAttributeMappingView";
 import CategoryAttributeLinkAttributeValue from "../category-attributes/category-attributes-form/CategoryAttributeLinkAttributeValueComponent";
 import useStyles from "./category-dialog-style";
 import CategoryLinkAttribute from "./CategoryLinkAttributeFormComponent";
-import Category from "./models/Category";
-import CategoryAttributeMapping from "./models/CategoryAttributeMapping";
+import Category from "../models/Category";
+import CategoryAttributeMapping from "../models/CategoryAttributeMapping";
 import useLocale from "../../../../hooks/utils/LocaleHook";
 
 interface CategoryDialogProps {
