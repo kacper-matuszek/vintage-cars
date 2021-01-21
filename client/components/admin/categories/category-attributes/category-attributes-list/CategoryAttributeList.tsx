@@ -1,5 +1,5 @@
 import ExtendedTable from "../../../../base/table-list/extended-table/ExtendedTableComponent"
-import CategoryAttributeView from "../models/CategoryAttributeView"
+import CategoryAttributeView from "../../models/CategoryAttributeView"
 import TableContent from "../../../../base/table-list/table-content/TableContentComponent";
 import { HeadCell } from "../../../../base/table-list/table-head/HeadCell";
 import { Guid } from "guid-typescript";
@@ -8,7 +8,7 @@ import FormDialog from "../../../../base/FormDialogComponent";
 import { Button, TextField } from "@material-ui/core";
 import { useContext, useRef, useState } from "react";
 import useExtractData from "../../../../../hooks/data/ExtracttDataHook";
-import CategoryAttribute from "../models/CategoryAttribute";
+import CategoryAttribute from "../../models/CategoryAttribute";
 import { ValidatorManager, ValidatorType } from "../../../../../core/models/shared/Validator";
 import { isStringNullOrEmpty } from "../../../../../core/models/utils/StringExtension";
 import useSendSubmitWithNotification from "../../../../../hooks/fetch/SendSubmitHook";
@@ -17,8 +17,8 @@ import SaveButton from "../../../../base/controls/SaveButtonComponent";
 import useLocale from "../../../../../hooks/utils/LocaleHook";
 
 const CategoryAttributeList = () => {
-    const loc = useLocale('common', ['categories', 'category-attributes', 'list']);
-    const locForm = useLocale('common', ['categories', 'category-attributes', 'form']);
+    const loc = useLocale('common', ['admin','categories', 'category-attributes', 'list']);
+    const locForm = useLocale('common', ['admin','categories', 'category-attributes', 'form']);
     const headers: HeadCell<CategoryAttributeView>[] = [
         {id: 'name', label: loc.trans(['table', 'headers', 'name'])},
         {id: 'description', label: loc.trans(['table', 'headers', 'description'])},

@@ -1,5 +1,5 @@
 import { Guid } from "guid-typescript";
-import { IModel } from "../../../../../core/models/base/IModel";
+import { IModel } from "../../../../core/models/base/IModel";
 import CategoryAttributeMapping from "./CategoryAttributeMapping";
 
 export default class Category implements IModel {

@@ -9,7 +9,7 @@ import ExtendedTable from "../../../base/table-list/extended-table/ExtendedTable
 import TableContent from "../../../base/table-list/table-content/TableContentComponent";
 import { HeadCell } from "../../../base/table-list/table-head/HeadCell";
 import CategoryDialogForm from "../category-form/CategoryDialogFormComponent";
-import CategoryView from "./models/CategoryView";
+import CategoryView from "../models/CategoryView";
 
 const CategoryList = () => {
     const loc = useLocale('common', ['admin', 'categories', 'categories-list']);

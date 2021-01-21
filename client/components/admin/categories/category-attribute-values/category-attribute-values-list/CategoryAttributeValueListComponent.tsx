@@ -11,8 +11,8 @@ import ExtendedTable from "../../../../base/table-list/extended-table/ExtendedTa
 import TableContent from "../../../../base/table-list/table-content/TableContentComponent";
 import { HeadCell } from "../../../../base/table-list/table-head/HeadCell";
 import CategoryAttributeValueDialogForm from "../category-attribute-values-form/CategoryAttributeValueDialogFormComponent";
-import CategoryAttributeValue from "../models/CategoryAttributeValue";
-import CategoryAttributeValueView from "../models/CategoryAttributeValueView";
+import CategoryAttributeValue from "../../models/CategoryAttributeValue";
+import CategoryAttributeValueView from "../../models/CategoryAttributeValueView";
 
 interface ICategoryAttributeValueListProps {
     categoryId: Guid,
@@ -21,7 +21,7 @@ interface ICategoryAttributeValueListProps {
 }
 
 const CategoryAttributeValueList = (props: ICategoryAttributeValueListProps) => {
-    const loc = useLocale('common', ['categories', 'category-attribute-values', 'list'])
+    const loc = useLocale('common', ['admin','categories', 'category-attribute-values', 'list'])
     const headers: HeadCell<CategoryAttributeValueView>[] = [
         {id: 'name', label: loc.trans(['table', 'headers', 'name'])},
         {id: 'isPreSelected', label: loc.trans(['table', 'headers', 'isPreSelected'])},

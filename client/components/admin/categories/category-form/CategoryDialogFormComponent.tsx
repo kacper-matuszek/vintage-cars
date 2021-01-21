@@ -27,7 +27,7 @@ interface CategoryDialogProps {
 }
 const CategoryDialogForm = forwardRef((props: CategoryDialogProps, ref) => {
     const classes = useStyles();
-    const loc = useLocale('common', ['categories', 'category', 'form']);
+    const loc = useLocale('common', ['admin', 'categories', 'category', 'form']);
     const notification = useContext(NotificationContext);
     const [isReadonly, setIsReadonly] = useState(false);
     const [isEdit, setIsEdit] = useState(false);
@@ -96,7 +96,7 @@ const CategoryDialogForm = forwardRef((props: CategoryDialogProps, ref) => {
     return (
        <>
             <FormDialog
-                title={loc.transQuery(['title', 'name'], { mode: (isEdit ? 'edit' : 'create')})}
+                title={loc.transQuery(['title', 'name'], { mode: (isEdit ? loc.trans(['title', 'edit']) : loc.trans(['title','create']))})}
                 showChangeScreen
                 showCancel={true}
                 showLink={false}

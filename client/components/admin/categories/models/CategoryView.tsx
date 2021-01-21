@@ -1,5 +1,5 @@
 import { Guid } from "guid-typescript";
-import ISelectableArchival from "../../../../../core/models/base/ISelectableArchival";
+import ISelectableArchival from "../../../../core/models/base/ISelectableArchival";
 import CategoryAttributeMappingView from "./CategoryAttributeMappingView";
 
 export default class CategoryView implements ISelectableArchival {

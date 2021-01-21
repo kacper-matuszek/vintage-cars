@@ -1,5 +1,5 @@
 import { Guid } from "guid-typescript";
-import CategoryAttributeValue from "../../category-attribute-values/models/CategoryAttributeValue";
+import CategoryAttributeValue from "./CategoryAttributeValue";
 
 export default class CategoryAttributeLinkAttributeValueSendData {
     categoryId: Guid;

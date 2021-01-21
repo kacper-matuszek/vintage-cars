@@ -4,8 +4,8 @@ import useSendSubmitWithNotification from "../../../../../hooks/fetch/SendSubmit
 import useLocale from "../../../../../hooks/utils/LocaleHook";
 import SubmitDialogForm from "../../../../base/form-dialog/SubmitDialogFormComponent";
 import CategoryAttributeValueList from "../../category-attribute-values/category-attribute-values-list/CategoryAttributeValueListComponent";
-import CategoryAttributeValueView from "../../category-attribute-values/models/CategoryAttributeValueView";
-import CategoryAttributeLinkAttributeValueSendData from "../models/CategoryAttributeLinkAttributeValue";
+import CategoryAttributeLinkAttributeValueSendData from "../../models/CategoryAttributeLinkAttributeValue";
+import CategoryAttributeValueView from "../../models/CategoryAttributeValueView";
 
 interface ICategoryAttributeLinkAttributeValueProps {
     categoryAttributeName: string;
@@ -14,7 +14,7 @@ interface ICategoryAttributeLinkAttributeValueProps {
 }
 const CategoryAttributeLinkAttributeValue = (props: ICategoryAttributeLinkAttributeValueProps) => {
     const {categoryAttributeName, categoryAttributeId, categoryId} = props;
-    const loc = useLocale('common', ['categories', 'category-attributes', 'link']);
+    const loc = useLocale('common', ['admin', 'categories', 'category-attributes', 'link']);
     const formDialog = useRef(null);
     const [categoryAttributeValues, setCategoryAttributeValues] = useState<CategoryAttributeValueView[]>([]);
     const [send] = useSendSubmitWithNotification("/admin/v1/category/attribute-value/link");

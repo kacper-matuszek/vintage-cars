@@ -13,7 +13,7 @@ interface ICategoryAttributeValueDialogFormProps {
 }
 const CategoryAttributeValueDialogForm = forwardRef((props: ICategoryAttributeValueDialogFormProps, ref) => {
     const formDialog = useRef(null);
-    const loc = useLocale('common', ['categories', 'category-attribute-values', 'form']);
+    const loc = useLocale('common', ['admin','categories', 'category-attribute-values', 'form']);
     const [isEdit, setIsEdit] = useState(false);
     const [injectData, model, extractData, extractFromDerivedValue] = useExtractData<CategoryAttributeValue>(new CategoryAttributeValue());
     const [errors, setErrors] = useState({

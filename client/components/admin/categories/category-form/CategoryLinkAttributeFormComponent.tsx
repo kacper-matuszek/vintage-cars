@@ -18,7 +18,7 @@ interface CategoryLinkAttributeProps {
 
 const CategoryLinkAttribute = (props: CategoryLinkAttributeProps) => {
     const formRef = useRef(null);
-    const loc = useLocale('common', ['categories', 'category', 'link-attribute']);
+    const loc = useLocale('common', ['admin', 'categories', 'category', 'link-attribute']);
     const [fetchCategoryAttribute, fetchCategoryWithParam, isLoading, categoryAttribtue] = useAuhtorizedPagedList<CategoryAttributeView>('/admin/v1/category/attribute/list');
     const [injectData, model, extractData, extractDataFromDerivedValue] = useExtractData<CategoryAttributeMapping>(new CategoryAttributeMapping());
     const [errors, setErrors] = useState({
