@@ -5,7 +5,7 @@ import { isStringNullOrEmpty } from "../../../../../core/models/utils/StringExte
 import useExtractData from "../../../../../hooks/data/ExtracttDataHook"
 import SubmitDialogForm from "../../../../base/form-dialog/SubmitDialogFormComponent"
 import { ValidatorManager, ValidatorType } from "../../../../../core/models/shared/Validator"
-import CategoryAttributeValue from "../models/CategoryAttributeValue"
+import CategoryAttributeValue from "../../models/CategoryAttributeValue"
 import useLocale from "../../../../../hooks/utils/LocaleHook"
 
 interface ICategoryAttributeValueDialogFormProps {
