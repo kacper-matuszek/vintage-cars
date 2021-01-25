@@ -26,5 +26,9 @@ namespace VintageCars.Web.Controllers
         [HttpGet("list")]
         public async Task<ActionResult<PagedList<ProductAnnouncementShortInfoView>>> ProductAnnouncementsShortInfo([FromQuery] PagedRequest request)
         => Result(await SendAsync(new GetProductAnnouncementsShortInfoQuery(request)));
+
+        [HttpGet("details")]
+        public async Task<ActionResult<ProductAnnouncementDetailsView>> ProductAnnouncementDetails([FromBody] GetProductAnnouncementDetailsQuery query)
+            => Result(await SendAsync(query));
     }
 }

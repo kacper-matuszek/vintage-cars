@@ -20,6 +20,7 @@ namespace VintageCars.Domain.ProductAnnouncement.Mappings
 
             CreateMap<Db.ProductAnnouncement, ProductAnnouncementShortInfoView>()
                 .ForMember(dest => dest.MainPicture, opt => opt.Ignore());
+            CreateMap<Db.ProductAnnouncement, ProductAnnouncementDetailsView>();
         }
         public int Order => 7;
     }

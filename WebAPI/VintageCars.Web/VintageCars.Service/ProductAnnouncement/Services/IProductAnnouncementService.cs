@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using Nop.Core;
 using VintageCars.Data.Models;
+using VintageCars.Domain.Shared.Response;
 using VintageCars.Domain.Utils;
 
 namespace VintageCars.Service.ProductAnnouncement.Services
@@ -12,6 +13,7 @@ namespace VintageCars.Service.ProductAnnouncement.Services
         void InsertProductAnnouncement(Data.Models.ProductAnnouncement productAnnouncement);
         void UpdateProductAnnouncement(Data.Models.ProductAnnouncement productAnnouncement);
         void DeleteProductAnnouncement(Guid productAnnouncementId);
+        Data.Models.ProductAnnouncement GetProductAnnouncement(Guid productAnnouncementId);
 
         IPagedList<Data.Models.ProductAnnouncement> GetPagedProductAnnouncements(int pageIndex = 0,
             int pageSize = Int32.MaxValue);
@@ -22,6 +24,7 @@ namespace VintageCars.Service.ProductAnnouncement.Services
             ProductAnnouncementAttribute productAnnouncementAttribute);
 
         IList<ProductAnnouncementAttribute> GetProductAnnouncementAttributes(Guid productAnnouncementId);
+        List<AttributeView> GetAttributes(Guid productAnnouncementId);
         void InsertProductAnnouncementAttributeMappings(ProductAnnouncementAttributeMapping productAnnouncementAttributeMapping);
         IList<ProductAnnouncementAttributeMapping> GetProductAnnouncementAttributeMappings(Guid productAnnouncementId);
         void DeleteProductAnnouncemenetAttributeMapping(Guid productAnnouncementAttributeMapping);
@@ -31,5 +34,6 @@ namespace VintageCars.Service.ProductAnnouncement.Services
         void DeleteProductAnnouncementPictureMapping(Guid productAnnouncementPictureMappingId);
         void DeleteProductAnnoucementPictureMappings(Guid productAnnouncementId);
         IDictionary<Guid, PictureModel> GetMainPicturesForProductAnnouncements(IEnumerable<Guid> productAnnouncementIds);
+        List<PictureModel> GetPictures(Guid productAnnouncementId);
     }
 }

@@ -6,7 +6,9 @@ using System.Linq.Expressions;
 using Nop.Core;
 using Nop.Core.Domain.Media;
 using Nop.Data;
+using Nop.Service.Caching.Extensions;
 using VintageCars.Data.Models;
+using VintageCars.Domain.Shared.Response;
 using VintageCars.Domain.Utils;
 
 namespace VintageCars.Service.ProductAnnouncement.Services
@@ -21,6 +23,8 @@ namespace VintageCars.Service.ProductAnnouncement.Services
         private readonly IRepository<ProductAnnouncementPictureMapping> _productAnnouncementPictureMappingRepository;
         private readonly IRepository<Picture> _pictureRepository;
         private readonly IRepository<PictureBinary> _prictureBinaryRepository;
+        private readonly IRepository<CategoryAttribute> _categoryAttributeRepository;
+        private readonly IRepository<CategoryAttributeValue> _categoryAttributeValueRepository;
 
         #endregion
 
@@ -31,7 +35,9 @@ namespace VintageCars.Service.ProductAnnouncement.Services
             IRepository<ProductAnnouncementAttributeMapping> productAnnouncementAttributeMappingRepository,
             IRepository<ProductAnnouncementPictureMapping> productAnnouncementPictureMappingRepository,
             IRepository<Picture> pictureRepository,
-            IRepository<PictureBinary> pictureBinaryRepository)
+            IRepository<PictureBinary> pictureBinaryRepository,
+            IRepository<CategoryAttribute> categoryAttributeRepository,
+            IRepository<CategoryAttributeValue> categoryAttributeValueRepository)
         {
             _productAnnouncementRepository = productAnnouncementRepository;
             _productAnnouncementAttributeRepository = productAnnouncementAttributeRepository;
@@ -39,6 +45,8 @@ namespace VintageCars.Service.ProductAnnouncement.Services
             _productAnnouncementPictureMappingRepository = productAnnouncementPictureMappingRepository;
             _pictureRepository = pictureRepository;
             _prictureBinaryRepository = pictureBinaryRepository;
+            _categoryAttributeRepository = categoryAttributeRepository;
+            _categoryAttributeValueRepository = categoryAttributeValueRepository;
         }
 
         #endregion
@@ -69,6 +77,14 @@ namespace VintageCars.Service.ProductAnnouncement.Services
                 throw new ArgumentNullException(nameof(productAnnouncementId));
 
             _productAnnouncementRepository.Delete(x => x.Id == productAnnouncementId);
+        }
+
+        public virtual Data.Models.ProductAnnouncement GetProductAnnouncement(Guid productAnnouncementId)
+        {
+            if(productAnnouncementId == default(Guid))
+                throw new ArgumentNullException(nameof(productAnnouncementId));
+
+            return _productAnnouncementRepository.ToCachedGetById(productAnnouncementId);
         }
 
         public virtual IPagedList<Data.Models.ProductAnnouncement> GetPagedProductAnnouncements(int pageIndex = 0,
@@ -109,6 +125,25 @@ namespace VintageCars.Service.ProductAnnouncement.Services
                         select paa;
 
             return query.ToList();
+        }
+
+        public virtual List<AttributeView> GetAttributes(Guid productAnnouncementId)
+        {
+            if(productAnnouncementId == default(Guid))
+                throw new ArgumentNullException(nameof(productAnnouncementId));
+
+            return (from paam in _productAnnouncementAttributeMappingRepository.Table
+                            join paa in _productAnnouncementAttributeRepository.Table on paam.ProductAnnouncementAttributeId equals paa.Id
+                            join ca in _categoryAttributeRepository.Table on paa.CategoryAttributeId equals ca.Id
+                            join cav in _categoryAttributeValueRepository.Table on paa.CategoryAttributeValueId equals cav.Id into paCv
+                            from res in paCv.DefaultIfEmpty()
+                            select new AttributeView()
+                            {
+                                Id = paa.Id,
+                                Name = ca.Name,
+                                Value = res.Name ?? paa.Value
+                            }).ToList();
+
         }
 
         #endregion
@@ -228,6 +263,33 @@ namespace VintageCars.Service.ProductAnnouncement.Services
                 pictureModel.DataAsBase64 = pictureModel.GetDataAsBase64();
             }
             return picturesWithIds;
+        }
+
+        public virtual List<PictureModel> GetPictures(Guid productAnnouncementId)
+        {
+            if(productAnnouncementId == default(Guid))
+                throw new ArgumentNullException(nameof(productAnnouncementId));
+
+            var pictures = from papm in _productAnnouncementPictureMappingRepository.Table
+                join pic in _pictureRepository.Table on papm.PictureId equals pic.Id
+                join picBin in _prictureBinaryRepository.Table on pic.Id equals picBin.PictureId
+                where productAnnouncementId == papm.ProductAnnouncementId
+                select new PictureModel()
+                {
+                    Id = pic.Id,
+                    AltAttribute = pic.AltAttribute,
+                    TitleAttribute = pic.TitleAttribute,
+                    MimeType = pic.MimeType,
+                    DataAsByteArray = picBin.BinaryData,
+                    IsMain = papm.IsMain
+                };
+
+            foreach (var picture in pictures)
+            {
+                picture.DataAsBase64 = picture.GetDataAsBase64();
+            }
+
+            return pictures.ToList();
         }
 
         #endregion

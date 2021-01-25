@@ -25,13 +25,13 @@ namespace VintageCars.Web.Configuration
                 app.UseExceptionHandler("/error");
 
             app.UseRouting()
-                .UseAuthentication()
-                .UseAuthorization()
                 .UseCors(builder => builder
                     .AllowAnyOrigin()
                     .AllowAnyMethod()
                     .AllowAnyHeader()
                 )
+                .UseAuthentication()
+                .UseAuthorization()
                 .UseHttpsRedirection()
                 .UseEndpoints(endpoints => endpoints.MapControllers());
         }
