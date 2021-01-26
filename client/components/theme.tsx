@@ -10,7 +10,8 @@ export const theme = createMuiTheme({
         secondary: {
             main: "#6a563b",
             contrastText: '#FFF',
-        }
+        },
+        mode: 'light'
     },
     components: {
         MuiCssBaseline: {

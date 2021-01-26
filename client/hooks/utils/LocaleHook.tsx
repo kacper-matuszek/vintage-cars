@@ -10,7 +10,7 @@ interface ILocale {
 const useLocale = (namespace: string, sections: string[]): ILocale => {
     const { t } = useTranslation(namespace);
 
-    const prepareTranslate = (name: string | string[]) => `${sections.join('.')}.${Array.isArray<string>(name) ? name.join('.') : name}`;
+    const prepareTranslate = (name: string | string[]) => `${sections.join('.')}.${Array.isArray(name) ? name.join('.') : name}`;
     const translate = (name: string | string[]) => t(prepareTranslate(name));
     const translateQuery = (name: string | string[], query: TranslationQuery) => t(prepareTranslate(name), query);
     function translateModel<T>(propertyName: keyof T, name: string | string[]): string 
