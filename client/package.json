@@ -28,6 +28,7 @@
     "react-dropzone": "^11.2.4",
     "react-google-recaptcha": "^2.1.0",
     "react-infinite-scroll-component": "^5.1.0",
+    "react-material-ui-carousel": "^2.1.2",
     "react-virtuoso": "^0.20.0",
     "sass": "^1.26.11",
     "styled-components": "^5.2.0",
