@@ -4,8 +4,9 @@ import UrlHelper from "../../core/models/utils/UrlHelper";
 import BaseWebApiService from "../../core/services/api-service/BaseWebApiService"
 import { toCallback } from "../../core/services/api-service/Callback";
 import { Dispatch, SetStateAction } from "react";
+import { isEmpty } from "../../core/models/utils/ObjectExtension";
 
-const useGetData = <T extends object>(url: string, initGet: boolean = true): [receivedModel: T, isLoading: boolean, pingGetData: Dispatch<SetStateAction<any>>] => {
+const useGetData = <T extends object>(url: string, initGet: boolean = true, isAuthorized: boolean = true): [receivedModel: T, isLoading: boolean, pingGetData: Dispatch<SetStateAction<any>>] => {
     const apiService = new BaseWebApiService();
     const [model, setModel] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
@@ -18,11 +19,20 @@ const useGetData = <T extends object>(url: string, initGet: boolean = true): [re
             params = {}
         
         setIsLoading(true);
-        await apiService.getAuthorized<T>(UrlHelper.generateParameters(url, params), toCallback(
-            (data) => setModel(data),
-            (warning) => notification.showWarningMessage(warning.message),
-            (error) => notification.showErrorMessage(error.message)
-        )).finally(() => setIsLoading(false));
+        if(isAuthorized) 
+        {
+            await apiService.getAuthorized<T>(UrlHelper.generateParameters(url, params), toCallback(
+                (data) => setModel(data),
+                (warning) => notification.showWarningMessage(warning.message),
+                (error) => notification.showErrorMessage(error.message)
+            )).finally(() => setIsLoading(false));
+        } else {
+            await apiService.get<T>(UrlHelper.generateParameters(url, params), toCallback(
+                (data) => setModel(data),
+                (warning) => notification.showWarningMessage(warning.message),
+                (error) => notification.showErrorMessage(error.message)
+            )).finally(() => setIsLoading(false));
+        }
     };
 
     useEffect(() => {
@@ -31,7 +41,9 @@ const useGetData = <T extends object>(url: string, initGet: boolean = true): [re
     }, []);
 
     useEffect(() => {
-        get();
+        if(!isEmpty(parameters) && Object.keys(parameters).length !== 0) {
+            get();
+        }
     }, [parameters])
     return [model, isLoading, setParameters];
 };

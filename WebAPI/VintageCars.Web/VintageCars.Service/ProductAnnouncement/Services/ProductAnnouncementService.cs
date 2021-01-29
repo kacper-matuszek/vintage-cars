@@ -270,7 +270,7 @@ namespace VintageCars.Service.ProductAnnouncement.Services
             if(productAnnouncementId == default(Guid))
                 throw new ArgumentNullException(nameof(productAnnouncementId));
 
-            var pictures = from papm in _productAnnouncementPictureMappingRepository.Table
+            var pictures = (from papm in _productAnnouncementPictureMappingRepository.Table
                 join pic in _pictureRepository.Table on papm.PictureId equals pic.Id
                 join picBin in _prictureBinaryRepository.Table on pic.Id equals picBin.PictureId
                 where productAnnouncementId == papm.ProductAnnouncementId
@@ -282,14 +282,14 @@ namespace VintageCars.Service.ProductAnnouncement.Services
                     MimeType = pic.MimeType,
                     DataAsByteArray = picBin.BinaryData,
                     IsMain = papm.IsMain
-                };
+                }).ToList();
 
             foreach (var picture in pictures)
             {
                 picture.DataAsBase64 = picture.GetDataAsBase64();
             }
 
-            return pictures.ToList();
+            return pictures;
         }
 
         #endregion

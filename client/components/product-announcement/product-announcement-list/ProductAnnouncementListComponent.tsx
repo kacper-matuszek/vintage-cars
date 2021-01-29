@@ -1,10 +1,11 @@
 import { Box, CircularProgress } from "@material-ui/core";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Paged from "../../../core/models/paged/Paged";
 import useInfinitePagedListAPI from "../../../hooks/fetch/pagedAPI/InfinitePagedAPIHook";
 import MediaCard from "../../base/cards/media-card/MediaCardComponent";
 import ProductAnnouncementShortInfoView from "../models/ProductAnnouncementShortInfoView";
+import ProductAnnouncementDetails from "../product-announcement-details/ProductAnnouncemetDetails";
 import useStyles from "./product-announcement-list-style";
 
 interface ProductAnnouncementProps {
@@ -16,11 +17,14 @@ const ProductAnnouncementList = (props: ProductAnnouncementProps) => {
     const { pageSize } = props;
     const [fetchProductAnnouncements, isLoadingProductAnnouncements, productAnnouncements] = useInfinitePagedListAPI<ProductAnnouncementShortInfoView>("/v1/productannouncement/list");
     const [page, setPage] = useState(0);
+    const detailRef = useRef(null);
     
     const fetchMore = () => {
         setPage(prevState => prevState + 1)
     }
-
+    const handleOpenDetails = (id) => {
+        detailRef.current.openForm(id)
+    }
     useEffect(() => {
         fetchProductAnnouncements(new Paged(page, pageSize));
     }, []);
@@ -47,10 +51,12 @@ const ProductAnnouncementList = (props: ProductAnnouncementProps) => {
                             description={product?.shortDescription}
                             imageMimeType={product?.mainPicture?.mimeType}
                             imageData={product?.mainPicture?.dataAsBase64}
+                            onClick={() => handleOpenDetails(product.id)}
                         />
                     )
                 })}
             </InfiniteScroll>
+            <ProductAnnouncementDetails ref={detailRef}/>
         </Box>
 
     )

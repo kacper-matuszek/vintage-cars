@@ -165,6 +165,7 @@ const ProductAnnouncementDialogForm = forwardRef((props, ref) => {
                 fullScreen={true}
                 disableOpenButton={false}
                 ref={formDialog}
+                variantCaption="contained"
             >
                 <form noValidate>
                     <Box sx={{display: "flex", width: "100%", flexDirection: "column", marginBottom: 5}}>

@@ -11,14 +11,18 @@ interface MediaCardProps {
     description: string,
     imageData: string,
     imageMimeType: string,
+    onClick?: () => void
 }
 
 const MediaCard = (props: MediaCardProps) => {
     const classes = useStyles();
-    const { title, description, imageData, imageMimeType } = props;
-
+    const { title, description, imageData, imageMimeType, onClick } = props;
+    const handleClick = (e) => {
+      e.preventDefault();
+      onClick();
+    }
     return (
-      <Card className={classes.root} elevation={5} onClick={() => alert('hej')}>
+      <Card className={classes.root} elevation={5} onClick={handleClick}>
       <CardActionArea>
         <CardMedia
           className={classes.media}
