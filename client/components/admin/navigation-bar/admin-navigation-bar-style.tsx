@@ -3,11 +3,12 @@ import { makeStyles, createStyles, Theme } from "@material-ui/core";
 const useStyles = makeStyles((theme: Theme) => 
     createStyles({
         adminBarRoot: {
-            position: 'fixed',
+            position: 'absolute',
             width: '100%',
             zIndex: 1000,
             height: '100%',
             maxHeight: '50px',
+            top: '64px',
           },
           adminBar: {
             width: '100%',

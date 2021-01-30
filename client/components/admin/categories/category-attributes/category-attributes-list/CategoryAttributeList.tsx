@@ -43,9 +43,11 @@ const CategoryAttributeList = () => {
     const [send] = useSendSubmitWithNotification("/admin/v1/category/attribute");
     const [sendDelete] = useSendSubmitWithNotification("/admin/v1/category/attribute/delete", showLoading, hideLoading, "Usunięto pomyślnie.");
     const [injectData, model, extractData]  = useExtractData<CategoryAttribute>(new CategoryAttribute());
-    
+    const [isEdit, setIsEdit] = useState(false);
+
     const addActions = () => <SaveButton onSubmit={handleSubmit}/>
     const openForm = () => {
+        setIsEdit(false);
         if(model.id !== undefined)
             injectData(new CategoryAttribute());
          formDialogRef.current.openForm();
@@ -60,6 +62,7 @@ const CategoryAttributeList = () => {
         }
     }
     const handleEdit = (categoryAttribute: CategoryAttributeView) => {
+        setIsEdit(true);
         injectData(categoryAttribute)
         formDialogRef.current.openForm();
     }
@@ -95,7 +98,7 @@ const CategoryAttributeList = () => {
             showLink={false}
             showCancel={true}
             disableOpenButton={true}
-            title={locForm.trans('title')}
+            title={locForm.transQuery(['title', 'name'], { mode: isEdit ? locForm.trans(['title', 'edit']) : locForm.trans(['title', 'create'])})}
             actions={addActions()}
             ref={formDialogRef}
             >

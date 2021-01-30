@@ -56,7 +56,7 @@ const CategoryAttributeValueDialogForm = forwardRef((props: ICategoryAttributeVa
     })) 
     return (
         <SubmitDialogForm
-            title={loc.transQuery(['title', 'name'], {mode: loc.trans(isEdit ? 'edit' : 'create')})}
+            title={loc.transQuery(['title', 'name'], {mode: loc.trans(isEdit ? ['title', 'edit'] : ['title', 'create'])})}
             handleSubmit={handleSubmit}
             onCancel={handleCancel}
             disableOpenButton={true}

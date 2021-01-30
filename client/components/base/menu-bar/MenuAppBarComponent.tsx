@@ -64,11 +64,9 @@ const MenuAppBar = ({isAuthorized, accountMenuChildren, listMenu}: Props) => {
 
     return (
       <React.Fragment>
-      {isAdmin() ? <AdminNavigationBar></AdminNavigationBar> : <></>}
       <AppBar 
         className={clsx(classes.appBar, {
-          [classes.appBarShift]: leftOpen,
-          [classes.appBarAdmin]: isAdmin()
+          [classes.appBarShift]: leftOpen
         })} id="app-bar">
         <Toolbar>
           <IconButton edge="start" className={clsx(classes.menuButton, leftOpen && classes.hide)} color="inherit" aria-label="menu"
@@ -126,6 +124,7 @@ const MenuAppBar = ({isAuthorized, accountMenuChildren, listMenu}: Props) => {
               </Box>}
         </Toolbar>
       </AppBar>
+      {isAdmin() ? <AdminNavigationBar></AdminNavigationBar> : <></>}
       <Drawer
         className={classes.drawer}
         variant="persistent"

@@ -80,7 +80,11 @@
                     }
                 },
                 "form": {
-                    "title": "Dodawanie atrybutu",
+                    "title": {
+                        "create": "Dodawanie",
+                        "edit": "Edycja",
+                        "name":"{{mode}} atrybutu"
+                    },
                     "name": {
                         "label": "Nazwa",
                         "validators": {
@@ -151,7 +155,7 @@
                 "user": "Strefa użytkownika",
                 "go-to": {
                     "admin": "Przejdź do strefy administracyjnej",
-                    "user": "Przejdź do stret użytkownika"
+                    "user": "Przejdź do strefy użytkownika"
                 }
             }
         }
