@@ -1,6 +1,6 @@
 import { Box, TextField, Tooltip, Typography } from "@material-ui/core";
 import { Guid } from "guid-typescript";
-import { forwardRef, useContext, useImperativeHandle, useRef, useState } from "react";
+import { forwardRef, useContext, useEffect, useImperativeHandle, useRef, useState } from "react";
 import NotificationContext from "../../../contexts/NotificationContext";
 import File from "../../../core/models/base/File";
 import { ExtendedControlChangeValueType } from "../../../core/models/enums/ExtendedControlChangeValueType";
@@ -21,6 +21,7 @@ import ImagesDropzoneArea from "../../base/upload-files/ImagesDropzoneAreaCompon
 import { ValidatorManager, ValidatorType } from "../../../core/models/shared/Validator";
 import CreateProductAnnouncement from "../models/CreateProductAnnouncement";
 import ProductAnnouncementAttribute from "../models/ProductAnnouncementAttribute";
+import MediaCard from "../../base/cards/media-card/MediaCardComponent";
 
 interface ProductAnnouncementDialogProps {
 
@@ -34,6 +35,8 @@ const ProductAnnouncementDialogForm = forwardRef((props, ref) => {
     const productAttributes = useRef(new Array<ProductAnnouncementAttribute>());
     const [images, setImages] = useState<File[]>(new Array<File>());
     const [mainImage, setMainImage] = useState<File[]>(new Array<File>());
+    const [previewImage, setPreviewImage] = useState<File>(null);
+
     const modelValidator = new ValidatorManager();
     modelValidator.setValidators({
         ["name"]: [{
@@ -149,6 +152,10 @@ const ProductAnnouncementDialogForm = forwardRef((props, ref) => {
         }
     }
 
+    useEffect(() => {
+        setPreviewImage(mainImage[0]);
+    }, [mainImage])
+
     useImperativeHandle(ref, () => ({
         openForm() {
 
@@ -170,7 +177,17 @@ const ProductAnnouncementDialogForm = forwardRef((props, ref) => {
                 <form noValidate>
                     <Box sx={{display: "flex", width: "100%", flexDirection: "column", marginBottom: 5}}>
                         <Box sx={{display: "flex", width: "100%"}}>
-                            <Box sx={{display: "flex", width: "50%", marginRight: 1}}>
+                            <Box sx={{display: "flex", flexGrow: 1, marginRight: 1}}>
+                            <MediaCard
+                                key="preview"
+                                title={createModel?.name}
+                                description={createModel?.shortDescription}
+                                imageData={previewImage?.dataAsBase64}
+                                imageMimeType={previewImage?.type}
+                            />
+                            </Box>
+                            <Box sx={{display: "flex", marginLeft: 1, flexDirection: 'column', justifyContent: 'center',
+                                    flexGrow: 7}}>
                                 <Tooltip 
                                     title="Nazwa będzie wyświetlana jako tytuł na liście." 
                                     key="name-tooltip"
@@ -190,8 +207,6 @@ const ProductAnnouncementDialogForm = forwardRef((props, ref) => {
                                         onChange={(name) => extractData("name", name)}
                                     />
                                 </Tooltip>
-                            </Box>
-                            <Box sx={{display: "flex", width: "50%", marginLeft: 1}}>
                                 <Tooltip
                                     title="Opis ten będzie się wyświetlał na liście samochodów."
                                     key="short-description-tooltip"
@@ -303,7 +318,7 @@ const ProductAnnouncementDialogForm = forwardRef((props, ref) => {
                             <Typography key="caption-images" variant="h6">
                                 Zdjęcia:
                             </Typography>
-                            <ImagesDropzoneArea key="images-dropzone" setFiles={setImages}/>
+                            <ImagesDropzoneArea key="images-dropzone" setFiles={setImages} imageLimit={3}/>
                         </Box>
                     </Box>
                 </form>

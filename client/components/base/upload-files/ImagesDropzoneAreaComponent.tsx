@@ -5,7 +5,7 @@ import useLocale from "../../../hooks/utils/LocaleHook";
 
 interface ImagesDropzoneAreaProps {
     setFiles: Dispatch<SetStateAction<File[]>>,
-    imageLimit?: number,
+    imageLimit: number,
 }
 
 const ImagesDropzoneArea = (props: ImagesDropzoneAreaProps) => {
@@ -24,8 +24,14 @@ const ImagesDropzoneArea = (props: ImagesDropzoneAreaProps) => {
         }
         Promise.all(promises).then(fileContents => {
             setFiles(prevState => {
+                if(prevState?.length === imageLimit) {
+                    const slicedArray = prevState.slice(0, imageLimit - 1);
+                    slicedArray.push(...fileContents);
+                    return [...slicedArray];
+                }
+
                 prevState.push(...fileContents);
-                return prevState;
+                return [...prevState];
             })
         })
     }
@@ -33,9 +39,7 @@ const ImagesDropzoneArea = (props: ImagesDropzoneAreaProps) => {
         const reader = new FileReader();
         reader.onload = (event) => {
             const data = event.target.result as string;
-            setFiles(prevState => {
-                return prevState.filter(x => x.dataAsBase64 !== toBase64(data));
-            });
+            setFiles(prevState => [...prevState.filter(x => x.dataAsBase64 !== toBase64(data))])
         };
         reader.readAsDataURL(file);
     }

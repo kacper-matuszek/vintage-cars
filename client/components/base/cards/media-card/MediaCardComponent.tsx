@@ -19,7 +19,8 @@ const MediaCard = (props: MediaCardProps) => {
     const { title, description, imageData, imageMimeType, onClick } = props;
     const handleClick = (e) => {
       e.preventDefault();
-      onClick();
+      if(onClick)
+        onClick();
     }
     return (
       <Card className={classes.root} elevation={5} onClick={handleClick}>
