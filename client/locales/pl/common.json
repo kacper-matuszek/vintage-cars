@@ -208,6 +208,11 @@
                     "caption": "Anuluj"
                 }
             }
+        },
+        "attribute-control": {
+            "DropdownList": "Rozwijana lista",
+            "Checkboxes": "Pole wyboru",
+            "TextBox": "Pole tesktowe"
         }
     },
     "profile": {

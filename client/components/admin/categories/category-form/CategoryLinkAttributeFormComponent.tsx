@@ -19,6 +19,7 @@ interface CategoryLinkAttributeProps {
 const CategoryLinkAttribute = (props: CategoryLinkAttributeProps) => {
     const formRef = useRef(null);
     const loc = useLocale('common', ['admin', 'categories', 'category', 'link-attribute']);
+    const baseLoc = useLocale('common', ['base', 'attribute-control']);
     const [fetchCategoryAttribute, fetchCategoryWithParam, isLoading, categoryAttribtue] = useAuhtorizedPagedList<CategoryAttributeView>('/admin/v1/category/attribute/list');
     const [injectData, model, extractData, extractDataFromDerivedValue] = useExtractData<CategoryAttributeMapping>(new CategoryAttributeMapping());
     const [errors, setErrors] = useState({
@@ -128,7 +129,7 @@ const CategoryLinkAttribute = (props: CategoryLinkAttributeProps) => {
                         if(isValue)
                         {
                             return (
-                                <MenuItem value={obj}>{AttributeControlType[obj]}</MenuItem>
+                                <MenuItem value={obj}>{baseLoc.trans(AttributeControlType[obj])}</MenuItem>
                             )}
                     })}
                 </Select>

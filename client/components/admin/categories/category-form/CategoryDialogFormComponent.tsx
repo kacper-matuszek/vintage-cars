@@ -28,6 +28,7 @@ interface CategoryDialogProps {
 const CategoryDialogForm = forwardRef((props: CategoryDialogProps, ref) => {
     const classes = useStyles();
     const loc = useLocale('common', ['admin', 'categories', 'category', 'form']);
+    const baseLoc = useLocale('common', ['base', 'attribute-control']);
     const notification = useContext(NotificationContext);
     const [isReadonly, setIsReadonly] = useState(false);
     const [isEdit, setIsEdit] = useState(false);
@@ -186,7 +187,7 @@ const CategoryDialogForm = forwardRef((props: CategoryDialogProps, ref) => {
                         headerName={loc.trans(['attributeMappings', 'table', 'headers', 'attributeControlType'])}
                         content={(model) => {
                             const isValue = parseInt(model.attributeControlType, 10) >= 0
-                            return isValue ?  (<>{AttributeControlType[model.attributeControlType]}</>) : (<>{model.attributeControlType}</>)
+                            return isValue ?  (<>{baseLoc.trans(AttributeControlType[model.attributeControlType])}</>) : (<>{model.attributeControlType}</>)
                         }}/>
                     {isEdit ? <TableContent 
                         key="link-attribute-value" 
