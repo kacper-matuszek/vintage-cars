@@ -1,7 +1,7 @@
 import { Box, Checkbox, FormControl, FormControlLabel, InputLabel, MenuItem, Select, TextField } from "@material-ui/core";
 import { Guid } from "guid-typescript";
 import { useEffect, useState } from "react";
-import ISelectable from "../../../core/models/base/ISelectable";
+import { IExtSelectable } from "../../../core/models/base/ISelectable";
 import { AttributeControlType } from "../../../core/models/enums/AttributeControlType";
 import { ExtendedControlChangeValueType } from "../../../core/models/enums/ExtendedControlChangeValueType";
 import { isEmpty } from "../../../core/models/utils/ObjectExtension";
@@ -13,7 +13,7 @@ interface ExtendedControlProps {
     attributeControlType: AttributeControlType,
     value?: any,
     onChangeValue: (value: any, type: ExtendedControlChangeValueType) => void,
-    multipleOptions?: Array<ISelectable>
+    multipleOptions?: Array<IExtSelectable>
 }
 const ExtendedControl = (props: ExtendedControlProps) => {
     const {attributeControlType, label, id, value, onChangeValue, multipleOptions} = props;
@@ -58,7 +58,9 @@ const ExtendedControl = (props: ExtendedControlProps) => {
                                             key={`control-label-${index}`}
                                             control={
                                                 <Checkbox
-                                                    //checked={obj?.isSelected} error uncontrolled -> controlled (vice versa)
+                                                    //checked={obj?.isSelected} //error uncontrolled -> controlled (vice versa)
+                                                    value={obj?.isSelected}
+                                                    defaultChecked={obj?.isSelected}
                                                     key={`control-label-checkbox-${index}`}
                                                     onChange={() => 
                                                         {
@@ -124,11 +126,16 @@ const ExtendedControl = (props: ExtendedControlProps) => {
         if(checkedChexkBoxes?.length === 0) {
             multipleOptions.forEach(obj => {
                 setCheckedCheckBoxes(prevState => {
+                    if(obj.isPreselected)
+                        obj.isSelected = true;
                     prevState.push(obj);
                     return prevState;
                 })
             });
         }
+        const preSelected = multipleOptions.find(x => x.isPreselected);
+        if(preSelected)
+            setValueOneOption(preSelected.id.toString());
     }, []);
 
     return (<>{renderSwitch(attributeControlType)}</>);

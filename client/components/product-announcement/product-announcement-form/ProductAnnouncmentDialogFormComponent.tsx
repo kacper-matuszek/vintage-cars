@@ -278,28 +278,32 @@ const ProductAnnouncementDialogForm = forwardRef((props, ref) => {
                                     <Box sx={{display: "flex", flexDirection: "row", width: '100%'}}>
                                         {categoryAttributes.slice(0, categoryAttributes.length / 2).map((m, index) => {
                                             return(
-                                                <ExtendedControl 
-                                                    id={m.id.toString()}
-                                                    key={`${m.id.toString()}-${index}`}
-                                                    label={m.name}
-                                                    attributeControlType={m.attributeControlType}
-                                                    multipleOptions={m.values?.sort((a, b) => a.displayOrder - b.displayOrder)}
-                                                    onChangeValue={(value, type) => handleExtendedControl(value, m, type)}
-                                                />
+                                                <Box sx={{margin: "4px", width: '100%'}}>
+                                                    <ExtendedControl 
+                                                        id={m.id.toString()}
+                                                        key={`${m.id.toString()}-${index}`}
+                                                        label={m.name}
+                                                        attributeControlType={m.attributeControlType}
+                                                        multipleOptions={m.values?.sort((a, b) => a.displayOrder - b.displayOrder)}
+                                                        onChangeValue={(value, type) => handleExtendedControl(value, m, type)}
+                                                    />
+                                                </Box>
                                             )
                                         })}
                                     </Box>
                                     <Box sx={{display: "flex", flexDirection: "row", width: '100%'}}>
                                     {categoryAttributes.slice((categoryAttributes.length / 2), categoryAttributes.length).map((m, index) => {
                                             return(
-                                                <ExtendedControl 
-                                                    id={m.id.toString()}
-                                                    key={`${m.id.toString()}-${index}`}
-                                                    label={m.name}
-                                                    attributeControlType={m.attributeControlType}
-                                                    multipleOptions={m.values?.sort((a, b) => a.displayOrder - b.displayOrder)}
-                                                    onChangeValue={(value, type) => handleExtendedControl(value, m, type)}
-                                                />
+                                                <Box sx={{margin: "4px", width: '100%'}}>
+                                                    <ExtendedControl 
+                                                        id={m.id.toString()}
+                                                        key={`${m.id.toString()}-${index}`}
+                                                        label={m.name}
+                                                        attributeControlType={m.attributeControlType}
+                                                        multipleOptions={m.values?.sort((a, b) => a.displayOrder - b.displayOrder)}
+                                                        onChangeValue={(value, type) => handleExtendedControl(value, m, type)}
+                                                    />
+                                                </Box>
                                             )
                                         })}
                                     </Box>

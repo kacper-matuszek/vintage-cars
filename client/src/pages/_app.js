@@ -6,7 +6,6 @@ import { isStringNullOrEmpty } from "../../core/models/utils/StringExtension";
 import CookieDictionary from "../../core/models/settings/cookieSettings/CookieDictionary";
 import Router from 'next/router';
 import Cookie from 'universal-cookie';
-import useLog from "../../hooks/fetch/pagedAPI/LogHook";
 import useIsAdmin from "../../hooks/authorization/IsAdminHook";
 import AdminLayout from "../../components/admin/admin-layout/AdminLayoutComponent";
 

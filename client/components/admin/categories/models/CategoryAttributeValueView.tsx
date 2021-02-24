@@ -1,10 +1,10 @@
 import { Guid } from "guid-typescript";
-import ISelectable from "../../../../core/models/base/ISelectable";
+import { IExtSelectable } from "../../../../core/models/base/ISelectable";
 
-export default class CategoryAttributeValueView implements ISelectable {
+export default class CategoryAttributeValueView implements IExtSelectable {
     id: Guid;
     name: string;
-    isPreSelected: boolean;
+    isPreselected: boolean;
     displayOrder: number;
     isSelected: boolean;
     cantSelect: boolean;

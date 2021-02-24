@@ -6,3 +6,6 @@ export default interface ISelectable {
     isSelected: boolean;
     cantSelect: boolean
 }
+export interface IExtSelectable extends ISelectable {
+    isPreselected: boolean;
+}
