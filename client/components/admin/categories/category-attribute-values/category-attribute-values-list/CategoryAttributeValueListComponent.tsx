@@ -24,7 +24,7 @@ const CategoryAttributeValueList = (props: ICategoryAttributeValueListProps) => 
     const loc = useLocale('common', ['admin','categories', 'category-attribute-values', 'list'])
     const headers: HeadCell<CategoryAttributeValueView>[] = [
         {id: 'name', label: loc.trans(['table', 'headers', 'name'])},
-        {id: 'isPreSelected', label: loc.trans(['table', 'headers', 'isPreSelected'])},
+        {id: 'isPreselected', label: loc.trans(['table', 'headers', 'isPreselected'])},
         {id: 'displayOrder', label: loc.trans(['table', 'headers', 'displayOrder'])}
     ]
 
@@ -42,8 +42,8 @@ const CategoryAttributeValueList = (props: ICategoryAttributeValueListProps) => 
         categoryAttributeValueForm.current.editForm(categoryAttributeValueMapper.toDestination(categoryAttributeValueView));
     }
     const handleFormSubmit = (model: CategoryAttributeValue, isNew: boolean) => {
-        if(model.isPreSelected && categoryAttributeValues.source.some(ca => ca.isPreSelected)) {
-            model.isPreSelected = false;
+        if(model.isPreselected && categoryAttributeValues.source.some(ca => ca.isPreselected)) {
+            model.isPreselected = false;
             notification.showWarningMessage(loc.trans(['submit', 'message', 'warning']))
         }
         const categoryAttributeValueView = categoryAttributeValueMapper.toSource(model);

@@ -51,7 +51,7 @@ const ImagesDropzoneArea = (props: ImagesDropzoneAreaProps) => {
             showFileNames
             showAlerts={false}
             dropzoneText={loc.trans('title')}
-            acceptedFiles={["image/png"]}
+            acceptedFiles={["image/jpeg"]}
             showPreviewsInDropzone={true}/>
     )
 }

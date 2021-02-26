@@ -8,7 +8,7 @@ export default class CategoryAttributeValueMapper implements IMapper<CategoryAtt
         const categoryAttributeValue = new CategoryAttributeValue();
         categoryAttributeValue.id = source.id;
         categoryAttributeValue.name = source.name;
-        categoryAttributeValue.isPreSelected = source.isPreSelected;
+        categoryAttributeValue.isPreselected = source.isPreselected;
         categoryAttributeValue.displayOrder = source.displayOrder;
         return categoryAttributeValue;
     }
@@ -17,7 +17,7 @@ export default class CategoryAttributeValueMapper implements IMapper<CategoryAtt
         const categoryAttributeValueView = new CategoryAttributeValueView();
         categoryAttributeValueView.id = destination.id;
         categoryAttributeValueView.name = destination.name;
-        categoryAttributeValueView.isPreSelected = destination.isPreSelected;
+        categoryAttributeValueView.isPreselected = destination.isPreselected;
         categoryAttributeValueView.displayOrder = destination.displayOrder;
         return categoryAttributeValueView;
     }

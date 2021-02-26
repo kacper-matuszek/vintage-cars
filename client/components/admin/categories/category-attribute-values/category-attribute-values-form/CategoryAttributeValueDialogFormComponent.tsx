@@ -78,15 +78,15 @@ const CategoryAttributeValueDialogForm = forwardRef((props: ICategoryAttributeVa
                     onChange={(name)  => extractData("name", name)}/>
                 <Box sx={{display: 'flex', alignItems: 'center'}}>
                     <Box sx={{flexGrow: 3}}>
-                        <Tooltip title={loc.transModel<CategoryAttributeValue>("isPreSelected", 'tooltip')}>
+                        <Tooltip title={loc.transModel<CategoryAttributeValue>("isPreselected", 'tooltip')}>
                             <FormControlLabel
                                 control={
                                     <Checkbox
-                                        checked={isEmpty(model?.isPreSelected) ? false : model.isPreSelected}
-                                        onChange={() => extractFromDerivedValue("isPreSelected", !model?.isPreSelected)}
+                                        checked={isEmpty(model?.isPreselected) ? false : model.isPreselected}
+                                        onChange={() => extractFromDerivedValue("isPreselected", !model?.isPreselected)}
                                     />
                                 }
-                                label={loc.transModel<CategoryAttributeValue>("isPreSelected", 'label')}
+                                label={loc.transModel<CategoryAttributeValue>("isPreselected", 'label')}
                             />
                         </Tooltip>
                     </Box>

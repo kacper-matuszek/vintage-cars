@@ -1,5 +1,5 @@
 ﻿{
-  "DataConnectionString": "Server=LAPTOP-6SLD6J3M\\KAC_DATA;Database=VintageCars;Integrated Security=True;Connect Timeout=30;Trusted_Connection=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False",
+  "DataConnectionString": "Server=LAPTOP-6SLD6J3M\\KAC_DATA;Database=VintageCars_DEV;Integrated Security=True;Connect Timeout=30;Trusted_Connection=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False",
   "DataProvider": "sqlserver",
   "RawDataSettings": {}
 }

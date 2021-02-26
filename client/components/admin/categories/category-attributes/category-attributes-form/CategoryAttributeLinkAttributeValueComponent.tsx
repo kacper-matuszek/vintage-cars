@@ -22,7 +22,7 @@ const CategoryAttributeLinkAttributeValue = (props: ICategoryAttributeLinkAttrib
         const sendData = new CategoryAttributeLinkAttributeValueSendData();
         categoryAttributeValues.forEach(x => x.id = x.isNew ? null : x.id);
         sendData.categoryId = categoryId;
-        sendData.categoryAttributeValues = categoryAttributeValues.map(x => ({...x, categoryAttributeId: categoryAttributeId}));
+        sendData.categoryAttributeValues = categoryAttributeValues.map(x => ({ ...x, categoryAttributeId: categoryAttributeId}));
         return sendData;
     }
     const handleSubmit = async() => {
