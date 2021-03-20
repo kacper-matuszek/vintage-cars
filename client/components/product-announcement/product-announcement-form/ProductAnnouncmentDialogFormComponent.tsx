@@ -73,6 +73,10 @@ const ProductAnnouncementDialogForm = forwardRef((props, ref) => {
             notification.showErrorMessage("Wszystkie atrybuty muszą być wypełnione.");
             return;
         }
+        if(mainImage?.length === 0) {
+            notification.showErrorMessage("Należy wybrać główne zdjęcie.");
+            return;
+        }
         modelValidator.isValid(createModel);
         setModelErrors({...modelErrors, name: modelValidator.getMessageByKey("name"),
             description: modelValidator.getMessageByKey("description"),
@@ -135,14 +139,13 @@ const ProductAnnouncementDialogForm = forwardRef((props, ref) => {
                 (() => {
                     const parsedGuid = Guid.parse(value.id);
                     const findedInMultOpt = productAttributes?.current?.find(x => x.categoryAttributeValueId?.toString() === parsedGuid.toString());
-                    
-                    if(isEmpty(findedInMultOpt)) {
+                                        
+                    if(isEmpty(findedInMultOpt) && value.isSelected) { 
                         productAttributes.current.push(new ProductAnnouncementAttribute(model.id, null, parsedGuid));
                         return;
                     }
                     
-                    console.log(value.isSelected);
-                    if(!value.isSelected) {
+                    if(!value.isSelected) { 
                         productAttributes.current = productAttributes.current.filter(x => x.categoryAttributeValueId?.toString() !== parsedGuid.toString());
                         return;
                     }
@@ -155,6 +158,16 @@ const ProductAnnouncementDialogForm = forwardRef((props, ref) => {
     useEffect(() => {
         setPreviewImage(mainImage[0]);
     }, [mainImage])
+
+    useEffect(() => {
+        if(!isEmpty(categoryAttributes)) {
+            categoryAttributes
+                .filter(ca => !isEmpty(ca.values.filter(cv => cv.isPreselected)))
+                .forEach(ca => {
+                    ca.values.filter(cv => cv.isPreselected).forEach(cv => productAttributes.current.push(new ProductAnnouncementAttribute(ca.id, null, cv.id)));
+                });
+        }
+    }, [categoryAttributes])
 
     useImperativeHandle(ref, () => ({
         openForm() {

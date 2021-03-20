@@ -137,6 +137,7 @@ namespace VintageCars.Service.ProductAnnouncement.Services
                             join ca in _categoryAttributeRepository.Table on paa.CategoryAttributeId equals ca.Id
                             join cav in _categoryAttributeValueRepository.Table on paa.CategoryAttributeValueId equals cav.Id into paCv
                             from res in paCv.DefaultIfEmpty()
+                            where paam.ProductAnnouncementId == productAnnouncementId
                             select new AttributeView()
                             {
                                 Id = paa.Id,

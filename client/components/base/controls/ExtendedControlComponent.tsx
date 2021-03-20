@@ -128,6 +128,8 @@ const ExtendedControl = (props: ExtendedControlProps) => {
                 setCheckedCheckBoxes(prevState => {
                     if(obj.isPreselected)
                         obj.isSelected = true;
+                    else
+                        obj.isSelected = false;
                     prevState.push(obj);
                     return prevState;
                 })
