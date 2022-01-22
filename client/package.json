@@ -22,7 +22,7 @@
     "material-ui-dropzone": "^3.5.0",
     "next": "^10.0.3",
     "next-translate": "^1.0.1",
-    "node-fetch": "^2.6.1",
+    "node-fetch": "^3.1.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-dropzone": "^11.2.4",
