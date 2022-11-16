@@ -20,7 +20,7 @@
     "guid-typescript": "^1.0.9",
     "isomorphic-unfetch": "^3.0.0",
     "material-ui-dropzone": "^3.5.0",
-    "next": "^10.0.3",
+    "next": "^10.2.3",
     "next-translate": "^1.0.1",
     "node-fetch": "^2.6.1",
     "react": "^16.13.1",
@@ -32,7 +32,7 @@
     "react-virtuoso": "^0.20.0",
     "sass": "^1.26.11",
     "styled-components": "^5.2.0",
-    "styled-jsx": "^3.3.0",
+    "styled-jsx": "^5.1.0",
     "universal-cookie": "^4.0.4",
     "url-loader": "^4.1.0"
   },
